@@ -1,0 +1,18 @@
+help = run TPCC benchmark
+abbrs = r|R
+
+[env]
+mysql.host = may-read
+mysql.port = may-read
+mysql.user = may-read
+
+bench|ben|bch|bh.mysql|my.host = may-read
+bench.mysql.port = may-read
+bench.mysql.user = may-read
+
+bench.tpcc.threads|thread|thrd|terminal|term|t|T = may-read
+bench.tpcc.warehouses|warehouse|wh = may-read
+bench.tpcc.duration|dur|d|D|time = may-read
+
+[dep]
+go = for compiling
