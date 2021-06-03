@@ -1,0 +1,8 @@
+help = TPCC benchmark threads config @provider
+abbrs = thread|thrd|thd|termial|term|t|T
+
+[args]
+threads|thread|thrd|thd|termial|term|t|T = 1
+
+[env]
+bench.tpcc.threads|thread|thrd|terminal|term|t|T = write

@@ -2,16 +2,12 @@ help = prepare data for TPCC benchmark
 abbrs = ld|l|L
 
 [env]
-mysql.host = may-read
-mysql.port = may-read
-mysql.user = may-read
+mysql.host = read
+mysql.port = read
+mysql.user = read
 
-bench|ben|bch|bh.mysql|my.host = may-read
-bench.mysql.port = may-read
-bench.mysql.user = may-read
-
-bench.tpcc.threads|thread|thrd|terminal|term|t|T = may-read
-bench.tpcc.warehouses|warehouse|wh = may-read
+bench.tpcc.threads|thread|thrd|terminal|term|t|T = read
+bench.tpcc.warehouses|warehouse|wh = read
 
 [dep]
 go = for compiling

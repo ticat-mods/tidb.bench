@@ -1,0 +1,6 @@
+help = use minimum data scale, set to env @provider
+
+[env]
+bench.tpcc.threads = write
+bench.tpcc.warehouses = write
+bench.tpcc.duration|dur|d|D|time = write
