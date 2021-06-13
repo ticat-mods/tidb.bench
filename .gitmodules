@@ -1,3 +1,0 @@
-[submodule "repos/go-tpc"]
-	path = repos/go-tpc
-	url = https://github.com/pingcap/go-tpc

@@ -4,19 +4,7 @@ env="${1}"
 here="${2}"
 
 repo="`dirname ${here}`/repos/go-tpc"
-bin="${repo}/bin/go-tpc"
-
-if [ ! -f "${bin}" ]; then
-	(
-		cd "${repo}" && make
-	)
-	wait
-fi
-
-if [ ! -f "${bin}" ]; then
-	echo "[:(] compile go-tpc failed" >&2
-	exit 1
-fi
+bin="tiup bench tpcc"
 
 function env_val()
 {

@@ -12,10 +12,10 @@ if [ -z "${duration}" ]; then
 	duration='1m'
 fi
 
-"${bin}" \
+${bin} \
 	-T "${threads}" \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
 	--dropdata \
-	tpcc --warehouses "${warehouses}" --time "${duration}" run
+	--warehouses "${warehouses}" --time "${duration}" run

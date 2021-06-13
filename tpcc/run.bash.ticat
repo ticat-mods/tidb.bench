@@ -11,4 +11,4 @@ bench.tpcc.warehouses|warehouse|wh = read
 bench.tpcc.duration|dur|d|D|time = read
 
 [dep]
-go = for compiling
+tiup = to use tiup bench tpcc

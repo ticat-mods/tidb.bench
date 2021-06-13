@@ -10,4 +10,4 @@ bench.tpcc.threads|thread|thrd|terminal|term|t|T = read
 bench.tpcc.warehouses|warehouse|wh = read
 
 [dep]
-go = for compiling
+tiup = to use tiup bench tpcc

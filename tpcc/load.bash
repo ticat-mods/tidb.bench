@@ -6,10 +6,10 @@ shift
 here=`cd $(dirname ${BASH_SOURCE[0]}) && pwd`
 . "${here}/base.bash" "${env}" "${here}"
 
-"${bin}" \
+${bin} \
 	-T "${threads}" \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
 	--dropdata \
-	tpcc --warehouses "${warehouses}" --time "102400h" prepare
+	--warehouses "${warehouses}" --time "102400h" prepare
