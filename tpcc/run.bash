@@ -17,5 +17,4 @@ ${bin} \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
-	--dropdata \
 	--warehouses "${warehouses}" --time "${duration}" run
