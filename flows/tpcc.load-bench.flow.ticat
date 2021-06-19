@@ -1,5 +1,2 @@
-#
-# help = reset cluster, load TPCC and run @ready
-#
-#
-db.rm : db.depl : db.up : my.ln.ti : tpcc.load : tpcc.run : db.down : db.rm
+help = reset cluster, load TPCC and run @ready
+flow = db.rm : db.depl : db.up : my.ln.ti : tpcc.load : tpcc.run : db.down : db.rm
