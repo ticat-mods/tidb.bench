@@ -1,4 +1,0 @@
-help = TPCC on tidb quick test config @provider @ready
-abbr = tpcc.conf|cfg.q
-
-flow = db.yaml.template test : db.cfm no : tpcc.scale.min

@@ -1,0 +1,8 @@
+help = prepare data
+
+[env]
+bench.dummy-workload.scale = read
+bench.dummy-workload.threads = read
+
+[dep]
+python = pretend this workload is written by python

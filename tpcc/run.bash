@@ -6,11 +6,8 @@ shift
 here=`cd $(dirname ${BASH_SOURCE[0]}) && pwd`
 . "${here}/base.bash" "${env}" "${here}"
 
-duration=`echo "${env}" | { grep '^bench.tpcc.duration' || test $? = 1; } | awk '{print $2}'`
-if [ -z "${duration}" ]; then
-	echo "[:(] no env val 'bench.tpcc.duration', set to '1m'" >&2
-	duration='1m'
-fi
+threads=`env_val 'bench.tpcc.threads'`
+duration=`env_val 'bench.tpcc.duration'`
 
 ${bin} \
 	-T "${threads}" \

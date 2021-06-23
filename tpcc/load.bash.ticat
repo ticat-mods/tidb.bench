@@ -1,4 +1,4 @@
-help = prepare data for TPCC benchmark
+help = prepare TPCC data
 abbrs = ld|l|L
 
 [env]
@@ -6,7 +6,7 @@ mysql.host = read
 mysql.port = read
 mysql.user = read
 
-bench.tpcc.threads|thread|thrd|terminal|term|t|T = read
+bench.tpcc.load.threads|thread|thrd|terminal|term|t|T = read
 bench.tpcc.warehouses|warehouse|wh = read
 
 [dep]

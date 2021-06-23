@@ -1,0 +1,4 @@
+help = setup all configs for quick test @config
+abbr = tpcc.test.conf|cfg
+
+flow = tidb.yaml.template test : tidb.set-confirm no : tpcc.config.min

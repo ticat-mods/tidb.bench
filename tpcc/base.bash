@@ -21,5 +21,4 @@ host=`env_val 'mysql.host'`
 port=`env_val 'mysql.port'`
 user=`env_val 'mysql.user'`
 
-threads=`env_val 'bench.tpcc.threads'`
 warehouses=`env_val 'bench.tpcc.warehouses'`

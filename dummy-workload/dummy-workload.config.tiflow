@@ -1,0 +1,13 @@
+help = config dumb workload
+abbr = dwl.conf
+
+[arg]
+scale = ''
+threads|thread|t|T = ''
+
+[arg2env]
+bench.dummy-workload|dwl.scale = scale
+bench.dummy-workload.threads = threads
+
+[val2env]
+bench.workload = dummy-workload

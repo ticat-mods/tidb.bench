@@ -1,8 +1,0 @@
-help = TPCC benchmark warehouses config @provider
-abbrs = warehouse|wh|w|W
-
-[args]
-warehouses|warehouse|wh = 1
-
-[env]
-bench.tpcc.warehouses|warehouse|wh = write

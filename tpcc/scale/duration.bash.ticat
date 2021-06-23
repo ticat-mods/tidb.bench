@@ -1,8 +1,0 @@
-help = TPCC benchmark threads config @provider
-abbrs = dur|d|D
-
-[args]
-duration|dur|d|D = 1m
-
-[env]
-bench.tpcc.duration|dur|d|D = write

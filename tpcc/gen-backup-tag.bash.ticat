@@ -1,0 +1,9 @@
+help = generate backup tag name by data scale
+abbr = gen-tag
+
+[env]
+bench.tpcc.warehouses = read
+tidb.backup.tag = write
+
+[val2env]
+tidb.backup.skip-exist = true

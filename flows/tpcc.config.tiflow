@@ -1,0 +1,17 @@
+help = config TPCC workload
+abbr = tpcc.conf
+
+[arg]
+load-threads|load-thread|lt|LT = ''
+threads|thread|t|T = ''
+warehouses|warehouse|wh|WH = ''
+duration|dur|d|D = ''
+
+[arg2env]
+bench.tpcc.load.threads = load-threads
+bench.tpcc.threads = threads
+bench.tpcc.warehouses = warehouses
+bench.tpcc.duration = duration
+
+[val2env]
+bench.workload = tpcc
