@@ -1,0 +1,8 @@
+help = setup config: 10 warehouses
+
+[val2env]
+bench.tpcc.load.threads = 4
+bench.tpcc.threads = 1
+bench.tpcc.warehouses = 10
+bench.tpcc.duration = 10m
+bench.workload = tpcc
