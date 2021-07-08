@@ -1,1 +1,9 @@
 help = setup meta db access for benchmark records
+
+[args]
+host|h|H = ''
+port|p|P = 4000
+
+[arg2env]
+bench.meta.host = host
+bench.meta.port = port

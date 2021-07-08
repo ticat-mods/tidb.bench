@@ -1,13 +1,26 @@
 help = prepare TPCC data
-abbrs = ld|l|L
+abbr = ld|l|L
+
+[arg]
+warehouses|warehouse|wh|WH = ''
+threads|thread|thrd|thd|t|T = ''
+host|h|H = 127.0.0.1
+port|p|P = 4000
+user|u|U = root
+
+[arg2env]
+bench.tpcc.load.threads = threads
+bench.tpcc.warehouses = warehouses
+mysql.host = host
+mysql.port = port
+mysql.user = user
 
 [env]
+bench.tpcc.load.threads|thread|thrd|terminal|term|t|T = read
+bench.tpcc.warehouses|warehouse|wh = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
-
-bench.tpcc.load.threads|thread|thrd|terminal|term|t|T = read
-bench.tpcc.warehouses|warehouse|wh = read
 
 [dep]
 tiup = to use tiup bench tpcc

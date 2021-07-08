@@ -1,0 +1,13 @@
+help = start/ensure a local TiDB cluster for bench meta
+abbr = bench.meta.local
+
+[args]
+host|h|H = 127.0.0.1
+port|p|P = 4000
+db-name|db = bench_meta
+cluster-name|cluster|name|n|N = bench-meta-tidb-on-ticat
+version|v|V = v5.1.0
+
+[arg2env]
+bench.meta.host = host
+bench.meta.port = port
