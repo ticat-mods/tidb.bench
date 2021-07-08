@@ -1,0 +1,2 @@
+help = a toolbox for start/ensure a local TiDB cluster for bench meta
+abbr = bench.meta.local|loc

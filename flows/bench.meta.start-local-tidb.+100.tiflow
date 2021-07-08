@@ -1,0 +1,18 @@
+help = start/ensure a local TiDB cluster for bench meta
+abbr = bench.meta.local.100
+
+flow = tidb.new.indep yaml=test+100 cluster=[[bench.meta.cluster]] ver=[[bench.meta.version]] cfm=false skip-exist=true
+
+[args]
+db-name|db = bench_meta
+cluster-name|cluster|name|n|N = ticat-bench-meta
+version|v|V = v5.1.0
+
+[arg2env]
+bench.meta.db-name|db = db-name
+bench.meta.cluster = cluster-name
+bench.meta.version = version
+
+[val2env]
+bench.meta.host = 127.0.0.1
+bench.meta.port = 4100
