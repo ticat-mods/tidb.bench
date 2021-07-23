@@ -1,4 +1,5 @@
 help = setup threads @config
+abbr = tpcc.conf.thread|thrd|t|T
 
 [arg]
 threads|thread|thrd|thd|t|T = ''
