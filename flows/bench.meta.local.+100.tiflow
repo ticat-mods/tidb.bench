@@ -5,7 +5,7 @@ flow = tidb.new.indep yaml=test+100 cluster=[[bench.meta.cluster]] ver=[[bench.m
 
 [args]
 db-name|db = bench_meta
-cluster-name|cluster|name|n|N = ticat-bench-meta
+cluster-name|cluster|name|n|N = bench-meta
 version|v|V = v5.1.0
 
 [arg2env]

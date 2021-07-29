@@ -1,0 +1,20 @@
+help = write bench score to meta db
+abbr = bench.rec
+cmd = record.bash
+
+[env]
+bench.meta.host = may-read
+bench.meta.port = may-read
+bench.meta.db-name = may-read
+bench.start = may-read
+bench.run.start = may-read
+bench.run.end = may-read
+tidb.version = may-read
+bench.workload = may-read
+bench.score = may-read
+
+# TODO: remove workload here
+# bench.${workload}.threads = may-read
+
+[dep]
+mysql = as client, to write record data
