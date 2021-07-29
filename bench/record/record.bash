@@ -42,7 +42,11 @@ CREATE TABLE IF NOT EXISTS             \
 	version VARCHAR(32),               \
 	threads INT(11),                   \
 	score DOUBLE(6,2),                 \
-	PRIMARY KEY(workload, bench_start) \
+	PRIMARY KEY(                       \
+		workload,                      \
+		bench_start,                   \
+		run_start                      \
+	)                                  \
 )                                      \
 "
 
