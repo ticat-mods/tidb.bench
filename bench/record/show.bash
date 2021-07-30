@@ -15,10 +15,11 @@ fi
 port=`must_env_val "${env}" 'bench.meta.port'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 
-bench_start=`env_val "${env}" 'bench.start'`
-if [ -z "${bench_start}" ]; then
+run_start=`env_val "${env}" 'bench.run.start'`
+if [ -z "${run_start}" ]; then
 	query="SELECT * FROM bench_meta.score"
 else
+	bench_start=`must_env_val "${env}" 'bench.start'`
 	query="SELECT * FROM bench_meta.score WHERE bench_start=FROM_UNIXTIME(${bench_start})"
 fi
 

@@ -4,4 +4,4 @@ help = show records of current bench
 bench.meta.host = may-read
 bench.meta.port = may-read
 bench.meta.db-name = may-read
-bench.start = may-read
+bench.run.start = may-read
