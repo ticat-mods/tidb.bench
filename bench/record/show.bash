@@ -1,9 +1,17 @@
 set -euo pipefail
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../../helper/helper.bash"
 
-env=`cat "${1}/env"`
+session="${1}"
+env=`cat "${session}/env"`
 
-host=`must_env_val "${env}" 'bench.meta.host'`
+host=`env_val "${env}" 'bench.meta.host'`
+if [ -z "${host}" ]; then
+	if [ -f "${session}/scores" ]; then
+		cat "${session}/scores"
+	fi
+	exit
+fi
+
 port=`must_env_val "${env}" 'bench.meta.port'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 

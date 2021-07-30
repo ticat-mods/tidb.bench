@@ -1,7 +1,7 @@
 help = show records of current bench
 
 [env]
-bench.meta.host = read
-bench.meta.port = read
-bench.meta.db-name = read
+bench.meta.host = may-read
+bench.meta.port = may-read
+bench.meta.db-name = may-read
 bench.start = may-read

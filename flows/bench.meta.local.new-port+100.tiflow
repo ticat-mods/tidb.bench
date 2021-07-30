@@ -17,3 +17,6 @@ bench.meta.version = version
 [val2env]
 bench.meta.host = 127.0.0.1
 bench.meta.port = 4100
+
+[env]
+bench.start = write
