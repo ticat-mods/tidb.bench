@@ -24,8 +24,8 @@ bench.tpcc.duration|dur|d|D|time = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
-bench.log = write
-bench.score = write
+bench.run.log = write
+bench.run.score = write
 
 [dep]
 tiup = to use tiup bench tpcc

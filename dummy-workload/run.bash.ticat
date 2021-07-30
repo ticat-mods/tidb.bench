@@ -3,8 +3,8 @@ help = prepare data
 [env]
 bench.dummy-workload.scale = read
 bench.dummy-workload.threads = read
-bench.log = write
-bench.score = write
+bench.run.log = write
+bench.run.score = write
 
 [dep]
 python = pretend this workload is written by python

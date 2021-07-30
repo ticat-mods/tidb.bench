@@ -9,7 +9,7 @@ run_end=`must_env_val "${env}" 'bench.run.end'`
 version=`must_env_val "${env}" 'tidb.version'`
 workload=`must_env_val "${env}" 'bench.workload'`
 threads=`must_env_val "${env}" "bench.${workload}.threads"`
-score=`must_env_val "${env}" 'bench.score'`
+score=`must_env_val "${env}" 'bench.run.score'`
 bench_start=`env_val "${env}" 'bench.start'`
 if [ -z "${bench_start}" ]; then
 	bench_start='0'
