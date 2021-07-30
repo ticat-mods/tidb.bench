@@ -1,8 +1,11 @@
 help = setup meta db access for benchmark records
+abbr = bench.meta.conf
+
+flow = mark-time bench.start
 
 [args]
 host|h|H = ''
-port|p|P = 4000
+port|p|P = ''
 
 [arg2env]
 bench.meta.host = host

@@ -1,7 +1,8 @@
 help = start/ensure a local TiDB cluster for bench meta
 abbr = bench.meta.local.port+700|p+700|P+700|+700|700
 
-flow = tidb.new.indep yaml=test+700 cluster=[[bench.meta.cluster]] ver=[[bench.meta.version]] cfm=false skip-exist=true
+flow = mark-time bench.start : \
+	tidb.new.indep yaml=test+700 cluster=[[bench.meta.cluster]] ver=[[bench.meta.version]] cfm=false skip-exist=true
 
 [args]
 db-name|db = bench_meta
