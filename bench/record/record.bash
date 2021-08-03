@@ -10,6 +10,7 @@ version=`must_env_val "${env}" 'tidb.version'`
 workload=`must_env_val "${env}" 'bench.workload'`
 threads=`must_env_val "${env}" "bench.${workload}.threads"`
 score=`must_env_val "${env}" 'bench.run.score'`
+tag=`must_env_val "${env}" 'tidb.backup.tag'`
 bench_start=`env_val "${env}" 'bench.start'`
 if [ -z "${bench_start}" ]; then
 	bench_start='0'
@@ -38,6 +39,7 @@ my_exe "\
 CREATE TABLE IF NOT EXISTS             \
 	score (                            \
 	workload VARCHAR(64),              \
+	tag  VARCHAR(1024),                \
 	bench_start TIMESTAMP,             \
 	run_start TIMESTAMP,               \
 	run_end TIMESTAMP,                 \
@@ -53,8 +55,9 @@ CREATE TABLE IF NOT EXISTS             \
 "
 
 my_exe "\
-INSERT INTO score VALUES(        \
+INSERT INTO score VALUES(              \
 	\"${workload}\",                   \
+	\"${tag}\",                        \
 	FROM_UNIXTIME(${bench_start}),     \
 	FROM_UNIXTIME(${run_start}),       \
 	FROM_UNIXTIME(${run_end}),         \
