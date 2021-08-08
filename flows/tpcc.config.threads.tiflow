@@ -1,4 +1,4 @@
-help = setup threads @config
+help = setup threads
 abbr = tpcc.conf.thread|thrd|t|T
 
 [arg]

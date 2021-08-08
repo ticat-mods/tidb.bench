@@ -1,4 +1,5 @@
-help = use quick test config, reset cluster, load TPCC and run @selftest
+help = use quick test config, reset cluster, load TPCC and run
+tags = selftest
 flow = tpcc.test.config : tpcc.load-bench
 
 [arg]

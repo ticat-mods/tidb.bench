@@ -1,7 +1,20 @@
 help = show records of current bench
 
+[arg]
+host|h|H = ''
+port|p|P = ''
+db-name|db = ''
+bench-start|start = ''
+
+[arg2env]
+bench.meta.host = host
+bench.meta.port = port
+bench.meta.db-name = db-name
+bench.start = bench-start
+
 [env]
 bench.meta.host = may-read
 bench.meta.port = may-read
 bench.meta.db-name = may-read
 bench.run.start = may-read
+bench.start = may-read

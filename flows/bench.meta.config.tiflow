@@ -1,4 +1,5 @@
 help = setup meta db access for benchmark records
+tags = config
 abbr = bench.meta.conf
 
 flow = mark-time bench.start
