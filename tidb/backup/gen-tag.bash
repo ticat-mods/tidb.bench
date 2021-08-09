@@ -11,11 +11,16 @@ IFS=',' read -ra keys <<< "${keys_str}"
 vals=''
 for key in "${keys[@]}"; do
 	val=`must_env_val "${env}" "${key}"`
+
+	# ignore local path string
+	if [ "${key}" == 'tidb.version' ]; then
+		val="${key%%+*}"
+	fi
+
 	vals="${vals}@${val}"
-	echo "key=${key}, val=${val}"
 done
 
-vals=`echo ${vals/./-}`
+vals=`echo ${vals//./-}`
 
 echo "[:)] setup tidb.backup.tag=${vals}"
 echo "tidb.backup.tag=${vals}" >> "${env_file}"
