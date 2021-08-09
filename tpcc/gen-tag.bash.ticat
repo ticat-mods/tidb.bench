@@ -1,4 +1,4 @@
-help = generate backup tag name by data scale
+help = generate tag by data scale
 abbr = gen-tag|tag
 
 [env]

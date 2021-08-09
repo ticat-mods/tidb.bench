@@ -10,7 +10,7 @@ version=`must_env_val "${env}" 'tidb.version'`
 workload=`must_env_val "${env}" 'bench.workload'`
 threads=`must_env_val "${env}" "bench.${workload}.threads"`
 score=`must_env_val "${env}" 'bench.run.score'`
-tag=`must_env_val "${env}" 'tidb.backup.tag'`
+tag=`must_env_val "${env}" 'bench.tag'`
 bench_start=`env_val "${env}" 'bench.start'`
 if [ -z "${bench_start}" ]; then
 	bench_start='0'
@@ -35,11 +35,9 @@ function my_exe()
 
 mysql -h "${host}" -P "${port}" -u root -e "CREATE DATABASE IF NOT EXISTS ${db}"
 
-my_exe "\
-CREATE TABLE IF NOT EXISTS             \
-	score (                            \
+cols="(                                \
 	workload VARCHAR(64),              \
-	tag  VARCHAR(1024),                \
+	tag VARCHAR(512),                  \
 	bench_start TIMESTAMP,             \
 	run_start TIMESTAMP,               \
 	run_end TIMESTAMP,                 \
@@ -48,11 +46,18 @@ CREATE TABLE IF NOT EXISTS             \
 	score DOUBLE(6,2),                 \
 	PRIMARY KEY(                       \
 		workload,                      \
+		tag,                           \
 		bench_start,                   \
 		run_start                      \
 	)                                  \
 )                                      \
 "
+
+# The main score table
+my_exe "CREATE TABLE IF NOT EXISTS score ${cols}"
+
+# The detail table, other mods may alter(add cols) it
+my_exe "CREATE TABLE IF NOT EXISTS detail ${cols}"
 
 my_exe "\
 INSERT INTO score VALUES(              \

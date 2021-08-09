@@ -5,22 +5,12 @@ env_file="${1}/env"
 env=`cat "${env_file}"`
 shift
 
-keys_str="${1}"
-IFS=',' read -ra keys <<< "${keys_str}"
+keys=`must_env_val "${env}" 'tidb.backup.tag-from-keys'`
 
-vals=''
-for key in "${keys[@]}"; do
-	val=`must_env_val "${env}" "${key}"`
+tag=`gen_tag "${keys}" 'true'`
+echo "[:)] setup tidb.backup.tag=${tag}"
+echo "tidb.backup.tag=${tag}" >> "${env_file}"
 
-	# ignore local path string
-	if [ "${key}" == 'tidb.version' ]; then
-		val="${key%%+*}"
-	fi
-
-	vals="${vals}@${val}"
-done
-
-vals=`echo ${vals//./-}`
-
-echo "[:)] setup tidb.backup.tag=${vals}"
-echo "tidb.backup.tag=${vals}" >> "${env_file}"
+tag=`gen_tag "${keys}" 'false'`
+echo "[:)] setup bench.tag=${tag}"
+echo "bench.tag=${tag}" >> "${env_file}"
