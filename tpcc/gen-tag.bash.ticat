@@ -3,4 +3,4 @@ abbr = gen-tag|tag
 
 [env]
 bench.tpcc.warehouses = read
-tidb.backup.tag = write
+bench.workload.tag = write

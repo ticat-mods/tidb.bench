@@ -1,6 +1,0 @@
-help = write a fixed backup tag name to env
-abbr = gen-tag
-
-[val2env]
-tidb.backup.skip-exist = true
-tidb.backup.tag = a-dummy-workload-data-name

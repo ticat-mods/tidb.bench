@@ -5,4 +5,4 @@ env_file="${1}/env"
 env=`cat "${env_file}"`
 
 wh=`must_env_val "${env}" 'bench.tpcc.warehouses'`
-echo "tidb.backup.tag=tpcc-${wh}" >> "${env_file}"
+echo "bench.workload.tag=wh-${wh}" >> "${env_file}"

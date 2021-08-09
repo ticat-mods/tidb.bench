@@ -1,0 +1,7 @@
+help = generate backup tag from specified env values
+
+[arg]
+keys = 'bench.workload,bench.workload.tag'
+
+[env]
+tidb.backup.tag = write
