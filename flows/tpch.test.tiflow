@@ -1,0 +1,11 @@
+help = use quick test config, reset cluster, load TPCH and run
+tags = selftest
+flow = tpch.test.config : tpch.load-bench
+
+[arg]
+cluster|c|C = 'tpch-self-test'
+version|v|V = 'nightly'
+
+[arg2env]
+tidb.cluster = cluster
+tidb.version = version

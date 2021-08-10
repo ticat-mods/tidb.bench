@@ -1,0 +1,17 @@
+help = config TPCH workload
+abbr = tpch.conf
+
+[arg]
+load-threads|load-thread|lt|LT = ''
+threads|thread|t|T = ''
+scale-factor|sf|SF = ''
+duration|dur|d|D = ''
+
+[arg2env]
+bench.tpch.load.threads = load-threads
+bench.tpch.threads = threads
+bench.tpch.scale-factor = scale-factor
+bench.tpch.duration = duration
+
+[val2env]
+bench.workload = tpch

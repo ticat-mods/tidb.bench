@@ -1,0 +1,6 @@
+help = generate tag by scale factor
+abbr = gen-tag|tag
+
+[env]
+bench.tpch.scale-factor = read
+bench.workload.tag = write

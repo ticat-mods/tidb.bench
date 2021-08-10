@@ -1,5 +1,4 @@
 help = run TPCC benchmark
-abbr = r|R
 
 [arg]
 warehouses|warehouse|wh|WH = ''

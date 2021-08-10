@@ -12,6 +12,7 @@ ticat hub.add innerr/bench.tidb.ticat
 -----  Jitter detecting
 -----  Simple auto config tuning
 -----  Workloads: TPCC
+-----  Workloads: TPCH
 -----  Workloads: sysbench
 -----  Workloads: ycsb
 -----  (TBD)
