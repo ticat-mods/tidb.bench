@@ -1,0 +1,8 @@
+help = setup config: use minimum data scale
+
+[val2env]
+bench.tpch.load.threads = 1
+bench.tpch.threads = 1
+bench.tpch.scale-factor = 1
+bench.tpch.duration = 1m
+bench.workload = tpch

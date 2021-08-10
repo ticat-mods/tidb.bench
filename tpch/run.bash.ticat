@@ -1,0 +1,31 @@
+help = run TPCH benchmark
+abbr = r|R
+
+[arg]
+scale-factor|sf|SF = ''
+threads|thread|thrd|thd|t|T = ''
+duration|dur|d|D = ''
+host|h|H = 127.0.0.1
+port|p|P = 4000
+user|u|U = root
+
+[arg2env]
+bench.tpch.threads = threads
+bench.tpch.scale-factor = scale-factor
+bench.tpch.duration = duration
+mysql.host = host
+mysql.port = port
+mysql.user = user
+
+[env]
+bench.tpch.threads|thread|thrd|terminal|term|t|T = read
+bench.tpch.scale-factor|scale-factor|sf = read
+bench.tpch.duration|dur|d|D|time = read
+mysql.host = read
+mysql.port = read
+mysql.user = read
+bench.run.log = write
+bench.run.score = write
+
+[dep]
+tiup = to use tiup bench tpch
