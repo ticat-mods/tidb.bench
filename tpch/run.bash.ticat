@@ -1,5 +1,4 @@
 help = run TPCH benchmark
-abbr = r|R
 
 [arg]
 scale-factor|sf|SF = ''
