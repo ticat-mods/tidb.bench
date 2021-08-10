@@ -1,4 +1,4 @@
-help = prepare TPCC data
+help = prepare TPCH data
 abbr = ld|l|L
 
 [arg]
