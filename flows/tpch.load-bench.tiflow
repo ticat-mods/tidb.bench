@@ -1,2 +1,2 @@
-help = reset cluster, load TPCC and run
+help = reset cluster, load TPCH and run
 flow = db.rm : db.depl : db.up : my.conf.ti : tpch.load : tpch.run : db.down : db.rm

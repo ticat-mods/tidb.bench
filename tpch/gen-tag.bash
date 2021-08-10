@@ -5,4 +5,4 @@ env_file="${1}/env"
 env=`cat "${env_file}"`
 
 sf=`must_env_val "${env}" 'bench.tpch.scale-factor'`
-echo "tidb.backup.tag=tpch-${sf}" >> "${env_file}"
+echo "bench.workload.tag=sf-${sf}" >> "${env_file}"
