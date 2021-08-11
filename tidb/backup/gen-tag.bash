@@ -6,11 +6,12 @@ env=`cat "${env_file}"`
 shift
 
 keys=`must_env_val "${env}" 'tidb.backup.tag-from-keys'`
+nightly_major=`must_env_val "${env}" 'tidb.backup.nightly-major-version'`
 
-tag=`gen_tag "${keys}" 'true'`
+tag=`gen_tag "${keys}" 'true' "${nightly_major}"`
 echo "[:)] setup tidb.backup.tag=${tag}"
 echo "tidb.backup.tag=${tag}" >> "${env_file}"
 
-tag=`gen_tag "${keys}" 'false'`
+tag=`gen_tag "${keys}" 'false' "${nightly_major}"`
 echo "[:)] setup bench.tag=${tag}"
 echo "bench.tag=${tag}" >> "${env_file}"

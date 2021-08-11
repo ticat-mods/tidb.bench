@@ -10,6 +10,7 @@ function gen_tag()
 {
 	local keys_str="${1}"
 	local for_backup=`to_true "${2}"`
+	local nightly_major="${3}"
 
 	IFS=',' read -ra keys <<< "${keys_str}"
 	local vals=''
@@ -21,10 +22,14 @@ function gen_tag()
 
 		if [ "${for_backup}" == 'true' ]; then
 			if [ "${key}" == 'tidb.version' ]; then
-				local val="${val%%+*}"
+				if [ "${val}" == "nightly" ]; then
+					local val="${nightly_major}"
+				else
+					local val="${val%%+*}"
 
-				# Consider versions with the same major number are compatible in storage
-				local val="${val%%.*}"
+					# Consider versions with the same major number are compatible in storage
+					local val="${val%%.*}"
+				fi
 			fi
 		fi
 
