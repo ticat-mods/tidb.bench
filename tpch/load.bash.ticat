@@ -4,8 +4,8 @@ abbr = ld|l|L
 [arg]
 scale-factor|sf|SF = ''
 threads|thread|thrd|thd|t|T = ''
-host|h|H = 127.0.0.1
-port|p|P = 4000
+host|h|H = ''
+port|p|P = ''
 user|u|U = root
 analyze = false
 
@@ -19,7 +19,6 @@ mysql.user = user
 
 [env]
 bench.tpch.load.threads|thread|thrd|terminal|term|t|T = read
-bench.tpch.load.analyze = read
 bench.tpch.scale-factor|scale-factor|sf = read
 mysql.host = read
 mysql.port = read

@@ -4,8 +4,8 @@ abbr = ld|l|L
 [arg]
 warehouses|warehouse|wh|WH = ''
 threads|thread|thrd|thd|t|T = ''
-host|h|H = 127.0.0.1
-port|p|P = 4000
+host|h|H = ''
+port|p|P = ''
 user|u|U = root
 analyze = true
 
