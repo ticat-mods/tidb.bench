@@ -1,10 +1,11 @@
 help = use quick test config, reset cluster, load TPCC and run
 tags = selftest
-flow = tpcc.test.config : tpcc.load-bench
+
+flow = selftest.tpcc.config : tpcc.load-bench
 
 [arg]
-cluster|c|C = 'tpcc-self-test'
-version|v|V = 'nightly'
+cluster|c|C = selftest-tpcc
+version|v|V = nightly
 
 [arg2env]
 tidb.cluster = cluster
