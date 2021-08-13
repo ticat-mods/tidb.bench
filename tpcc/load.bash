@@ -17,3 +17,29 @@ tiup bench tpcc \
 	-U "${user}" \
 	--dropdata \
 	--warehouses "${warehouses}" --time "102400h" prepare
+
+analyze=`must_env_val "${env}" 'bench.tpcc.load.analyze'`
+analyze=`to_false "${analyze}"`
+
+if [ "${analyze}" == 'false' ]; then
+	exit
+fi
+
+db="test"
+tables=(
+	'customer'
+	'district'
+	'history'
+	'item'
+	'new_order'
+	'orders'
+	'order_line'
+	'stock'
+	'warehouse'
+)
+for table in ${tables[@]}; do
+	query="analyze table ${db}.${table}"
+	echo "[:-] ${query} begin"
+	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+	echo "[:)] ${query} done"
+done

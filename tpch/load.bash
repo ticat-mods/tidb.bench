@@ -19,3 +19,20 @@ tiup bench tpch prepare \
 	--sf "${sf}" --time "102400h" \
 	--tiflash \
 	--analyze --tidb_build_stats_concurrency 8 --tidb_distsql_scan_concurrency 30
+
+analyze=`must_env_val "${env}" 'bench.tpch.load.analyze'`
+analyze=`to_false "${analyze}"`
+
+# The command 'tiup bench tpch prepare' will do analyze, so the default value will be false
+if [ "${analyze}" == 'false' ]; then
+	exit
+fi
+
+db="test"
+tables=(lineitem orders partsupp part customer supplier nation part region)
+for table in ${tables[@]}; do
+	query="analyze table ${db}.${table}"
+	echo "[:-] ${query} begin"
+	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+	echo "[:)] ${query} done"
+done

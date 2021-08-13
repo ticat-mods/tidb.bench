@@ -7,9 +7,11 @@ threads|thread|thrd|thd|t|T = ''
 host|h|H = 127.0.0.1
 port|p|P = 4000
 user|u|U = root
+analyze = false
 
 [arg2env]
 bench.tpch.load.threads = threads
+bench.tpch.load.analyze = analyze
 bench.tpch.scale-factor = scale-factor
 mysql.host = host
 mysql.port = port
@@ -17,6 +19,7 @@ mysql.user = user
 
 [env]
 bench.tpch.load.threads|thread|thrd|terminal|term|t|T = read
+bench.tpch.load.analyze = read
 bench.tpch.scale-factor|scale-factor|sf = read
 mysql.host = read
 mysql.port = read
