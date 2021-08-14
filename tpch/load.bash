@@ -28,6 +28,9 @@ if [ "${analyze}" == 'false' ]; then
 	exit
 fi
 
+query="SET GLOBAL tidb_multi_statement_mode='ON'"
+mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+
 db="test"
 tables=(lineitem orders partsupp part customer supplier nation part region)
 for table in ${tables[@]}; do
