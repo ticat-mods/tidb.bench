@@ -1,0 +1,35 @@
+help = prepare sysbench data
+abbr = ld|l|L
+
+[arg]
+tables|table|tb = ''
+table-size|size = ''
+test-name|name = oltp_point_select
+threads|thread|thrd|thd|t|T = ''
+host|h|H = ''
+port|p|P = ''
+user|u|U = root
+analyze = true
+
+[arg2env]
+bench.sysbench.load.threads = threads
+bench.sysbench.load.analyze = analyze
+bench.sysbench.tables = tables
+bench.sysbench.table-size = table-size
+bench.sysbench.test-name = test-name
+mysql.host = host
+mysql.port = port
+mysql.user = user
+
+[env]
+bench.sysbench.load.threads|thread|thrd|terminal|term|t|T = read
+bench.sysbench.load.analyze = read
+bench.sysbench.tables|table|tb = read
+bench.sysbench.table-size|size = read
+bench.sysbench.test-name|name = read
+mysql.host = read
+mysql.port = read
+mysql.user = read
+
+[dep]
+sysbench = to load the bench data

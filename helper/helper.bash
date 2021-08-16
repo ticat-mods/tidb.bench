@@ -6,6 +6,12 @@ function parse_tpmc()
 	cat "${log}" | grep Summary | grep 'NEW_ORDER ' | awk -F 'TPM: ' '{print $2}' | awk '{print $1}' | awk -F ',' '{print $1}'
 }
 
+function parse_sysbench_events()
+{
+	local log="${1}"
+	cat "${log}" | grep "total number of events" | awk -F 'events: ' '{print $2}' | awk '{print $1}'
+}
+
 function gen_tag()
 {
 	local keys_str="${1}"

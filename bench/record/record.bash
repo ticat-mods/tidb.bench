@@ -15,6 +15,10 @@ bench_start=`env_val "${env}" 'bench.start'`
 if [ -z "${bench_start}" ]; then
 	bench_start='0'
 fi
+test_name=`env_val "${env}" "bench.${workload}.test-name"`
+if [ ! -z "${test_name}" ]; then
+	workload=${workload}-${test_name}
+fi
 
 echo -e "${score}\tworkload=${workload},run_start=${run_start},run_end=${run_end},version=${version},threads=${threads}" >> "${session}/scores"
 
@@ -43,7 +47,7 @@ cols="(                                \
 	run_end TIMESTAMP,                 \
 	version VARCHAR(32),               \
 	threads INT(11),                   \
-	score DOUBLE(6,2),                 \
+	score DECIMAL(10,2),               \
 	PRIMARY KEY(                       \
 		workload,                      \
 		tag,                           \
