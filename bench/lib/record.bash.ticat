@@ -1,6 +1,4 @@
 help = write bench score to meta db
-abbr = bench.rec
-cmd = record.bash
 
 [arg]
 tag-from-keys|keys = 'bench.workload,bench.workload.tag,tidb.version'

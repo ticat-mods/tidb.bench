@@ -1,0 +1,7 @@
+help = gen tag and write bench score to meta db
+abbr = bench.rec
+
+flow = [[bench.workload]].gen-tag : bench.lib.record
+
+[env]
+bench.workload = read

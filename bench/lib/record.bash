@@ -10,9 +10,6 @@ workload=`must_env_val "${env}" 'bench.workload'`
 
 ticat=`must_env_val "${env}" 'sys.paths.ticat'`
 
-# TODO: ticat has bug in env passing
-#"${ticat}" {session="${session}"} "${workload}.gen-tag"
-
 run_begin=`must_env_val "${env}" 'bench.run.begin'`
 run_end=`must_env_val "${env}" 'bench.run.end'`
 version=`must_env_val "${env}" 'tidb.version'`
