@@ -4,18 +4,32 @@ set -euo pipefail
 session="${1}"
 env=`cat "${session}/env"`
 
+## Args handling
+#
+workload=`must_env_val "${env}" 'bench.workload'`
+
+ticat=`must_env_val "${env}" 'sys.paths.ticat'`
+
+# TODO: ticat has bug in env passing
+#"${ticat}" {session="${session}"} "${workload}.gen-tag"
+
 run_begin=`must_env_val "${env}" 'bench.run.begin'`
 run_end=`must_env_val "${env}" 'bench.run.end'`
 version=`must_env_val "${env}" 'tidb.version'`
-workload=`must_env_val "${env}" 'bench.workload'`
 threads=`must_env_val "${env}" "bench.${workload}.threads"`
 score=`must_env_val "${env}" 'bench.run.score'`
-tag=`must_env_val "${env}" 'bench.tag'`
+
+keys=`must_env_val "${env}" 'bench.tag-from-keys'`
+nightly_major=`must_env_val "${env}" 'tidb.version.nightly-major'`
+tag=`gen_tag "${keys}" 'false' "${nightly_major}"`
+
 bench_begin=`env_val "${env}" 'bench.begin'`
 if [ -z "${bench_begin}" ]; then
 	bench_begin='0'
 fi
 
+## Write the text record, in case no meta db
+#
 echo -e "${score}\tworkload=${workload},run_begin=${run_begin},run_end=${run_end},version=${version},threads=${threads}" >> "${session}/scores"
 
 host=`env_val "${env}" 'bench.meta.host'`
@@ -24,6 +38,8 @@ if [ -z "${host}" ]; then
 	exit
 fi
 
+## Write the record tables if has meta db
+#
 port=`must_env_val "${env}" 'bench.meta.port'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 
@@ -35,39 +51,42 @@ function my_exe()
 
 mysql -h "${host}" -P "${port}" -u root -e "CREATE DATABASE IF NOT EXISTS ${db}"
 
-cols="(                                \
-	workload VARCHAR(64),              \
-	tag VARCHAR(512),                  \
-	bench_begin TIMESTAMP,             \
-	run_begin TIMESTAMP,               \
-	run_end TIMESTAMP,                 \
-	version VARCHAR(32),               \
-	threads INT(11),                   \
-	score DOUBLE(6,2),                 \
-	PRIMARY KEY(                       \
-		workload,                      \
-		tag,                           \
-		bench_begin,                   \
-		run_begin                      \
-	)                                  \
-)                                      \
-"
+function write_record()
+{
+	local table="${1}"
+
+	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
+		workload VARCHAR(64),                       \
+		bench_begin TIMESTAMP,                      \
+		run_begin TIMESTAMP,                        \
+		run_end TIMESTAMP,                          \
+		version VARCHAR(32),                        \
+		threads INT(11),                            \
+		score DOUBLE(6,2),                          \
+		tag VARCHAR(512),                           \
+		PRIMARY KEY(                                \
+			workload,                               \
+			tag,                                    \
+			bench_begin,                            \
+			run_begin                               \
+		)                                           \
+	)                                               \
+	"
+
+	my_exe "INSERT INTO ${table} VALUES(            \
+		\"${workload}\",                            \
+		FROM_UNIXTIME(${bench_begin}),              \
+		FROM_UNIXTIME(${run_begin}),                \
+		FROM_UNIXTIME(${run_end}),                  \
+		\"${version}\",                             \
+		${threads},                                 \
+		${score},                                   \
+		\"${tag}\"                                  \
+	)                                               \
+	"
+}
 
 # The main score table
-my_exe "CREATE TABLE IF NOT EXISTS score ${cols}"
-
+write_record 'score'
 # The detail table, other mods may alter(add cols) it
-my_exe "CREATE TABLE IF NOT EXISTS detail ${cols}"
-
-my_exe "\
-INSERT INTO score VALUES(              \
-	\"${workload}\",                   \
-	\"${tag}\",                        \
-	FROM_UNIXTIME(${bench_begin}),     \
-	FROM_UNIXTIME(${run_begin}),       \
-	FROM_UNIXTIME(${run_end}),         \
-	\"${version}\",                    \
-	${threads},                        \
-	${score}                           \
-)                                      \
-"
+write_record 'detail'

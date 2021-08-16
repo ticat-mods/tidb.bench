@@ -15,9 +15,16 @@ function gen_tag()
 	IFS=',' read -ra keys <<< "${keys_str}"
 	local vals=''
 	for key in "${keys[@]}"; do
-		local val=`must_env_val "${env}" "${key}"`
-		if [ -z "${val}" ]; then
-			exit 1
+		if [ "${for_backup}" == 'true' ]; then
+			local val=`must_env_val "${env}" "${key}"`
+			if [ -z "${val}" ]; then
+				exit 1
+			fi
+		else
+			local val=`env_val "${env}" "${key}"`
+			if [ -z "${val}" ]; then
+				val="{${key}}"
+			fi
 		fi
 
 		if [ "${for_backup}" == 'true' ]; then
