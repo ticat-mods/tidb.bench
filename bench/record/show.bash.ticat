@@ -4,17 +4,17 @@ help = show records of current bench
 host|h|H = ''
 port|p|P = ''
 db-name|db = ''
-bench-start|start = ''
+bench-begin|begin = ''
 
 [arg2env]
 bench.meta.host = host
 bench.meta.port = port
 bench.meta.db-name = db-name
-bench.start = bench-start
+bench.begin = bench-begin
 
 [env]
 bench.meta.host = may-read
 bench.meta.port = may-read
 bench.meta.db-name = may-read
-bench.run.start = may-read
-bench.start = may-read
+bench.run.begin = may-read
+bench.begin = may-read

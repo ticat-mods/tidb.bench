@@ -4,19 +4,19 @@ set -euo pipefail
 session="${1}"
 env=`cat "${session}/env"`
 
-run_start=`must_env_val "${env}" 'bench.run.start'`
+run_begin=`must_env_val "${env}" 'bench.run.begin'`
 run_end=`must_env_val "${env}" 'bench.run.end'`
 version=`must_env_val "${env}" 'tidb.version'`
 workload=`must_env_val "${env}" 'bench.workload'`
 threads=`must_env_val "${env}" "bench.${workload}.threads"`
 score=`must_env_val "${env}" 'bench.run.score'`
 tag=`must_env_val "${env}" 'bench.tag'`
-bench_start=`env_val "${env}" 'bench.start'`
-if [ -z "${bench_start}" ]; then
-	bench_start='0'
+bench_begin=`env_val "${env}" 'bench.begin'`
+if [ -z "${bench_begin}" ]; then
+	bench_begin='0'
 fi
 
-echo -e "${score}\tworkload=${workload},run_start=${run_start},run_end=${run_end},version=${version},threads=${threads}" >> "${session}/scores"
+echo -e "${score}\tworkload=${workload},run_begin=${run_begin},run_end=${run_end},version=${version},threads=${threads}" >> "${session}/scores"
 
 host=`env_val "${env}" 'bench.meta.host'`
 if [ -z "${host}" ]; then
@@ -38,8 +38,8 @@ mysql -h "${host}" -P "${port}" -u root -e "CREATE DATABASE IF NOT EXISTS ${db}"
 cols="(                                \
 	workload VARCHAR(64),              \
 	tag VARCHAR(512),                  \
-	bench_start TIMESTAMP,             \
-	run_start TIMESTAMP,               \
+	bench_begin TIMESTAMP,             \
+	run_begin TIMESTAMP,               \
 	run_end TIMESTAMP,                 \
 	version VARCHAR(32),               \
 	threads INT(11),                   \
@@ -47,8 +47,8 @@ cols="(                                \
 	PRIMARY KEY(                       \
 		workload,                      \
 		tag,                           \
-		bench_start,                   \
-		run_start                      \
+		bench_begin,                   \
+		run_begin                      \
 	)                                  \
 )                                      \
 "
@@ -63,8 +63,8 @@ my_exe "\
 INSERT INTO score VALUES(              \
 	\"${workload}\",                   \
 	\"${tag}\",                        \
-	FROM_UNIXTIME(${bench_start}),     \
-	FROM_UNIXTIME(${run_start}),       \
+	FROM_UNIXTIME(${bench_begin}),     \
+	FROM_UNIXTIME(${run_begin}),       \
 	FROM_UNIXTIME(${run_end}),         \
 	\"${version}\",                    \
 	${threads},                        \

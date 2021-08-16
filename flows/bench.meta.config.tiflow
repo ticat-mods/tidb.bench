@@ -2,7 +2,7 @@ help = setup meta db access for benchmark records
 tags = config
 abbr = bench.meta.conf
 
-flow = mark-time bench.start
+flow = mark-time bench.begin
 
 [args]
 host|h|H = ''
@@ -13,4 +13,4 @@ bench.meta.host = host
 bench.meta.port = port
 
 [env]
-bench.start = write
+bench.begin = write

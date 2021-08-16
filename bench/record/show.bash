@@ -17,15 +17,15 @@ fi
 port=`must_env_val "${env}" 'bench.meta.port'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 
-run_start=`env_val "${env}" 'bench.run.start'`
-if [ -z "${run_start}" ]; then
+run_begin=`env_val "${env}" 'bench.run.begin'`
+if [ -z "${run_begin}" ]; then
 	query="SELECT * FROM score"
 else
-	bench_start=`env_val "${env}" 'bench.start'`
-	if [ -z "${bench_start}" ]; then
+	bench_begin=`env_val "${env}" 'bench.begin'`
+	if [ -z "${bench_begin}" ]; then
 		query="SELECT * FROM score"
 	else
-		query="SELECT * FROM score WHERE bench_start=FROM_UNIXTIME(${bench_start})"
+		query="SELECT * FROM score WHERE bench_begin=FROM_UNIXTIME(${bench_begin})"
 		echo "${query}"
 	fi
 fi
