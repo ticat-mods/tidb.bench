@@ -1,0 +1,7 @@
+help = gen workload tag, then gen backup tag
+abbr = tidb.backup.tag
+
+flow = [[bench.workload]].gen-tag : tidb.lib.backup.gen-tag
+
+[env]
+bench.workload = read

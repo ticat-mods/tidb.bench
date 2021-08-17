@@ -1,4 +1,5 @@
 help = setup config: use minimum data scale
+abbr = tpcc.conf.test
 
 [arg]
 load-threads|load-thread|l-t|lt = 1

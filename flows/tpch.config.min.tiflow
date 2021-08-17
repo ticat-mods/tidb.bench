@@ -1,4 +1,5 @@
 help = setup config: use minimum data scale
+abbr = tpch.conf.test
 
 [val2env]
 bench.tpch.load.threads = 1

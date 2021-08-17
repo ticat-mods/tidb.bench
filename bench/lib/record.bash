@@ -53,13 +53,13 @@ function write_record()
 	local table="${1}"
 
 	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
+		score DECIMAL(10,2),                        \
+		version VARCHAR(32),                        \
+		threads INT(11),                            \
 		workload VARCHAR(64),                       \
 		bench_begin TIMESTAMP,                      \
 		run_begin TIMESTAMP,                        \
 		run_end TIMESTAMP,                          \
-		version VARCHAR(32),                        \
-		threads INT(11),                            \
-		score DECIMAL(10,2),                        \
 		tag VARCHAR(512),                           \
 		PRIMARY KEY(                                \
 			workload,                               \
@@ -71,13 +71,13 @@ function write_record()
 	"
 
 	my_exe "INSERT INTO ${table} VALUES(            \
+		${score},                                   \
+		\"${version}\",                             \
+		${threads},                                 \
 		\"${workload}\",                            \
 		FROM_UNIXTIME(${bench_begin}),              \
 		FROM_UNIXTIME(${run_begin}),                \
 		FROM_UNIXTIME(${run_end}),                  \
-		\"${version}\",                             \
-		${threads},                                 \
-		${score},                                   \
 		\"${tag}\"                                  \
 	)                                               \
 	"

@@ -15,9 +15,10 @@ function parse_sysbench_events()
 function check_or_install()
 {
 	local to_check="${1}"
-	local to_install="${2}"
-	if [ -z "${to_install}" ]; then
-		to_install="${to_check}"
+	if [ -z "${2+x}" ]; then
+		local to_install="${to_check}"
+	else
+		local to_install="${2}"
 	fi
 
 	local pms=(
@@ -33,7 +34,7 @@ function check_or_install()
 		for pm in "${pms[@]}"; do
 			if [ -x "$(command -v ${pm})" ]; then
 				echo "[:-] will install ${to_install} using ${pm}"
-				${pm} install ${to_install}
+				${pm} install -y "${to_install}"
 				if [[ $? > 0 ]]; then
 					echo "[:(] installation failed"
 					exit 1
@@ -78,7 +79,7 @@ function gen_tag()
 		if [ "${for_backup}" == 'true' ]; then
 			if [ "${key}" == 'tidb.version' ]; then
 				local val="${val%%+*}"
-				if [ "${val}" == "nightly" ]; then
+				if [ "${val}" == 'nightly' ]; then
 					local val="${nightly_major}"
 				else
 					# Consider versions with the same major number are compatible in storage
