@@ -1,13 +1,20 @@
 help = write bench score to meta db
-abbr = bench.rec
-cmd = record.bash
+
+[arg]
+tag-from-keys|keys = 'bench.workload,bench.workload.tag,tidb.version'
+
+[arg2env]
+bench.tag-from-keys = tag-from-keys
 
 [env]
+bench.tag-from-keys = read
+tidb.version.nightly-major = read
+
 bench.meta.host = may-read
 bench.meta.port = may-read
 bench.meta.db-name = may-read
-bench.start = may-read
-bench.run.start = may-read
+bench.begin = may-read
+bench.run.begin = may-read
 bench.run.end = may-read
 tidb.version = may-read
 bench.workload = may-read

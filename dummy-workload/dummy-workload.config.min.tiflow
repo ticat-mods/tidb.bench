@@ -1,5 +1,5 @@
 help = config dumb workload
-abbr = dwl.conf
+abbr = dwl.conf.min
 
 [val2env]
 bench.dummy-workload.scale = 123456

@@ -1,15 +1,12 @@
 help = generate backup tag from specified env values
 
 [arg]
-keys = 'bench.workload,bench.workload.tag,tidb.version'
-nightly-major-version|nightly-major|nightly = v5
+tag-from-keys|keys = 'tidb.cluster,bench.workload,bench.workload.tag,tidb.version'
 
 [arg2env]
-tidb.backup.tag-from-keys = keys
-tidb.backup.nightly-major-version = nightly-major-version
+tidb.backup.tag-from-keys = tag-from-keys
 
 [env]
+tidb.version.nightly-major = read
 tidb.backup.tag-from-keys = read
-tidb.backup.nightly-major-version = read
 tidb.backup.tag = write
-bench.tag = write
