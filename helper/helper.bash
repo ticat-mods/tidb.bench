@@ -29,11 +29,10 @@ function gen_tag()
 
 		if [ "${for_backup}" == 'true' ]; then
 			if [ "${key}" == 'tidb.version' ]; then
+				local val="${val%%+*}"
 				if [ "${val}" == "nightly" ]; then
 					local val="${nightly_major}"
 				else
-					local val="${val%%+*}"
-
 					# Consider versions with the same major number are compatible in storage
 					local val="${val%%.*}"
 				fi
