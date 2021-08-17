@@ -1,0 +1,33 @@
+help = run TPCC benchmark
+
+[arg]
+tables|table|tb = ''
+table-size|size = ''
+test-name|name = oltp_point_select
+threads|thread|thrd|thd|t|T = ''
+duration|dur|d|D = ''
+host|h|H = ''
+port|p|P = ''
+user|u|U = root
+
+[arg2env]
+bench.sysbench.threads = threads
+bench.sysbench.tables = tables
+bench.sysbench.table-size = table-size
+bench.sysbench.test-name = test-name
+bench.sysbench.duration = duration
+mysql.host = host
+mysql.port = port
+mysql.user = user
+
+[env]
+bench.sysbench.threads|thread|thrd|terminal|term|t|T = read
+bench.sysbench.tables|table|tb = read
+bench.sysbench.table-size|size = read
+bench.sysbench.test-name|name = read
+bench.sysbench.duration|dur|d|D|time = read
+mysql.host = read
+mysql.port = read
+mysql.user = read
+bench.run.log = write
+bench.run.score = write

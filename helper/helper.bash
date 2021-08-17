@@ -6,6 +6,54 @@ function parse_tpmc()
 	cat "${log}" | grep Summary | grep 'NEW_ORDER ' | awk -F 'TPM: ' '{print $2}' | awk '{print $1}' | awk -F ',' '{print $1}'
 }
 
+function parse_sysbench_events()
+{
+	local log="${1}"
+	cat "${log}" | grep "total number of events" | awk -F 'events: ' '{print $2}' | awk '{print $1}'
+}
+
+function check_or_install()
+{
+	local to_check="${1}"
+	local to_install="${2}"
+	if [ -z "${to_install}" ]; then
+		to_install="${to_check}"
+	fi
+
+	local pms=(
+		'yum'
+		'apt-get'
+		'brew'
+	)
+
+	if ! [ -x "$(command -v ${to_check})" ]; then
+		echo "[:-] command ${to_check} not found"
+
+		local ok='false'
+		for pm in "${pms[@]}"; do
+			if [ -x "$(command -v ${pm})" ]; then
+				echo "[:-] will install ${to_install} using ${pm}"
+				${pm} install ${to_install}
+				if [[ $? > 0 ]]; then
+					echo "[:(] installation failed"
+					exit 1
+				else
+					echo "[:)] installed ${to_install}"
+					ok='true'
+					break 1
+				fi
+			fi
+		done
+
+		if [ "${ok}" != 'true' ]; then
+			echo "[:(] no supported package manager found, please install ${to_install}(${to_check}) manually"
+			exit 2
+		fi
+	else
+		echo "[:)] command ${to_check} installed"
+	fi
+}
+
 function gen_tag()
 {
 	local keys_str="${1}"

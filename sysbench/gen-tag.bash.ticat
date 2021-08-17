@@ -1,0 +1,8 @@
+help = generate tag by data scale
+abbr = gen-tag|tag
+
+[env]
+bench.sysbench.tables|table|tb = read
+bench.sysbench.table-size|size = read
+bench.sysbench.test-name|name = read
+bench.workload.tag = write

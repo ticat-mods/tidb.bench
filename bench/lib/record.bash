@@ -59,7 +59,7 @@ function write_record()
 		run_end TIMESTAMP,                          \
 		version VARCHAR(32),                        \
 		threads INT(11),                            \
-		score DOUBLE(6,2),                          \
+		score DECIMAL(10,2),                        \
 		tag VARCHAR(512),                           \
 		PRIMARY KEY(                                \
 			workload,                               \
