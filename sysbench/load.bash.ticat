@@ -31,5 +31,3 @@ mysql.host = read
 mysql.port = read
 mysql.user = read
 
-[dep]
-sysbench = to load the bench data

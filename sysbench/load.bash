@@ -13,8 +13,10 @@ port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 db=sbtest
 
-mysql -h "${host}" -P "${port}" -u "${user}" -e "set global tidb_disable_txn_auto_retry = off"
+mysql -h "${host}" -P "${port}" -u "${user}" -e "SET GLOBAL tidb_disable_txn_auto_retry = 'OFF'"
 mysql -h "${host}" -P "${port}" -u "${user}" -e "CREATE DATABASE IF NOT EXISTS ${db}"
+
+check_or_install sysbench
 
 sysbench \
 	--mysql-host="${host}" \

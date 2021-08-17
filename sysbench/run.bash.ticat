@@ -31,6 +31,3 @@ mysql.port = read
 mysql.user = read
 bench.run.log = write
 bench.run.score = write
-
-[dep]
-sysbench = to run the bench
