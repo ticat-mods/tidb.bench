@@ -8,8 +8,6 @@ env=`cat "${session}/env"`
 #
 workload=`must_env_val "${env}" 'bench.workload'`
 
-ticat=`must_env_val "${env}" 'sys.paths.ticat'`
-
 run_begin=`must_env_val "${env}" 'bench.run.begin'`
 run_end=`must_env_val "${env}" 'bench.run.end'`
 version=`must_env_val "${env}" 'tidb.version'`
@@ -84,6 +82,6 @@ function write_record()
 }
 
 # The main score table
-write_record 'score'
+write_record 'scores'
 # The detail table, other mods may alter(add cols) it
 write_record 'detail'

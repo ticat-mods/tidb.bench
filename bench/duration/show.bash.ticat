@@ -1,0 +1,18 @@
+help = show records of current bench
+abbr = display
+
+[arg]
+event-prefix|event = ''
+host|h|H = ''
+port|p|P = ''
+db-name|db = ''
+
+[arg2env]
+bench.meta.host = host
+bench.meta.port = port
+bench.meta.db-name = db-name
+
+[env]
+bench.meta.host = may-read
+bench.meta.port = may-read
+bench.meta.db-name = may-read
