@@ -1,5 +1,4 @@
 help = write bench score to meta db
-abbr = display
 
 [arg]
 tag-from-keys|keys = 'bench.workload,bench.workload.tag,tidb.version'
@@ -9,7 +8,6 @@ bench.tag-from-keys = tag-from-keys
 
 [env]
 bench.tag-from-keys = read
-tidb.version.nightly-major = read
 
 bench.meta.host = may-read
 bench.meta.port = may-read
@@ -23,6 +21,8 @@ bench.run.score = may-read
 
 # TODO: remove workload here
 # bench.${workload}.threads = may-read
+
+bench.tag = write
 
 [dep]
 mysql = as client, to write record data

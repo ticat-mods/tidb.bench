@@ -1,4 +1,5 @@
 help = show records of current bench
+abbr = display
 
 [arg]
 host|h|H = ''

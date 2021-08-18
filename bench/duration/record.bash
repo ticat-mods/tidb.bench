@@ -13,7 +13,7 @@ if [ -z "${event}" ]; then
 	exit 1
 fi
 
-tag=`env_val "${env}" "bench.duration.event-tag"`
+tag=`env_val "${env}" "bench.tag"`
 
 event_begin=`must_env_val "${env}" "${event}.begin"`
 event_end=`must_env_val "${env}" "${event}.end"`

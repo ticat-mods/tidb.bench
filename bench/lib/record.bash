@@ -15,8 +15,8 @@ threads=`must_env_val "${env}" "bench.${workload}.threads"`
 score=`must_env_val "${env}" 'bench.run.score'`
 
 keys=`must_env_val "${env}" 'bench.tag-from-keys'`
-nightly_major=`must_env_val "${env}" 'tidb.version.nightly-major'`
-tag=`gen_tag "${keys}" 'false' "${nightly_major}"`
+tag=`gen_tag "${keys}" 'false'`
+echo "bench.tag=${tag}" >> "${session}/env"
 
 bench_begin=`env_val "${env}" 'bench.begin'`
 if [ -z "${bench_begin}" ]; then

@@ -3,9 +3,9 @@ abbr = display
 
 [arg]
 event-prefix|event = ''
-host|h|H = ''
-port|p|P = ''
-db-name|db = ''
+host|h|H = 127.0.0.1
+port|p|P = 4100
+db-name|db = bench_meta
 
 [arg2env]
 bench.meta.host = host
