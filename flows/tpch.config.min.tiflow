@@ -1,9 +1,17 @@
 help = setup config: use minimum data scale
 abbr = tpch.conf.test
 
+[arg]
+load-threads|load-thread|ld = 1
+threads|thread|thrd|t|T = 1
+scale-factor|scale|sf = 1
+duration|dur = 1m
+
+[arg2env]
+bench.tpch.load.threads = load-threads
+bench.tpch.threads = threads
+bench.tpch.scale-factor = scale-factor
+bench.tpch.duration = duration
+
 [val2env]
-bench.tpch.load.threads = 1
-bench.tpch.threads = 1
-bench.tpch.scale-factor = 1
-bench.tpch.duration = 1m
 bench.workload = tpch
