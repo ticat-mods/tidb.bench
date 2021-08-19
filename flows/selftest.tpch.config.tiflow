@@ -1,4 +1,4 @@
 help = setup all configs for quick test @config
 abbr = tpch.test.conf|cfg
 
-flow = tidb.yaml.predefined test-flash : tidb.set-confirm no : tpch.config.min
+flow = tidb.yaml.predefined test+tiflash : tidb.set-confirm no : tpch.config.min

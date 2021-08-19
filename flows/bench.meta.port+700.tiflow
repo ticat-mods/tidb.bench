@@ -3,7 +3,7 @@ tags = config
 abbr = bench.meta.p+700|+700|700
 
 flow = mark-time bench.begin : \
-	tidb.new.indep yaml=test+700 cluster=[[bench.meta.cluster]] ver=[[bench.meta.version]] cfm=false skip-exist=true
+	tidb.new.indep yaml=min+700 cluster=[[bench.meta.cluster]] ver=[[bench.meta.version]] cfm=false skip-exist=true
 
 [args]
 db-name|db = bench_meta
