@@ -37,7 +37,7 @@ if [ "${analyze}" == 'false' ]; then
 fi
 
 for ((i=1;i<=tables;i++)); do
-	query="analyze table ${db}.${db}${i}"
+	query="analyze table ${db}.sbtest${i}"
 	echo "[:-] ${query} begin"
 	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
 	echo "[:)] ${query} done"
