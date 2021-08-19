@@ -1,10 +1,12 @@
 help = write bench score to meta db
 
 [arg]
+tag-add-from-keys|add-keys|add-key = ''
 tag-from-keys|keys = 'bench.workload,bench.workload.tag,tidb.version'
 
 [arg2env]
 bench.tag-from-keys = tag-from-keys
+bench.tag-add-from-keys = tag-add-from-keys
 
 [env]
 bench.tag-from-keys = read

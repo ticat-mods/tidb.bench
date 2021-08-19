@@ -3,6 +3,7 @@ set -euo pipefail
 
 session="${1}"
 env=`cat "${session}/env"`
+shift
 
 ## Args handling
 #
@@ -14,14 +15,23 @@ version=`must_env_val "${env}" 'tidb.version'`
 threads=`must_env_val "${env}" "bench.${workload}.threads"`
 score=`must_env_val "${env}" 'bench.run.score'`
 
-keys=`must_env_val "${env}" 'bench.tag-from-keys'`
-tag=`gen_tag "${keys}" 'false'`
-echo "bench.tag=${tag}" >> "${session}/env"
-
 bench_begin=`env_val "${env}" 'bench.begin'`
 if [ -z "${bench_begin}" ]; then
 	bench_begin='0'
 fi
+
+## Tag generating
+#
+keys=`must_env_val "${env}" 'bench.tag-from-keys'`
+tag=`gen_tag "${keys}" 'false'`
+
+tag_expend_keys=`env_val "${env}" 'bench.tag-add-from-keys'`
+if [ -z "${tag_expend_keys}" ]; then
+	tag_expend=''
+else
+	tag_expend=`gen_tag "${tag_expend_keys}" 'false' 'true'`
+fi
+echo "bench.tag=${tag}${tag_expend}" >> "${session}/env"
 
 ## Write the text record, in case no meta db
 #

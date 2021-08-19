@@ -6,4 +6,12 @@ env=`cat "${env_file}"`
 
 keys=`must_env_val "${env}" 'bench.tag-from-keys'`
 tag=`gen_tag "${keys}" 'false'`
-echo "bench.tag=${tag}" >> "${env_file}"
+
+tag_expend_keys=`env_val "${env}" 'bench.tag-add-from-keys'`
+if [ -z "${tag_expend_keys}" ]; then
+	tag_expend=''
+else
+	tag_expend=`gen_tag "${tag_expend_keys}" 'false' 'true'`
+fi
+
+echo "bench.tag=${tag}${tag_expend}" >> "${env_file}"
