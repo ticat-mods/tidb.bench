@@ -4,5 +4,10 @@ set -euo pipefail
 env_file="${1}/env"
 env=`cat "${env_file}"`
 
+threads=`must_env_val "${env}" 'bench.tpcc.threads'`
+duration=`must_env_val "${env}" 'bench.tpcc.duration'`
 wh=`must_env_val "${env}" 'bench.tpcc.warehouses'`
-echo "bench.workload.tag=wh-${wh}" >> "${env_file}"
+
+tag="wh=${wh}-t=${threads}-dur=${duration}"
+
+echo "bench.workload.tag=${tag}" >> "${env_file}"

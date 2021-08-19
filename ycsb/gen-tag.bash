@@ -15,4 +15,6 @@ up=`must_env_val "${env}" 'bench.ycsb.update-proportion'`
 sp=`must_env_val "${env}" 'bench.ycsb.scan-proportion'`
 rmwp=`must_env_val "${env}" 'bench.ycsb.read-modify-write-proportion'`
 
-echo "bench.workload.tag=bs-${bs}-cc-${cc}-c-${c}-iso-${iso}-rd-${rd}-r.i.u.s.rmw-${rp},${ip},${up},${sp},${rmwp}" >> "${env_file}"
+tag="b=-${bs}-cc=${cc}-cnt=${c}-iso=${iso}-dist=${rd}-r+i+u+s+rmw=${rp}+${ip}+${up}+${sp}+${rmwp}"
+
+echo "bench.workload.tag=${tag}" >> "${env_file}"

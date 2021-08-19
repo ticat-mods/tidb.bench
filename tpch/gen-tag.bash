@@ -4,5 +4,18 @@ set -euo pipefail
 env_file="${1}/env"
 env=`cat "${env_file}"`
 
+tiflash=`must_env_val "${env}" 'bench.tpch.tiflash'`
+tiflash=`to_true "${tiflash}"`
+if [ "${tiflash}" == 'true' ]; then
+	tiflash="-tiflash"
+else
+	tiflash=""
+fi
+
+threads=`must_env_val "${env}" 'bench.tpch.threads'`
+duration=`must_env_val "${env}" 'bench.tpch.duration'`
 sf=`must_env_val "${env}" 'bench.tpch.scale-factor'`
-echo "bench.workload.tag=sf-${sf}" >> "${env_file}"
+
+tag="sf=${sf}-t=${threads}-dur=${duration}${tiflash}"
+
+echo "bench.workload.tag=${tag}" >> "${env_file}"

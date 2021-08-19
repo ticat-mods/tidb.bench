@@ -5,4 +5,5 @@ bench.tpch.load.threads = 4
 bench.tpch.threads = 1
 bench.tpch.scale-factor = 1
 bench.tpch.duration = 10m
+bench.tpch.tiflash = false
 bench.workload = tpch

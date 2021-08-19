@@ -6,12 +6,14 @@ load-threads|load-thread|lt|LT = ''
 threads|thread|t|T = ''
 scale-factor|sf|SF = ''
 duration|dur|d|D = ''
+with-tiflash|tiflash = ''
 
 [arg2env]
 bench.tpch.load.threads = load-threads
 bench.tpch.threads = threads
 bench.tpch.scale-factor = scale-factor
 bench.tpch.duration = duration
+bench.tpch.tiflash = with-tiflash
 
 [val2env]
 bench.workload = tpch
