@@ -13,7 +13,7 @@ test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
-db=sbtest
+db='test'
 
 log="${session}/sysbench.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"

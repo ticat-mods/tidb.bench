@@ -11,7 +11,7 @@ test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
-db=sbtest
+db='test'
 
 mysql -h "${host}" -P "${port}" -u "${user}" -e "SET GLOBAL tidb_disable_txn_auto_retry = 'OFF'"
 mysql -h "${host}" -P "${port}" -u "${user}" -e "CREATE DATABASE IF NOT EXISTS ${db}"
