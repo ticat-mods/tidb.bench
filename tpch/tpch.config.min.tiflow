@@ -6,7 +6,7 @@ load-threads|load-thread|ld = 1
 threads|thread|thrd|t|T = 1
 scale-factor|scale|sf = 1
 duration|dur = 1m
-with-tiflash|tiflash = false
+with-tiflash|tiflash = true
 
 [arg2env]
 bench.tpch.load.threads = load-threads

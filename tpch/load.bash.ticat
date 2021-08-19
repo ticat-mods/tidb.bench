@@ -20,6 +20,7 @@ mysql.user = user
 [env]
 bench.tpch.load.threads|thread|thrd|terminal|term|t|T = read
 bench.tpch.scale-factor|scale-factor|sf = read
+bench.tpch.tiflash = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
