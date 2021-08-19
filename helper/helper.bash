@@ -6,6 +6,12 @@ function parse_tpmc()
 	cat "${log}" | grep Summary | grep 'NEW_ORDER ' | awk -F 'TPM: ' '{print $2}' | awk '{print $1}' | awk -F ',' '{print $1}'
 }
 
+function parse_tpch()
+{
+	local log="${1}"
+	cat "${log}" | grep Summary | awk -F 'Q*: ' '{print $2}' | awk -F 's' '{print $1}' | awk '{sum += 100/$1} END {print sum}'
+}
+
 function parse_sysbench_events()
 {
 	local log="${1}"

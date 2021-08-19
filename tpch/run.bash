@@ -23,3 +23,6 @@ tiup bench tpch \
 	-H "${host}" \
 	-U "${user}" \
 	--sf "${sf}" --time "${duration}" run | tee "${log}"
+
+score=`parse_tpch "${log}"`
+echo "bench.run.score=${score}" >> "${session}/env"
