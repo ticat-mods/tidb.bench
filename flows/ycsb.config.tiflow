@@ -1,0 +1,35 @@
+help = config YCSB workload
+abbr = ycsb.conf
+
+[arg]
+load-threads|load-thread|lt|LT = ''
+threads|thread|t|T = ''
+batch-size|batchsize|bs = ''
+conn-count|conncount|cc = ''
+count|c = ''
+isolation|iso = ''
+read-all-fields|readallfields|raf = ''
+request-distribution|rd = ''
+read-proportion|readproportion|rp = ''
+insert-proportion|insertproportion|ip = ''
+update-proportion|up = ''
+read-modify-write-proportion|readmodifywriteproportion|rmwp = ''
+scan-proportion|scanproportion|sp = ''
+
+[arg2env]
+bench.ycsb.load.threads = load-threads
+bench.ycsb.threads = threads
+bench.ycsb.read-all-fields = read-all-fields
+bench.ycsb.batch-size = batch-size
+bench.ycsb.conn-count = conn-count
+bench.ycsb.count = count
+bench.ycsb.isolation = isolation
+bench.ycsb.request-distribution = request-distribution
+bench.ycsb.read-proportion = read-proportion
+bench.ycsb.insert-proportion = insert-proportion
+bench.ycsb.update-proportion = update-proportion
+bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
+bench.ycsb.scan-proportion = scan-proportion
+
+[val2env]
+bench.workload = ycsb

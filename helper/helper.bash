@@ -12,6 +12,12 @@ function parse_sysbench_events()
 	cat "${log}" | grep "total number of events" | awk -F 'events: ' '{print $2}' | awk '{print $1}'
 }
 
+function parse_ycsb()
+{
+	local log="${1}"
+	cat "${log}" | grep "OPS:" | awk -F 'OPS: ' '{print $2}' | awk -F ',' '{print $1}' | awk '{sum += $1} END {print sum}'
+}
+
 function check_or_install()
 {
 	local to_check="${1}"
