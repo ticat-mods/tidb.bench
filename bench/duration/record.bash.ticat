@@ -8,8 +8,7 @@ event-prefix|event = ''
 bench.meta.host = may-read
 bench.meta.port = may-read
 bench.meta.db-name = may-read
-
-# bench.tag = may-read
+bench.tag = may-read
 
 [dep]
 mysql = as client, to write duration data

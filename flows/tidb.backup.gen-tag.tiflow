@@ -1,5 +1,6 @@
 help = gen workload tag, then gen backup tag
 abbr = tidb.backup.tag
+trivial = 1
 
 flow = [[bench.workload]].gen-tag : tidb.lib.backup.gen-tag
 

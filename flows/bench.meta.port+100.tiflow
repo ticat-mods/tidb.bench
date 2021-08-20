@@ -1,9 +1,7 @@
-help = start/ensure a local db cluster for bench meta recording, use default+100 ports
+help = start|ensure a local db cluster for bench meta recording, use default+100 ports
 tags = config
 abbr = bench.meta.p+100|+100|100
-
-flow = mark-time bench.begin : \
-	tidb.new.indep yaml=min+100 cluster=[[bench.meta.cluster]] ver=[[bench.meta.version]] cfm=false skip-exist=true
+trivial = 1
 
 [args]
 db-name|db = bench_meta
@@ -21,3 +19,8 @@ bench.meta.port = 4100
 
 [env]
 bench.begin = write
+
+[flow/]
+	mark-time bench.begin :
+	tidb.new.indep yaml=min+100 cluster=[[bench.meta.cluster]] ver=[[bench.meta.version]] cfm=false skip-exist=true
+[/flow]

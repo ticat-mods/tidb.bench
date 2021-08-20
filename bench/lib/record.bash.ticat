@@ -21,8 +21,7 @@ tidb.version = may-read
 bench.workload = may-read
 bench.run.score = may-read
 
-# TODO: remove workload here
-# bench.${workload}.threads = may-read
+bench.[[bench.workload]].threads = read
 
 bench.tag = write
 

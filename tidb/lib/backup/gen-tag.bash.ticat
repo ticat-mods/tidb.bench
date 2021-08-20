@@ -7,6 +7,9 @@ tag-from-keys|keys = 'tidb.cluster,bench.workload,bench.workload.tag,tidb.versio
 tidb.backup.tag-from-keys = tag-from-keys
 
 [env]
+**[[*tidb.backup.tag-from-keys*]]** = read
+
 tidb.version.nightly-major = read
 tidb.backup.tag-from-keys = read
+
 tidb.backup.tag = write
