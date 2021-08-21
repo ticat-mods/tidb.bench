@@ -4,17 +4,29 @@ set -euo pipefail
 env_file="${1}/env"
 env=`cat "${env_file}"`
 
-bs=`must_env_val "${env}" 'bench.ycsb.batch-size'`
-cc=`must_env_val "${env}" 'bench.ycsb.conn-count'`
-c=`must_env_val "${env}" 'bench.ycsb.count'`
-iso=`must_env_val "${env}" 'bench.ycsb.isolation'`
-rd=`must_env_val "${env}" 'bench.ycsb.request-distribution'`
-rp=`must_env_val "${env}" 'bench.ycsb.read-proportion'`
-ip=`must_env_val "${env}" 'bench.ycsb.insert-proportion'`
-up=`must_env_val "${env}" 'bench.ycsb.update-proportion'`
-sp=`must_env_val "${env}" 'bench.ycsb.scan-proportion'`
-rmwp=`must_env_val "${env}" 'bench.ycsb.read-modify-write-proportion'`
+tag=''
 
-tag="b=-${bs}-cc=${cc}-cnt=${c}-iso=${iso}-dist=${rd}-r+i+u+s+rmw=${rp}+${ip}+${up}+${sp}+${rmwp}"
+function append()
+{
+	local key="${1}"
+	local name="${2}"
+	local val=`env_val "${env}" "${key}"`
+	if [ ! -z "${key}" ]; then
+		tag="${tag}-${name}=${val}"
+	fi
+}
+
+append 'bs' 'bench.ycsb.batch-size'
+append 'cnt' 'bench.ycsb.count'
+append 'cc' 'bench.ycsb.conn-count'
+append 'iso' 'bench.ycsb.isolation'
+append 'rd' 'bench.ycsb.request-distribution'
+append 'rp' 'bench.ycsb.read-proportion'
+append 'ip' 'bench.ycsb.insert-proportion'
+append 'up' 'bench.ycsb.update-proportion'
+append 'sp' 'bench.ycsb.scan-proportion'
+append 'rmwp' 'bench.ycsb.read-modify-write-proportion'
+
+tag="ycsb+${tag}"
 
 echo "bench.workload.tag=${tag}" >> "${env_file}"

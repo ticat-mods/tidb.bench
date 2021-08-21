@@ -67,6 +67,12 @@ function check_or_install()
 	fi
 }
 
+function get_workload_data_tag()
+{
+	local val="${1}"
+	echo "${val%+*}"
+}
+
 function convert_ver_dir_to_hash_in_tag()
 {
 	local val="${1}"
@@ -111,6 +117,9 @@ function gen_tag()
 			local val=`must_env_val "${env}" "${key}"`
 			if [ -z "${val}" ]; then
 				exit 1
+			fi
+			if [ "${key}" == 'bench.workload.tag' ]; then
+				local val=`get_workload_data_tag "${val}"`
 			fi
 			if [ "${key}" == 'tidb.version' ]; then
 				local val="${val%+*}"
