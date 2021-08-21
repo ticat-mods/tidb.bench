@@ -18,7 +18,7 @@ if [ ! -z "${duration}" ]; then
 fi
 
 if [ ! -z "${soft_tag}" ]; then
-	tag="${tag}+${soft_tag}"
+	tag="${tag}+${soft_tag:1}"
 fi
 
 echo "bench.workload.tag=${tag}" >> "${env_file}"

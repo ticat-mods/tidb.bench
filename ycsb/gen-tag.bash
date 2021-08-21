@@ -27,6 +27,6 @@ append 'up' 'bench.ycsb.update-proportion'
 append 'sp' 'bench.ycsb.scan-proportion'
 append 'rmwp' 'bench.ycsb.read-modify-write-proportion'
 
-tag="ycsb+${tag}"
+tag="ycsb+${tag:1}"
 
 echo "bench.workload.tag=${tag}" >> "${env_file}"
