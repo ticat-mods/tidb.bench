@@ -4,10 +4,21 @@ set -euo pipefail
 env_file="${1}/env"
 env=`cat "${env_file}"`
 
-threads=`must_env_val "${env}" 'bench.tpcc.threads'`
-duration=`must_env_val "${env}" 'bench.tpcc.duration'`
 wh=`must_env_val "${env}" 'bench.tpcc.warehouses'`
+tag="wh=${wh}"
 
-tag="wh=${wh}-t=${threads}-dur=${duration}"
+soft_tag=''
+threads=`env_val "${env}" 'bench.tpcc.threads'`
+if [ ! -z "${threads}" ]; then
+	soft_tag="${soft_tag}-t=${threads}"
+fi
+duration=`env_val "${env}" 'bench.tpcc.duration'`
+if [ ! -z "${duration}" ]; then
+	soft_tag="${soft_tag}-t=${duration}"
+fi
+
+if [ ! -z "${soft_tag}" ]; then
+	tag="${tag}+${soft_tag}"
+fi
 
 echo "bench.workload.tag=${tag}" >> "${env_file}"

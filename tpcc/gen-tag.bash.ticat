@@ -3,4 +3,7 @@ abbr = gen-tag|tag
 
 [env]
 bench.tpcc.warehouses = read
+bench.tpcc.threads = may-read
+bench.tpcc.duration = may-read
+
 bench.workload.tag = write

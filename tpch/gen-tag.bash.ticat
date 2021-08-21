@@ -3,4 +3,9 @@ abbr = gen-tag|tag
 
 [env]
 bench.tpch.scale-factor = read
+bench.tpch.tiflash = tread
+
+bench.tpch.duration = may-read
+bench.tpch.threads = may-read
+
 bench.workload.tag = write
