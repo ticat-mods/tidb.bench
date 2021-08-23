@@ -1,4 +1,5 @@
 help = generate backup tag from specified env values
+trivial = 9
 
 flow = [[bench.workload]].tag.data
 
