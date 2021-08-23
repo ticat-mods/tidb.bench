@@ -11,7 +11,7 @@ if [ -z "${meta_host}" ]; then
 	exit
 fi
 meta_port=`must_env_val "${env}" 'bench.meta.port'`
-meta_db=`must_env_val "${env}" 'bench.meta.db'`
+meta_db=`must_env_val "${env}" 'bench.meta.db-name'`
 
 # The context of one bench
 bench_tag=`env_val "${env}" 'bench.tag'`
@@ -26,7 +26,6 @@ if [ -z "${run_begin}" ]; then
 fi
 run_end=`must_env_val "${env}" 'bench.run.end'`
 run_log=`must_env_val "${env}" 'bench.run.log'`
-run_tag=`env_val "${env}" 'bench.run.tag'`
 
 # Suggest pri-keys, because they are pri-keys in the scores table:
 #	workload VARCHAR(64),

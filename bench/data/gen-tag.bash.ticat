@@ -1,0 +1,18 @@
+help = generate backup tag from specified env values
+
+flow = [[bench.workload]].tag.data
+
+[arg]
+tag-from-keys|keys = tidb.cluster,bench.workload,workload.tag.data,tidb.version
+
+[arg2env]
+tidb.data.tag-from-keys = tag-from-keys
+
+[env]
+bench.workload = read
+tidb.version.nightly-major = read
+
+tidb.data.tag-from-keys = read
+**[[*tidb.data.tag-from-keys*]]** = read
+
+tidb.data.tag = write

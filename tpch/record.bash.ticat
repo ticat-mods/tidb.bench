@@ -8,7 +8,6 @@ bench.meta.db-name = may-read
 bench.begin = may-read
 bench.tag = may-read
 
-bench.run.tag = may-read
 bench.run.begin = may-read
 bench.run.end = may-read
 bench.run.log = may-read

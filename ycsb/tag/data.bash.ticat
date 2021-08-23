@@ -1,0 +1,4 @@
+help = generate a fixed tag
+
+[val2env]
+workload.tag.data = ycsb

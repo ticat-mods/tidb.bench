@@ -9,11 +9,11 @@ ticat hub.add innerr/bench.tidb.ticat
 
 ## Progress
 ```
------  Jitter detecting
+*----  Jitter detecting
 -----  Simple auto config tuning
------  Workloads: TPCC
------  Workloads: TPCH
------  Workloads: sysbench
------  Workloads: ycsb
+*****  Workloads: TPCC
+*****  Workloads: TPCH
+*****  Workloads: sysbench
+*****  Workloads: ycsb
 -----  (TBD)
 ```

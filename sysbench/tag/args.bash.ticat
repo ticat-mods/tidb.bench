@@ -1,0 +1,7 @@
+help = generate tag by bench args
+
+[env]
+bench.sysbench.threads = read
+bench.sysbench.duration = read
+
+workload.tag.args = write

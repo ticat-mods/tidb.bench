@@ -1,0 +1,7 @@
+help = config dumb workload
+
+[val2env]
+bench.dummy-workload.scale = 123456
+bench.dummy-workload.threads = 1
+
+bench.workload = dummy-workload

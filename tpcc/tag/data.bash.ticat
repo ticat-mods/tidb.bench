@@ -1,0 +1,5 @@
+help = generate tag by data scale
+
+[env]
+bench.tpcc.warehouses = read
+workload.tag.data = write

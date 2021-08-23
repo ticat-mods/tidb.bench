@@ -1,0 +1,8 @@
+help = config YCSB threads
+abbr = thread|thrd|t|T
+
+[arg]
+threads|thread|t|T = ''
+
+[arg2env]
+bench.ycsb.threads = threads

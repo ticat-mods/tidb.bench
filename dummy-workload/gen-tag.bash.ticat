@@ -1,4 +1,0 @@
-help = write a fixed backup tag name to env
-
-[val2env]
-bench.workload.tag = a-dummy-workload-data-name

@@ -2,7 +2,7 @@ help = genarate bench tag by specified keys
 
 [arg]
 tag-add-from-keys|add-keys|add-key = ''
-tag-from-keys|keys = bench.workload,bench.workload.tag,tidb.version
+tag-from-keys|keys = tidb.cluster,workload.tag.data,workload.tag.args
 
 [arg2env]
 bench.tag-from-keys = tag-from-keys

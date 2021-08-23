@@ -1,0 +1,18 @@
+help = generate tag by bench arguments
+
+[env]
+bench.ycsb.load.threads = read
+bench.ycsb.threads = read
+bench.ycsb.read-all-fields = read
+bench.ycsb.batch-size = read
+bench.ycsb.conn-count = read
+bench.ycsb.count = read
+bench.ycsb.isolation = read
+bench.ycsb.request-distribution = read
+bench.ycsb.read-proportion = read
+bench.ycsb.insert-proportion = read
+bench.ycsb.update-proportion = read
+bench.ycsb.read-modify-write-proportion = read
+bench.ycsb.scan-proportion = read
+
+workload.tag.args = write

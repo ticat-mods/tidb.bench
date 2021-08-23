@@ -1,0 +1,7 @@
+help = generate tag by scale factor
+
+[env]
+bench.tpch.scale-factor = read
+bench.tpch.tiflash = tread
+
+workload.tag.data = write

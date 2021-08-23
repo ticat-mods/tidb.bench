@@ -1,2 +1,0 @@
-help = reset cluster, load TPCC and run
-flow = db.rm : db.deploy : db.up : my.conf.tidb : tpcc.load : tpcc.run : db.down : db.rm

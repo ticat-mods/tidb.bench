@@ -1,0 +1,11 @@
+help = config dumb workload
+abbr = thread|t|T
+
+[arg]
+threads|thread|t|T = ''
+
+[arg2env]
+bench.dummy-workload.threads = threads
+
+[val2env]
+bench.workload = dummy-workload

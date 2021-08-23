@@ -1,0 +1,37 @@
+help = setup config: use minimum data scale
+
+help = config YCSB workload
+abbr = ycsb.conf
+
+[arg]
+load-threads|load-thread|lt|LT = 1
+threads|thread|t|T = 1
+batch-size|batchsize|bs = 128
+conn-count|conncount|cc = 128
+count|c = 1000000
+isolation|iso = 0
+read-all-fields|readallfields|raf = true
+request-distribution|rd = 'uniform'
+read-proportion|readproportion|rp = 0
+insert-proportion|insertproportion|ip = 0
+update-proportion|up = 0
+read-modify-write-proportion|readmodifywriteproportion|rmwp = 0
+scan-proportion|scanproportion|sp = 0
+
+[arg2env]
+bench.ycsb.load.threads = load-threads
+bench.ycsb.threads = threads
+bench.ycsb.read-all-fields = read-all-fields
+bench.ycsb.batch-size = batch-size
+bench.ycsb.conn-count = conn-count
+bench.ycsb.count = count
+bench.ycsb.isolation = isolation
+bench.ycsb.request-distribution = request-distribution
+bench.ycsb.read-proportion = read-proportion
+bench.ycsb.insert-proportion = insert-proportion
+bench.ycsb.update-proportion = update-proportion
+bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
+bench.ycsb.scan-proportion = scan-proportion
+
+[val2env]
+bench.workload = ycsb

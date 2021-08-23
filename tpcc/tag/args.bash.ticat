@@ -1,0 +1,7 @@
+help = generate tag by bench args
+
+[env]
+bench.tpcc.threads = read
+bench.tpcc.duration = read
+
+workload.tag.args = write

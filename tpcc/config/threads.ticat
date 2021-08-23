@@ -1,0 +1,11 @@
+help = setup threads
+abbr = thread|thrd|t|T
+
+[arg]
+threads|thread|thrd|thd|t|T = ''
+
+[arg2env]
+bench.tpcc.threads = threads
+
+[val2env]
+bench.workload = tpcc

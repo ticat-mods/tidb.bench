@@ -67,12 +67,6 @@ function check_or_install()
 	fi
 }
 
-function get_workload_data_tag()
-{
-	local val="${1}"
-	echo "${val%+*}"
-}
-
 function convert_ver_dir_to_hash_in_tag()
 {
 	local val="${1}"
@@ -118,9 +112,6 @@ function gen_tag()
 			if [ -z "${val}" ]; then
 				exit 1
 			fi
-			if [ "${key}" == 'bench.workload.tag' ]; then
-				local val=`get_workload_data_tag "${val}"`
-			fi
 			if [ "${key}" == 'tidb.version' ]; then
 				local val="${val%+*}"
 				if [ "${val}" == 'nightly' ] && [ ! -z "${nightly_major}" ]; then
@@ -150,4 +141,45 @@ function gen_tag()
 	fi
 
 	echo "${vals}"
+}
+
+function sysbench_short_name()
+{
+	local name="${1}"
+	local longs=(
+		bulk_insert
+		oltp_common
+		oltp_delete
+		oltp_insert
+		oltp_point_select
+		oltp_read_only
+		oltp_read_write
+		oltp_update_index
+		oltp_update_non_index
+		oltp_write_only
+		select_random_points
+		select_random_ranges
+	)
+	local shorts=(
+		bi
+		c
+		d
+		i
+		ps
+		ro
+		rw
+		ui
+		uni
+		wo
+		srp
+		srr
+	)
+
+	for ((n = 0; n < ${#longs[@]}; n++)); do
+		if [ "${longs[${n}]}" == "${name}" ]; then
+			echo "${shorts[${n}]}"
+			return
+		fi
+	done
+	echo "n_a"
 }

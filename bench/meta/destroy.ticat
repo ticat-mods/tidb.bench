@@ -1,0 +1,7 @@
+help = destroy local db cluster using for bench meta
+abbr = delete|del|rm
+
+flow = tidb.rm.yes [[bench.meta.cluster]]
+
+[env]
+bench.meta.cluster = read
