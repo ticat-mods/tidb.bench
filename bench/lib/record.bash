@@ -71,7 +71,6 @@ function write_record()
 		tag VARCHAR(512),                           \
 		PRIMARY KEY(                                \
 			workload,                               \
-			tag,                                    \
 			bench_begin,                            \
 			run_begin                               \
 		)                                           \
@@ -91,7 +90,4 @@ function write_record()
 	"
 }
 
-# The main score table
 write_record 'scores'
-# The detail table, other mods may alter(add cols) it
-write_record 'detail'

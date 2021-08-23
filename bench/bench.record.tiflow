@@ -2,7 +2,7 @@ help = gen tag and write bench score to meta db
 abbr = bench.rec
 trivial = 1
 
-flow = [[bench.workload]].gen-tag : bench.lib.record
+flow = [[bench.workload]].gen-tag : [[bench.workload]].record : bench.lib.record
 
 [arg]
 tag-add-from-keys|add-keys|add-key = ''
