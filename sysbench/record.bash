@@ -6,7 +6,7 @@ env=`cat "${env_file}"`
 
 # The meta db to create table and insert any records we want
 meta_host=`env_val "${env}" 'bench.meta.host'`
-if [ -z "${meta_host}"]; then
+if [ -z "${meta_host}" ]; then
 	echo "[:-] env 'bench.meta.host' is empty, skipped" >&2
 	exit
 fi
@@ -20,7 +20,7 @@ workload='sysbench'
 
 # The context of one run
 run_begin=`env_val "${env}" 'bench.run.begin'`
-if [ -z "${run_begin}"]; then
+if [ -z "${run_begin}" ]; then
 	echo "[:-] env 'bench.run.begin' is empty, skipped" >&2
 	exit
 fi
