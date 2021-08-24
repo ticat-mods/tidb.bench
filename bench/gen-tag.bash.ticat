@@ -1,4 +1,5 @@
 help = genarate bench tag by specified keys
+trivial = 9
 
 flow = [[bench.workload]].tag.args : [[bench.workload]].tag.data
 
