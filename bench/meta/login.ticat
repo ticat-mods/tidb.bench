@@ -1,0 +1,16 @@
+help = login to meta db
+abbr = l
+
+flow = my.login
+
+[args]
+host|h|H = 127.0.0.1
+port|p|P = 4100
+
+[arg2env]
+mysql.host = host
+mysql.port = port
+
+[env]
+mysql.host = read
+mysql.port = read

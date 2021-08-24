@@ -1,5 +1,7 @@
 help = genarate bench tag by specified keys
 
+flow = [[bench.workload]].tag.args : [[bench.workload]].tag.data
+
 [arg]
 tag-add-from-keys|add-keys|add-key = ''
 tag-from-keys|keys = tidb.cluster,workload.tag.data,workload.tag.args
@@ -9,5 +11,6 @@ bench.tag-from-keys = tag-from-keys
 bench.tag-add-from-keys = tag-add-from-keys
 
 [env]
+bench.workload = read
 bench.tag-from-keys = read
 bench.tag = write
