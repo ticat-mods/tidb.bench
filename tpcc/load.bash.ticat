@@ -26,4 +26,5 @@ mysql.port = read
 mysql.user = read
 
 [dep]
-tiup = to use tiup bench tpcc
+tiup = to use tiup bench TPCC
+mysql = to execute analyze queries
