@@ -186,5 +186,5 @@ function sysbench_short_name()
 
 function timestamp()
 {
-	echo `ticat mark-time | awk '{ print $3 }'`
+	echo `date +%s`
 }
