@@ -17,6 +17,8 @@ echo "bench.run.log=${log}" >> "${session}/env"
 
 echo "SET GLOBAL tidb_multi_statement_mode='ON';" | mysql -P "${port}" -h "${host}" -u "${user}" test
 
+begin=`timestamp`
+
 tiup bench tpch \
 	-T "${threads}" \
 	-P "${port}" \
@@ -24,5 +26,10 @@ tiup bench tpch \
 	-U "${user}" \
 	--sf "${sf}" --time "${duration}" run | tee "${log}"
 
+end=`timestamp`
 score=`parse_tpch "${log}"`
+
+echo "bench.workload=tpch" >> "${session}/env"
+echo "bench.run.begin=${begin}" >> "${session}/env"
+echo "bench.run.end=${end}" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"

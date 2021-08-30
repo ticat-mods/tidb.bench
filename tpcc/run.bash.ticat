@@ -4,14 +4,15 @@ help = run TPCC benchmark
 warehouses|warehouse|wh|WH = ''
 threads|thread|thrd|thd|t|T = ''
 duration|dur|d|D = ''
-host|h|H = ''
-port|p|P = ''
+host|h|H = 127.0.0.1
+port|p|P = 4000
 user|u|U = root
 
 [arg2env]
 bench.tpcc.threads = threads
 bench.tpcc.warehouses = warehouses
 bench.tpcc.duration = duration
+
 mysql.host = host
 mysql.port = port
 mysql.user = user
@@ -20,9 +21,14 @@ mysql.user = user
 bench.tpcc.threads|thread|thrd|terminal|term|t|T = read
 bench.tpcc.warehouses|warehouse|wh = read
 bench.tpcc.duration|dur|d|D|time = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read
+
+bench.workload = write
+bench.run.begin = write
+bench.run.end = write
 bench.run.log = write
 bench.run.score = write
 

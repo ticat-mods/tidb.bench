@@ -18,6 +18,8 @@ db='test'
 log="${session}/sysbench.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
 
+begin=`timestamp`
+
 sysbench \
 	--mysql-host="${host}" \
 	--mysql-port="${port}" \
@@ -31,5 +33,10 @@ sysbench \
 	--table-size="${table_size}" \
 	"${test_name}" run | tee "${log}"
 
+end=`timestamp`
 score=`parse_sysbench_events "${log}"`
+
+echo "bench.workload=sysbench" >> "${session}/env"
+echo "bench.run.begin=${begin}" >> "${session}/env"
+echo "bench.run.end=${end}" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"

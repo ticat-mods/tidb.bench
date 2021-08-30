@@ -6,8 +6,8 @@ table-size|size = ''
 test-name|name = oltp_point_select
 threads|thread|thrd|thd|t|T = ''
 duration|dur|d|D = ''
-host|h|H = ''
-port|p|P = ''
+host|h|H = 127.0.0.1
+port|p|P = 4000
 user|u|U = root
 
 [arg2env]
@@ -16,6 +16,7 @@ bench.sysbench.tables = tables
 bench.sysbench.table-size = table-size
 bench.sysbench.test-name = test-name
 bench.sysbench.duration = duration
+
 mysql.host = host
 mysql.port = port
 mysql.user = user
@@ -26,8 +27,13 @@ bench.sysbench.tables|table|tb = read
 bench.sysbench.table-size|size = read
 bench.sysbench.test-name|name = read
 bench.sysbench.duration|dur|d|D|time = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read
+
+bench.workload = write
+bench.run.begin = write
+bench.run.end = write
 bench.run.log = write
 bench.run.score = write
