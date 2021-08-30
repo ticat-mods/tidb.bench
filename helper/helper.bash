@@ -183,3 +183,8 @@ function sysbench_short_name()
 	done
 	echo "n_a"
 }
+
+function timestamp()
+{
+	echo `ticat mark-time | awk '{ print $3 }'`
+}

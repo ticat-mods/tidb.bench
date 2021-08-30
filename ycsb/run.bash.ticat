@@ -14,8 +14,8 @@ insert-proportion|insertproportion|ip = ''
 update-proportion|up = ''
 read-modify-write-proportion|readmodifywriteproportion|rmwp = ''
 scan-proportion|scanproportion|sp = ''
-host|h|H = ''
-port|p|P = ''
+host|h|H = 127.0.0.1
+port|p|P = 4000
 user|u|U = root
 
 [arg2env]
@@ -32,6 +32,7 @@ bench.ycsb.insert-proportion = insert-proportion
 bench.ycsb.update-proportion = update-proportion
 bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
 bench.ycsb.scan-proportion = scan-proportion
+
 mysql.host = host
 mysql.port = port
 mysql.user = user
@@ -50,9 +51,14 @@ bench.ycsb.insert-proportion = read
 bench.ycsb.update-proportion = read
 bench.ycsb.read-modify-write-proportion = read
 bench.ycsb.scan-proportion = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read
+
+bench.workload = write
+bench.run.begin = write
+bench.run.end = write
 
 [dep]
 tiup = to use tiup bench ycsb

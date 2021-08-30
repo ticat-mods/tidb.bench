@@ -4,8 +4,8 @@ help = run TPCH benchmark
 scale-factor|sf|SF = ''
 threads|thread|thrd|thd|t|T = ''
 duration|dur|d|D = ''
-host|h|H = ''
-port|p|P = ''
+host|h|H = 127.0.0.1
+port|p|P = 4000
 user|u|U = root
 
 [arg2env]
@@ -26,6 +26,9 @@ mysql.host = read
 mysql.port = read
 mysql.user = read
 
+bench.workload = write
+bench.run.begin = write
+bench.run.end = write
 bench.run.log = write
 bench.run.score = write
 

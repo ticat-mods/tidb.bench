@@ -24,6 +24,8 @@ user=`must_env_val "${env}" 'mysql.user'`
 log="${session}/ycsb.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
 
+begin=`timestamp`
+
 tiup bench ycsb run \
 	-T "${threads}" \
 	-P "${port}" \
@@ -42,5 +44,10 @@ tiup bench ycsb run \
 	--requestdistribution "${rd}" \
 	| tee "${log}"
 
+end=`timestamp`
 score=`parse_ycsb "${log}"`
+
+echo "bench.workload=ycsb" >> "${session}/env"
+echo "bench.run.begin=${begin}" >> "${session}/env"
+echo "bench.run.end=${end}" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
