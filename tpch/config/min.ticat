@@ -1,4 +1,4 @@
-help = setup config: use minimum data scale
+help = setup TPCH config: use minimum data scale
 
 [arg]
 load-threads|load-thread|ld = 1

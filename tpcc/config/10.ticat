@@ -1,4 +1,4 @@
-help = setup config: 10 warehouses
+help = setup TPCC config: 10 warehouses
 
 [arg]
 load-threads|load-thread|l-t|lt = 4

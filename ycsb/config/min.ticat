@@ -1,6 +1,4 @@
-help = setup config: use minimum data scale
-
-help = config YCSB workload
+help = config YCSB workload: use minimum data size
 abbr = ycsb.conf
 
 [arg]

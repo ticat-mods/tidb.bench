@@ -1,4 +1,4 @@
-help = setup config: use minimum data scale
+help = setup TPCC config: use minimum data scale
 
 [arg]
 load-threads|load-thread|l-t|lt = 1

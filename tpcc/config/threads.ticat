@@ -1,4 +1,4 @@
-help = setup threads
+help = setup TPCC threads number
 abbr = thread|thrd|t|T
 
 [arg]

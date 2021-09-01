@@ -1,4 +1,4 @@
-help = config sysbench workload
+help = config Sysbench workload
 abbr = conf
 
 [arg]

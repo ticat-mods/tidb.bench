@@ -1,4 +1,4 @@
-help = config YCSB threads
+help = config YCSB threads number
 abbr = thread|thrd|t|T
 
 [arg]

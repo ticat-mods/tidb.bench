@@ -1,4 +1,4 @@
-help = config sysbench workload
+help = config Sysbench workload: use s
 
 [arg]
 load-threads|load-thread|lt|LT = 1

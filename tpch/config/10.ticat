@@ -1,9 +1,9 @@
-help = setup config: 10 warehouses
+help = setup TPCH config: 10 scale-factor
 
 [val2env]
 bench.tpch.load.threads = 4
 bench.tpch.threads = 1
-bench.tpch.scale-factor = 1
+bench.tpch.scale-factor = 10
 bench.tpch.duration = 10m
 bench.tpch.tiflash = true
 bench.workload = tpch
