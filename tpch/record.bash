@@ -28,6 +28,7 @@ run_end=`must_env_val "${env}" 'bench.run.end'`
 run_log=`must_env_val "${env}" 'bench.run.log'`
 detail=(`must_env_val "${env}" 'bench.tpch.detail'`)
 score=`must_env_val "${env}" 'bench.run.score'`
+tag=`env_val "${env}" 'bench.tag'`
 
 ## Write the record tables if has meta db
 #
@@ -46,7 +47,6 @@ function write_record()
 
 	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
 		score DECIMAL(10,2),                        \
-		workload VARCHAR(64),                       \
 		bench_begin TIMESTAMP,                      \
 		run_begin TIMESTAMP,                        \
 		Q1  DECIMAL(6,2),                           \
@@ -71,8 +71,8 @@ function write_record()
 		Q20 DECIMAL(6,2),                           \
 		Q21 DECIMAL(6,2),                           \
 		Q22 DECIMAL(6,2),                           \
+		tag VARCHAR(512),                           \
 		PRIMARY KEY(                                \
-			workload,                               \
 			bench_begin,                            \
 			run_begin                               \
 		)                                           \
@@ -80,15 +80,15 @@ function write_record()
 	"
 
 	my_exe "INSERT INTO ${table} (                  \
-		workload, bench_begin, run_begin,           \
-		${detail[0]} score                          \
+		score, bench_begin, run_begin,              \
+		${detail[0]} tag                            \
 	)                   				            \
 		VALUES (                                    \
-		\"${workload}\",                            \
+		${score},                                   \
 		FROM_UNIXTIME(${bench_begin}),              \
 		FROM_UNIXTIME(${run_begin}),                \
 		${detail[1]}                                \
-		${score}                                    \
+		\"${tag}\"                                  \
 	)                                               \
 	"
 }
