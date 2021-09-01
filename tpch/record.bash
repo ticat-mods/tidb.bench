@@ -26,9 +26,71 @@ if [ -z "${run_begin}" ]; then
 fi
 run_end=`must_env_val "${env}" 'bench.run.end'`
 run_log=`must_env_val "${env}" 'bench.run.log'`
+detail=(`must_env_val "${env}" 'bench.tpch.detail'`)
+score=`must_env_val "${env}" 'bench.run.score'`
+tag=`env_val "${env}" 'bench.tag'`
 
-# Suggest pri-keys, because they are pri-keys in the scores table:
-#	workload VARCHAR(64),
-#	bench_begin TIMESTAMP,
-#	run_begin TIMESTAMP,
-echo "TODO: record details to meta db"
+## Write the record tables if has meta db
+#
+
+function my_exe()
+{
+	local query="${1}"
+	mysql -h "${meta_host}" -P "${meta_port}" -u root --database="${meta_db}" -e "${query}"
+}
+
+mysql -h "${meta_host}" -P "${meta_port}" -u root -e "CREATE DATABASE IF NOT EXISTS ${meta_db}"
+
+function write_record()
+{
+	local table="${1}"
+
+	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
+		score DECIMAL(10,2),                        \
+		bench_begin TIMESTAMP,                      \
+		run_begin TIMESTAMP,                        \
+		Q1  DECIMAL(6,2),                           \
+		Q2  DECIMAL(6,2),                           \
+		Q3  DECIMAL(6,2),                           \
+		Q4  DECIMAL(6,2),                           \
+		Q5  DECIMAL(6,2),                           \
+		Q6  DECIMAL(6,2),                           \
+		Q7  DECIMAL(6,2),                           \
+		Q8  DECIMAL(6,2),                           \
+		Q9  DECIMAL(6,2),                           \
+		Q10 DECIMAL(6,2),                           \
+		Q11 DECIMAL(6,2),                           \
+		Q12 DECIMAL(6,2),                           \
+		Q13 DECIMAL(6,2),                           \
+		Q14 DECIMAL(6,2),                           \
+		Q15 DECIMAL(6,2),                           \
+		Q16 DECIMAL(6,2),                           \
+		Q17 DECIMAL(6,2),                           \
+		Q18 DECIMAL(6,2),                           \
+		Q19 DECIMAL(6,2),                           \
+		Q20 DECIMAL(6,2),                           \
+		Q21 DECIMAL(6,2),                           \
+		Q22 DECIMAL(6,2),                           \
+		tag VARCHAR(512),                           \
+		PRIMARY KEY(                                \
+			bench_begin,                            \
+			run_begin                               \
+		)                                           \
+	)                                               \
+	"
+
+	my_exe "INSERT INTO ${table} (                  \
+		score, bench_begin, run_begin,              \
+		${detail[0]} tag                            \
+	)                   				            \
+		VALUES (                                    \
+		${score},                                   \
+		FROM_UNIXTIME(${bench_begin}),              \
+		FROM_UNIXTIME(${run_begin}),                \
+		${detail[1]}                                \
+		\"${tag}\"                                  \
+	)                                               \
+	"
+}
+
+write_record 'tpch'

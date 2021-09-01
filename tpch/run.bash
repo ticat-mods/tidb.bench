@@ -27,9 +27,11 @@ tiup bench tpch \
 	--sf "${sf}" --time "${duration}" run | tee "${log}"
 
 end=`timestamp`
-score=`parse_tpch "${log}"`
+score=`parse_tpch_score "${log}"`
+detail=`parse_tpch_detail "${log}"`
 
 echo "bench.workload=tpch" >> "${session}/env"
+echo "bench.tpch.detail=${detail}" >> "${session}/env"
 echo "bench.run.begin=${begin}" >> "${session}/env"
 echo "bench.run.end=${end}" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
