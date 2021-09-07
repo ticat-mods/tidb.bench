@@ -18,7 +18,7 @@ tag=`env_val "${env}" "bench.tag"`
 event_begin=`must_env_val "${env}" "${event}.begin"`
 event_end=`must_env_val "${env}" "${event}.end"`
 
-let "dur = event_end - event_begin"
+dur=$((event_end - event_begin))
 
 ## Write the text record, in case no meta db
 #
