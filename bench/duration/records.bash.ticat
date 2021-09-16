@@ -1,4 +1,4 @@
-help = show records of current bench
+help = show event duration records of current bench
 abbr = show|display
 
 [arg]

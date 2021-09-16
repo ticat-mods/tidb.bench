@@ -1,0 +1,9 @@
+help = relocate br.backup-dir to a sub dir based on data tag
+abbr = to-sub-dir|to-tag-dir
+trivial = 3
+
+flow = bench.data.gen-tag
+
+[arg]
+tidb.data.tag = read
+br.backup-dir = read : write
