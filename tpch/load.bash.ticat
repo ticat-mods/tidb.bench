@@ -7,6 +7,7 @@ threads|thread|thrd|thd|t|T = ''
 host|h|H = ''
 port|p|P = ''
 user|u|U = root
+db|DB = test
 analyze = false
 
 [arg2env]
@@ -16,6 +17,7 @@ bench.tpch.scale-factor = scale-factor
 mysql.host = host
 mysql.port = port
 mysql.user = user
+mysql.db = db
 
 [env]
 bench.tpch.load.threads|thread|thrd|terminal|term|t|T = read
@@ -24,6 +26,7 @@ bench.tpch.tiflash = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
+mysql.db = read
 
 [dep]
 tiup = to use tiup bench tpch

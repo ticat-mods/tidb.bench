@@ -17,7 +17,7 @@ fi
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
-db="test"
+db=`must_env_val "${env}" 'mysql.db'`
 
 query="SET GLOBAL tidb_multi_statement_mode='ON'"
 mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
@@ -29,6 +29,7 @@ tiup bench tpch prepare \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
+	-D "${db}" \
 	--dropdata \
 	--sf "${sf}" --time "102400h" \
 	--analyze --tidb_build_stats_concurrency 8 --tidb_distsql_scan_concurrency 30${tiflash}
