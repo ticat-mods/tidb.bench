@@ -16,6 +16,7 @@ bench.tag-add-from-keys = tag-add-from-keys
 bench.meta.host = may-read
 bench.meta.port = may-read
 bench.meta.db-name = may-read
+bench.meta.user = may-read
 
 bench.begin = may-read
 bench.run.begin = may-read

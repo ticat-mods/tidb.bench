@@ -16,6 +16,7 @@ fi
 
 port=`must_env_val "${env}" 'bench.meta.port'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+user=`must_env_val "${env}" 'bench.meta.user'`
 
 run_begin=`env_val "${env}" 'bench.run.begin'`
 if [ -z "${run_begin}" ]; then
@@ -30,4 +31,4 @@ else
 	fi
 fi
 
-mysql -h "${host}" -P "${port}" -u root --database="${db}" -e "${query}"
+mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" -e "${query}"

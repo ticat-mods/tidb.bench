@@ -34,14 +34,15 @@ fi
 
 port=`must_env_val "${env}" 'bench.meta.port'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+user=`must_env_val "${env}" 'bench.meta.user'`
 
 function my_exe()
 {
 	local query="${1}"
-	mysql -h "${host}" -P "${port}" -u root --database="${db}" -e "${query}"
+	mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" -e "${query}"
 }
 
-mysql -h "${host}" -P "${port}" -u root -e "CREATE DATABASE IF NOT EXISTS ${db}"
+mysql -h "${host}" -P "${port}" -u "${user}" -e "CREATE DATABASE IF NOT EXISTS ${db}"
 
 function write_record()
 {
