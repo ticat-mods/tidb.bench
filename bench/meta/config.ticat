@@ -7,10 +7,12 @@ flow = mark-time bench.begin
 [args]
 host|h|H = ''
 port|p|P = ''
+db-name|db = ''
 
 [arg2env]
 bench.meta.host = host
 bench.meta.port = port
+bench.meta.db-name|db = db-name
 
 [env]
 bench.begin = write
