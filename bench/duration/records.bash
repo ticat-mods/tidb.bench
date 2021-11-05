@@ -19,6 +19,7 @@ fi
 
 port=`must_env_val "${env}" 'bench.meta.port'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+user=`must_env_val "${env}" 'bench.meta.user'`
 
 if [ -z "${event}" ]; then
 	query="SELECT * FROM durations"
@@ -26,4 +27,4 @@ else
 	query="SELECT * FROM durations WHERE event=\"${event}\""
 fi
 
-mysql -h "${host}" -P "${port}" -u root --database="${db}" -e "${query}"
+mysql -h "${host}" -P "${port}" -u "${user}" --database="${db}" -e "${query}"

@@ -6,13 +6,16 @@ event-prefix|event = ''
 host|h|H = 127.0.0.1
 port|p|P = 4100
 db-name|db = bench_meta
+user = root
 
 [arg2env]
 bench.meta.host = host
 bench.meta.port = port
 bench.meta.db-name = db-name
+bench.meta.user = user
 
 [env]
 bench.meta.host = may-read
 bench.meta.port = may-read
 bench.meta.db-name = may-read
+bench.meta.user = may-read

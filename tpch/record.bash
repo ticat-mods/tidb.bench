@@ -12,6 +12,7 @@ if [ -z "${meta_host}" ]; then
 fi
 meta_port=`must_env_val "${env}" 'bench.meta.port'`
 meta_db=`must_env_val "${env}" 'bench.meta.db-name'`
+meta_user=`must_env_val "${env}" 'bench.meta.user'`
 
 # The context of one bench
 bench_tag=`env_val "${env}" 'bench.tag'`
@@ -36,10 +37,10 @@ tag=`env_val "${env}" 'bench.tag'`
 function my_exe()
 {
 	local query="${1}"
-	mysql -h "${meta_host}" -P "${meta_port}" -u root --database="${meta_db}" -e "${query}"
+	mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" --database="${meta_db}" -e "${query}"
 }
 
-mysql -h "${meta_host}" -P "${meta_port}" -u root -e "CREATE DATABASE IF NOT EXISTS ${meta_db}"
+mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" -e "CREATE DATABASE IF NOT EXISTS ${meta_db}"
 
 function write_record()
 {
