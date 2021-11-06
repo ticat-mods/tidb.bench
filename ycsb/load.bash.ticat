@@ -18,6 +18,10 @@ scan-proportion|scanproportion|sp = ''
 host|h|H = ''
 port|p|P = ''
 user|u|U = root
+insert-count|insertcount = 1000
+insert-start|insertstart = 0
+record-count|recordcount = 1000
+workload = ''
 
 [arg2env]
 bench.ycsb.load.threads = load-threads
@@ -33,11 +37,16 @@ bench.ycsb.insert-proportion = insert-proportion
 bench.ycsb.update-proportion = update-proportion
 bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
 bench.ycsb.scan-proportion = scan-proportion
+bench.ycsb.insert-count = insert-count
+bench.ycsb.insert-start = insert-start
+bench.ycsb.record-count = record-count
+bench.ycsb.workload = workload
 mysql.host = host
 mysql.port = port
 mysql.user = user
 
 [env]
+bench.ycsb.repo-address = read
 bench.ycsb.load.threads = read
 bench.ycsb.threads = read
 bench.ycsb.read-all-fields = read
@@ -51,6 +60,11 @@ bench.ycsb.insert-proportion = read
 bench.ycsb.update-proportion = read
 bench.ycsb.read-modify-write-proportion = read
 bench.ycsb.scan-proportion = read
+bench.ycsb.workload = may-read
+bench.ycsb.insert-count = may-read
+bench.ycsb.insert-start = may-read
+bench.ycsb.record-count = may-read
+bench.ycsb.workload = may-read
 mysql.host = read
 mysql.port = read
 mysql.user = read

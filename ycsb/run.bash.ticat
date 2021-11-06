@@ -14,6 +14,8 @@ insert-proportion|insertproportion|ip = ''
 update-proportion|up = ''
 read-modify-write-proportion|readmodifywriteproportion|rmwp = ''
 scan-proportion|scanproportion|sp = ''
+operation-count|operationcount = 1000
+workload = ''
 host|h|H = 127.0.0.1
 port|p|P = 4000
 user|u|U = root
@@ -32,12 +34,15 @@ bench.ycsb.insert-proportion = insert-proportion
 bench.ycsb.update-proportion = update-proportion
 bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
 bench.ycsb.scan-proportion = scan-proportion
+bench.ycsb.operation-count = operation-count
+bench.ycsb.workload = workload
 
 mysql.host = host
 mysql.port = port
 mysql.user = user
 
 [env]
+bench.ycsb.repo-address = read
 bench.ycsb.load.threads = read
 bench.ycsb.threads = read
 bench.ycsb.read-all-fields = read
@@ -51,6 +56,10 @@ bench.ycsb.insert-proportion = read
 bench.ycsb.update-proportion = read
 bench.ycsb.read-modify-write-proportion = read
 bench.ycsb.scan-proportion = read
+bench.ycsb.record-count = may-read
+bench.ycsb.operation-count = may-read
+bench.ycsb.insert-count = may-read
+bench.ycsb.workload = may-read
 
 mysql.host = read
 mysql.port = read
@@ -59,6 +68,9 @@ mysql.user = read
 bench.workload = write
 bench.run.begin = write
 bench.run.end = write
+bench.run.score = write
+bench.run.log = write
+bench.ycsb.summary = write
 
 [dep]
 tiup = to use tiup bench ycsb
