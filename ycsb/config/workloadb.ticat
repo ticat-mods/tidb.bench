@@ -9,3 +9,4 @@ bench.ycsb.scan-proportion = 0
 bench.ycsb.insert-proportion = 0
 bench.ycsb.read-modify-write-proportion = 0
 bench.ycsb.request-distribution = zipfian
+bench.ycsb.workload = workloadb

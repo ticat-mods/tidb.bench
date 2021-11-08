@@ -19,7 +19,7 @@ max-scan-length|maxscanlength = 1
 record-count|recordcount = 1000
 operation-count|operationcount = 1000
 scan-length-distribution|scanlengthdistribution = uniform
-repo-address|repo = 'http://172.16.5.31:8080/go-ycsb.tar.gz'
+repo-address|repo = ''
 workload = ''
 
 [arg2env]

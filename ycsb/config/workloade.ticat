@@ -11,3 +11,4 @@ bench.ycsb.read-modify-write-proportion = 0
 bench.ycsb.request-distribution = zipfian
 bench.ycsb.max-scan-length = 100
 bench.ycsb.scan-length-distribution = uniform
+bench.ycsb.workload = workloade
