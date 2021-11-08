@@ -1,7 +1,7 @@
 set -euo pipefail
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../helper/helper.bash"
 
-wkdir="`dirname ${BASH_SOURCE[0]}`"
+here="`dirname ${BASH_SOURCE[0]}`"
 session="${1}"
 env=`cat "${session}/env"`
 
@@ -48,7 +48,7 @@ if [ -z "${repo_addr}" ]; then
         | tee "${log}"
 else
     set -x
-    check_or_install_ycsb "${repo_addr}" "${wkdir}"
+    check_or_install_ycsb "${repo_addr}" "${here}"
 
     begin=`timestamp`
 
@@ -60,7 +60,7 @@ else
         echo "[:(] unimplemention"
         exit 1
     else
-        ${wkdir}/go-ycsb/bin/go-ycsb run mysql \
+        ${here}/go-ycsb/bin/go-ycsb run mysql \
             -p mysql.host=${host} \
             -p mysql.port=${port} \
             -p mysql.user=${user} \
@@ -69,7 +69,7 @@ else
             -p threadcount=${threads} \
             -p insertcount=${insert_count} \
             -p operationcount=${operation_count} \
-            -P ${wkdir}/go-ycsb/workloads/${ycsb_workload} \
+            -P ${here}/go-ycsb/workloads/${ycsb_workload} \
             | tee "${log}"
     fi
 fi
