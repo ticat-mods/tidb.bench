@@ -32,7 +32,7 @@ function parse_tpmc_summary()
             item = b[idx]
             if (item ~ "Sum" || item ~ "TPM") continue;
             split(item,pair,": ")
-            if (idx != 1) {
+            if (columns != "") {
                 columns = columns ","
                 values = values ","
             }
