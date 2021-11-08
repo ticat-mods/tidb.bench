@@ -71,3 +71,4 @@ mysql.user = read
 
 [dep]
 tiup = to use tiup bench ycsb
+wget = download go-ycsb tarball

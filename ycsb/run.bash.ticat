@@ -74,3 +74,4 @@ bench.ycsb.summary = write
 
 [dep]
 tiup = to use tiup bench ycsb
+wget = download go-ycsb tarball
