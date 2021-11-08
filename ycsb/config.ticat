@@ -15,6 +15,12 @@ insert-proportion|insertproportion|ip = ''
 update-proportion|up = ''
 read-modify-write-proportion|readmodifywriteproportion|rmwp = ''
 scan-proportion|scanproportion|sp = ''
+max-scan-length|maxscanlength = 1
+record-count|recordcount = 1000
+operation-count|operationcount = 1000
+scan-length-distribution|scanlengthdistribution = uniform
+repo-address|repo = ''
+workload = ''
 
 [arg2env]
 bench.ycsb.load.threads = load-threads
@@ -30,6 +36,12 @@ bench.ycsb.insert-proportion = insert-proportion
 bench.ycsb.update-proportion = update-proportion
 bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
 bench.ycsb.scan-proportion = scan-proportion
+bench.ycsb.max-scan-length = max-scan-length
+bench.ycsb.scan-length-distribution = scan-length-distribution
+bench.ycsb.record-count = record-count
+bench.ycsb.operation-count = operation-count
+bench.ycsb.repo-address = repo-address
+bench.ycsb.workload = workload
 
 [val2env]
 bench.workload = ycsb

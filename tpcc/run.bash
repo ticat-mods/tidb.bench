@@ -26,8 +26,10 @@ tiup bench tpcc \
 
 end=`timestamp`
 score=`parse_tpmc "${log}"`
+summary=`parse_tpmc_summary "${log}" | sed 's/ /-/g' | tr '\n' ' '`
 
 echo "bench.workload=tpcc" >> "${session}/env"
 echo "bench.run.begin=${begin}" >> "${session}/env"
 echo "bench.run.end=${end}" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
+echo "bench.tpcc.summary=${summary}" >> "${session}/env"

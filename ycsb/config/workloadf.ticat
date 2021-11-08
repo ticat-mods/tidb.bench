@@ -1,0 +1,12 @@
+help = config YCSB workload: use workloada
+abbr = f
+
+[val2env]
+bench.workload = ycsb
+bench.ycsb.read-proportion = 0.5
+bench.ycsb.update-proportion = 0
+bench.ycsb.scan-proportion = 0
+bench.ycsb.insert-proportion = 0
+bench.ycsb.read-modify-write-proportion = 0.5
+bench.ycsb.request-distribution = zipfian
+bench.ycsb.workload = workloadf

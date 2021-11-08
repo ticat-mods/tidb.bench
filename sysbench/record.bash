@@ -12,6 +12,7 @@ if [ -z "${meta_host}" ]; then
 fi
 meta_port=`must_env_val "${env}" 'bench.meta.port'`
 meta_db=`must_env_val "${env}" 'bench.meta.db-name'`
+meta_user=`must_env_val "${env}" 'bench.meta.user'`
 
 # The context of one bench
 bench_tag=`env_val "${env}" 'bench.tag'`
@@ -27,8 +28,54 @@ fi
 run_end=`must_env_val "${env}" 'bench.run.end'`
 run_log=`must_env_val "${env}" 'bench.run.log'`
 
-# Suggest pri-keys, because they are pri-keys in the scores table:
-#	workload VARCHAR(64),
-#	bench_begin TIMESTAMP,
-#	run_begin TIMESTAMP,
-echo "TODO: record details to meta db"
+detail=(`must_env_val "${env}" 'bench.sysbench.detail'`)
+score=`must_env_val "${env}" 'bench.run.score'`
+tag=`env_val "${env}" 'bench.tag'`
+
+## Write the record tables if has meta db
+#
+function my_exe()
+{
+	local query="${1}"
+	mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" --database="${meta_db}" -e "${query}"
+}
+
+mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" -e "CREATE DATABASE IF NOT EXISTS ${meta_db}"
+
+function write_record()
+{
+	local table="${1}"
+
+	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
+		score DECIMAL(10,2),                        \
+		bench_begin TIMESTAMP,                      \
+		run_begin TIMESTAMP,                        \
+        qps DECIMAL(8,2),                           \
+        tps DECIMAL(8,2),                           \
+        min DECIMAL(8,2),                           \
+        avg DECIMAL(8,2),                           \
+        p95 DECIMAL(8,2),                           \
+        max DECIMAL(8,2),                           \
+		tag VARCHAR(512),                           \
+		PRIMARY KEY(                                \
+			bench_begin,                            \
+			run_begin                               \
+		)                                           \
+	)                                               \
+	"
+
+	my_exe "INSERT INTO ${table} (                  \
+		score, bench_begin, run_begin,              \
+		${detail[0]}, tag                            \
+	)                   				            \
+		VALUES (                                    \
+		${score},                                   \
+		FROM_UNIXTIME(${bench_begin}),              \
+		FROM_UNIXTIME(${run_begin}),                \
+		${detail[1]},                                \
+		\"${tag}\"                                  \
+	)                                               \
+	"
+}
+
+write_record 'sysbench'

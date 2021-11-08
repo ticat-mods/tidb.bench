@@ -31,6 +31,7 @@ bench.run.begin = write
 bench.run.end = write
 bench.run.log = write
 bench.run.score = write
+bench.tpcc.summary = write
 
 [dep]
 tiup = to use tiup bench tpcc

@@ -35,8 +35,10 @@ sysbench \
 
 end=`timestamp`
 score=`parse_sysbench_events "${log}"`
+detail=`parse_sysbench_detail "${log}" | sed 's/ /,/g' | tr '\n' ' '`
 
 echo "bench.workload=sysbench" >> "${session}/env"
 echo "bench.run.begin=${begin}" >> "${session}/env"
 echo "bench.run.end=${end}" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
+echo "bench.sysbench.detail=${detail}" >> "${session}/env"

@@ -37,3 +37,4 @@ bench.run.begin = write
 bench.run.end = write
 bench.run.log = write
 bench.run.score = write
+bench.sysbench.detail = write
