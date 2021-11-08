@@ -17,16 +17,25 @@ function append()
 	fi
 }
 
-append 'b' 'bench.ycsb.batch-size'
-append 'n' 'bench.ycsb.count'
-append 't' 'bench.ycsb.conn-count'
-append 'i' 'bench.ycsb.isolation'
-append 'rd' 'bench.ycsb.request-distribution'
-append 'rp' 'bench.ycsb.read-proportion'
-append 'ip' 'bench.ycsb.insert-proportion'
-append 'up' 'bench.ycsb.update-proportion'
-append 'sp' 'bench.ycsb.scan-proportion'
-append 'rmw' 'bench.ycsb.read-modify-write-proportion'
+ycsb_workload=`env_val "${env}" 'bench.ycsb.workload'`
+if [ -z "${ycsb_workload}" ]; then
+    append 'b' 'bench.ycsb.batch-size'
+    append 'n' 'bench.ycsb.count'
+    append 't' 'bench.ycsb.conn-count'
+    append 'i' 'bench.ycsb.isolation'
+    append 'rd' 'bench.ycsb.request-distribution'
+    append 'rp' 'bench.ycsb.read-proportion'
+    append 'ip' 'bench.ycsb.insert-proportion'
+    append 'up' 'bench.ycsb.update-proportion'
+    append 'sp' 'bench.ycsb.scan-proportion'
+    append 'rmw' 'bench.ycsb.read-modify-write-proportion'
+else
+    tag="${ycsb_workload}"
+    append 'n' 'bench.ycsb.record-count'
+    append 't' 'bench.ycsb.threads'
+    append 'ic' 'bench.ycsb.insert-count'
+    append 'oc' 'bench.ycsb.operation-count'
+fi
 
 tag="${tag:1}"
 
