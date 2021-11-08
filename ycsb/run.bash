@@ -47,7 +47,6 @@ if [ -z "${repo_addr}" ]; then
         --requestdistribution "${rd}" \
         | tee "${log}"
 else
-    set -x
     check_or_install_ycsb "${repo_addr}" "${here}"
 
     begin=`timestamp`

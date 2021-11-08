@@ -14,5 +14,6 @@ bench.ycsb.insert-proportion = read
 bench.ycsb.update-proportion = read
 bench.ycsb.read-modify-write-proportion = read
 bench.ycsb.scan-proportion = read
+bench.ycsb.workload = read
 
 workload.tag.args = write

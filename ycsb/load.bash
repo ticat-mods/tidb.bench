@@ -42,7 +42,6 @@ if [ -z "${repo_addr}" ]; then
         --dropdata \
         --time "102400h"
 else
-    set -x
     check_or_install_ycsb "${repo_addr}" "${here}"
     ycsb_workload=`env_val "${env}" 'bench.ycsb.workload'`
     insert_count=`must_env_val "${env}" 'bench.ycsb.insert-count'`
