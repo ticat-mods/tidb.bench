@@ -50,44 +50,44 @@ function write_record()
 		score DECIMAL(10,2),                        \
 		bench_begin TIMESTAMP,                      \
 		run_begin TIMESTAMP,                        \
-        type VARCHAR(512),                          \
-        takes DECIMAL(8,2),                         \
-        count DECIMAL(8,2),                         \
-        avg DECIMAL(8,2),                           \
-        p50 DECIMAL(8,2),                           \
-        p90 DECIMAL(8,2),                           \
-        p95 DECIMAL(8,2),                           \
-        p99 DECIMAL(8,2),                           \
-        p999 DECIMAL(8,2),                          \
-        max DECIMAL(8,2),                           \
+		type VARCHAR(512),                          \
+		takes DECIMAL(16,2),                        \
+		count DECIMAL(16,2),                        \
+		avg DECIMAL(16,2),                          \
+		p50 DECIMAL(16,2),                          \
+		p90 DECIMAL(16,2),                          \
+		p95 DECIMAL(16,2),                          \
+		p99 DECIMAL(16,2),                          \
+		p999 DECIMAL(16,2),                         \
+		max DECIMAL(16,2),                          \
 		tag VARCHAR(512),                           \
 		PRIMARY KEY(                                \
 			bench_begin,                            \
 			run_begin,                              \
-            type                                    \
+			type                                    \
 		)                                           \
 	)                                               \
 	"
-    
-    echo "${summary}" | sed 's/ /\n/g' | while read line; do
-        if [ -z "${line// }" ]; then
-            continue; 
-        fi
-        detail=(`echo "${line}" | sed 's/-/ /g'`)
-        my_exe "INSERT INTO ${table} (                  \
-            score, bench_begin, run_begin,              \
-            type, ${detail[1]}, tag                     \
-        )                   				            \
-            VALUES (                                    \
-            ${score},                                   \
-            FROM_UNIXTIME(${bench_begin}),              \
-            FROM_UNIXTIME(${run_begin}),                \
-            \"${detail[0]}\",                           \
-            ${detail[2]},                               \
-            \"${tag}\"                                  \
-        )                                               \
-        "
-    done
+	
+	echo "${summary}" | sed 's/ /\n/g' | while read line; do
+		if [ -z "${line// }" ]; then
+			continue; 
+		fi
+		detail=(`echo "${line}" | sed 's/-/ /g'`)
+		my_exe "INSERT INTO ${table} (                  \
+			score, bench_begin, run_begin,              \
+			type, ${detail[1]}, tag                     \
+		)                   				            \
+			VALUES (                                    \
+			${score},                                   \
+			FROM_UNIXTIME(${bench_begin}),              \
+			FROM_UNIXTIME(${run_begin}),                \
+			\"${detail[0]}\",                           \
+			${detail[2]},                               \
+			\"${tag}\"                                  \
+		)                                               \
+		"
+	done
 }
 
 write_record 'tpcc'

@@ -8,40 +8,40 @@ function parse_tpmc()
 
 function parse_tpmc_summary()
 {
-    local log="${1}"
-    cat "${log}" | awk -F ' - ' '
-    BEGIN {
-        map["Takes(s)"]="takes"
-        map["Count"]="count"
-        map["Sum(ms)"]="sum"
-        map["Avg(ms)"]="avg"
-        map["50th(ms)"]="p50"
-        map["90th(ms)"]="p90"
-        map["95th(ms)"]="p95"
-        map["99th(ms)"]="p99"
-        map["99.9th(ms)"]="p999"
-        map["Max(ms)"]="max"
-        count=0
-    }
-    /Summary/ {
-        split($1,a," ")
-        split($2,b,", ")
-        columns = ""
-        values = ""
-        for (idx in b) {
-            item = b[idx]
-            if (item ~ "Sum" || item ~ "TPM") continue;
-            split(item,pair,": ")
-            if (columns != "") {
-                columns = columns ","
-                values = values ","
-            }
-            columns = columns map[pair[1]]
-            values = values pair[2]
-        }
-        print a[2],columns,values
-    }
-    '
+	local log="${1}"
+	cat "${log}" | awk -F ' - ' '
+	BEGIN {
+		map["Takes(s)"]="takes"
+		map["Count"]="count"
+		map["Sum(ms)"]="sum"
+		map["Avg(ms)"]="avg"
+		map["50th(ms)"]="p50"
+		map["90th(ms)"]="p90"
+		map["95th(ms)"]="p95"
+		map["99th(ms)"]="p99"
+		map["99.9th(ms)"]="p999"
+		map["Max(ms)"]="max"
+		count=0
+	}
+	/Summary/ {
+		split($1,a," ")
+		split($2,b,", ")
+		columns = ""
+		values = ""
+		for (idx in b) {
+			item = b[idx]
+			if (item ~ "Sum" || item ~ "TPM") continue;
+			split(item,pair,": ")
+			if (columns != "") {
+				columns = columns ","
+				values = values ","
+			}
+			columns = columns map[pair[1]]
+			values = values pair[2]
+		}
+		print a[2],columns,values
+	}
+	'
 }
 
 function parse_tpch_score()
@@ -66,43 +66,43 @@ function parse_sysbench_events()
 
 function parse_sysbench_detail()
 {
-    local log="${1}"
-    cat "${log}" | awk '
-    BEGIN {
-        state = ""
-        num_queries = 0
-        num_txns = 0
-        total_times = 1
-        min = 0
-        avg = 0
-        max = 0 
-        p95 = 0
-    }
-    /^SQL statistics/ { state = "sql" }
-    /^General statistics/ { state = "time" }
-    /^Latency/ { state = "latency" }
-    state == "sql" {
-        switch ($1) {
-        case /transactions/: num_txns=$2; break;
-        case /queries/: num_queries=$2; break;
-        }
-    }
-    state == "time" && /total time/ {
-        total_times=substr($3, 0, length($3)-1)
-    }
-    state == "latency" {
-        switch ($1) {
-        case /min/: min=$2; break;
-        case /avg/: avg=$2; break;
-        case /max/: max=$2; break;
-        case /95th/: p95=$3; break;
-        }
-    }
-    END {
-        printf "qps tps min avg p95 max\n"
-        printf "%.2f %.2f %s %s %s %s\n", num_queries/total_times,num_txns/total_times, min, avg, p95, max
-    }
-    '
+	local log="${1}"
+	cat "${log}" | awk '
+	BEGIN {
+		state = ""
+		num_queries = 0
+		num_txns = 0
+		total_times = 1
+		min = 0
+		avg = 0
+		max = 0 
+		p95 = 0
+	}
+	/^SQL statistics/ { state = "sql" }
+	/^General statistics/ { state = "time" }
+	/^Latency/ { state = "latency" }
+	state == "sql" {
+		switch ($1) {
+		case /transactions/: num_txns=$2; break;
+		case /queries/: num_queries=$2; break;
+		}
+	}
+	state == "time" && /total time/ {
+		total_times=substr($3, 0, length($3)-1)
+	}
+	state == "latency" {
+		switch ($1) {
+		case /min/: min=$2; break;
+		case /avg/: avg=$2; break;
+		case /max/: max=$2; break;
+		case /95th/: p95=$3; break;
+		}
+	}
+	END {
+		printf "qps tps min avg p95 max\n"
+		printf "%.2f %.2f %s %s %s %s\n", num_queries/total_times,num_txns/total_times, min, avg, p95, max
+	}
+	'
 }
 
 function parse_ycsb()
@@ -113,81 +113,81 @@ function parse_ycsb()
 
 function parse_ycsb_summary()
 {
-    local log="${1}"
-    cat "${log}" | awk -F '- ' '
-    BEGIN {
-        map["Takes(s)"] = "takes"
-        map["Count"] = "count"
-        map["OPS"] = "ops"
-        map["Avg(us)"] = "avg"
-        map["Min(us)"] = "min"
-        map["Max(us)"] = "max"
-        map["99th(us)"] = "p99"
-        map["99.9th(us)"] = "p999"
-        map["99.99th(us)"] = "p9999"
-    }
-    /READ/ || /UPDATE/ || /INSERT/ || /SCAN/ || /READ_MODIFY_WRITE/ || /DELETE/ {
-        split($2,items,", ")
-        gsub(/ /, "", $1)
-        if ($1 in result); else {
-            result[$1]["size"] = 0
-            result[$1]["min"] = 1000000000
-            result[$1]["max"] = 0
-        }
-        result[$1]["size"] += 1
-        for (idx in items) {
-            split(items[idx],pairs,": ")
-            name=map[pairs[1]]
-            switch (name) {
-            case "takes":
-            case "count":
-            case "ops":
-            case "avg":
-            case "p99":
-            case "p999":
-            case "p9999":
-                if (name in result[$1]); else
-                    result[$1][name] = 0
-                result[$1][name] += pairs[2]
-                break
-            case "min":
-                if (result[$1][name] > pairs[2])
-                    result[$1][name] = pairs[2]
-                break
-            case "max":
-                if (result[$1][name] < pairs[2])
-                    result[$1][name] = pairs[2]
-                break
-            }
-        }
-    }
-    END {
-        for (type in result) {
-            columns=""
-            values=""
-            size=result[type]["size"]
-            if (size == 0) continue;
-            for (col in result[type]) {
-                if (col == "size") continue;
-                val = result[type][col]
-                switch (col) {
-                case "avg":
-                case "ops":
-                case "p99":
-                case "p999":
-                case "p9999":
-                    val = val / size
-                }
-                if (columns != "") {
-                    columns = columns ","
-                    values = values ","
-                }
-                columns = columns col
-                values = values val
-            }
-            print type,columns,values,size
-        }
-    }
+	local log="${1}"
+	cat "${log}" | awk -F '- ' '
+	BEGIN {
+		map["Takes(s)"] = "takes"
+		map["Count"] = "count"
+		map["OPS"] = "ops"
+		map["Avg(us)"] = "avg"
+		map["Min(us)"] = "min"
+		map["Max(us)"] = "max"
+		map["99th(us)"] = "p99"
+		map["99.9th(us)"] = "p999"
+		map["99.99th(us)"] = "p9999"
+	}
+	/READ/ || /UPDATE/ || /INSERT/ || /SCAN/ || /READ_MODIFY_WRITE/ || /DELETE/ {
+		split($2,items,", ")
+		gsub(/ /, "", $1)
+		if ($1 in result); else {
+			result[$1]["size"] = 0
+			result[$1]["min"] = 1000000000
+			result[$1]["max"] = 0
+		}
+		result[$1]["size"] += 1
+		for (idx in items) {
+			split(items[idx],pairs,": ")
+			name=map[pairs[1]]
+			switch (name) {
+			case "takes":
+			case "count":
+			case "ops":
+			case "avg":
+			case "p99":
+			case "p999":
+			case "p9999":
+				if (name in result[$1]); else
+					result[$1][name] = 0
+				result[$1][name] += pairs[2]
+				break
+			case "min":
+				if (result[$1][name] > pairs[2])
+					result[$1][name] = pairs[2]
+				break
+			case "max":
+				if (result[$1][name] < pairs[2])
+					result[$1][name] = pairs[2]
+				break
+			}
+		}
+	}
+	END {
+		for (type in result) {
+			columns=""
+			values=""
+			size=result[type]["size"]
+			if (size == 0) continue;
+			for (col in result[type]) {
+				if (col == "size") continue;
+				val = result[type][col]
+				switch (col) {
+				case "avg":
+				case "ops":
+				case "p99":
+				case "p999":
+				case "p9999":
+					val = val / size
+				}
+				if (columns != "") {
+					columns = columns ","
+					values = values ","
+				}
+				columns = columns col
+				values = values val
+			}
+			print type,columns,values,size
+		}
+	}
 '
 }
 
@@ -358,10 +358,10 @@ function timestamp()
 
 function check_or_install_ycsb()
 {
-    local addr="${1}"
-    local prefix="${2}"
+	local addr="${1}"
+	local prefix="${2}"
 
-    if [ ! -x "${prefix}/go-ycsb/bin/go-ycsb" ]; then
-        wget -c "${addr}" -O - | tar -xz -C "${prefix}"
-    fi
+	if [ ! -x "${prefix}/go-ycsb/bin/go-ycsb" ]; then
+		wget -c "${addr}" -O - | tar -xz -C "${prefix}"
+	fi
 }

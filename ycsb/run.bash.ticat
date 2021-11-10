@@ -42,7 +42,7 @@ mysql.port = port
 mysql.user = user
 
 [env]
-bench.ycsb.repo-address = read
+bench.ycsb.repo-address = may-read
 bench.ycsb.load.threads = read
 bench.ycsb.threads = read
 bench.ycsb.read-all-fields = read
