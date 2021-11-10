@@ -50,12 +50,12 @@ function write_record()
 		score DECIMAL(10,2),                        \
 		bench_begin TIMESTAMP,                      \
 		run_begin TIMESTAMP,                        \
-        qps DECIMAL(8,2),                           \
-        tps DECIMAL(8,2),                           \
-        min DECIMAL(8,2),                           \
-        avg DECIMAL(8,2),                           \
-        p95 DECIMAL(8,2),                           \
-        max DECIMAL(8,2),                           \
+		qps DECIMAL(16,2),                          \
+		tps DECIMAL(16,2),                          \
+		min DECIMAL(16,2),                          \
+		avg DECIMAL(16,2),                          \
+		p95 DECIMAL(16,2),                          \
+		max DECIMAL(16,2),                          \
 		tag VARCHAR(512),                           \
 		PRIMARY KEY(                                \
 			bench_begin,                            \
