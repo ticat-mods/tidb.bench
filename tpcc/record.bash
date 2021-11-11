@@ -53,6 +53,7 @@ function write_record()
 		type VARCHAR(512),                          \
 		takes DECIMAL(16,2),                        \
 		count DECIMAL(16,2),                        \
+		tpm DECIMAL(16,2),                          \
 		avg DECIMAL(16,2),                          \
 		p50 DECIMAL(16,2),                          \
 		p90 DECIMAL(16,2),                          \
