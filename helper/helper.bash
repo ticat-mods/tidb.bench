@@ -13,6 +13,7 @@ function parse_tpmc_summary()
 	BEGIN {
 		map["Takes(s)"]="takes"
 		map["Count"]="count"
+		map["TPM"]="tpm"
 		map["Sum(ms)"]="sum"
 		map["Avg(ms)"]="avg"
 		map["50th(ms)"]="p50"
@@ -30,7 +31,7 @@ function parse_tpmc_summary()
 		values = ""
 		for (idx in b) {
 			item = b[idx]
-			if (item ~ "Sum" || item ~ "TPM") continue;
+			if (item ~ "Sum") continue;
 			split(item,pair,": ")
 			if (columns != "") {
 				columns = columns ","
