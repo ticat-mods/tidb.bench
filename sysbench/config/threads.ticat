@@ -1,0 +1,9 @@
+help = setup Sysbench threads number
+abbr = thread|thrd|t|T
+
+[arg]
+threads|thread|thrd|thd|t|T = ''
+
+[arg2env]
+bench.sysbench.threads = threads
+
