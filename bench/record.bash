@@ -62,7 +62,7 @@ function write_record()
 	local table="${1}"
 
 	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
-		score DECIMAL(10,2),                        \
+		score DECIMAL(16,2),                        \
 		version VARCHAR(32),                        \
 		threads INT(11),                            \
 		workload VARCHAR(64),                       \

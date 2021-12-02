@@ -47,7 +47,7 @@ function write_record()
 	local table="${1}"
 
 	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
-		score DECIMAL(10,2),                        \
+		score DECIMAL(16,2),                        \
 		bench_begin TIMESTAMP,                      \
 		run_begin TIMESTAMP,                        \
 		qps DECIMAL(16,2),                          \
