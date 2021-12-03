@@ -28,6 +28,7 @@ sysbench \
 	--time="${duration}" \
 	--threads="${threads}" \
 	--report-interval=10 \
+	--thread-init-timeout=1800 \
 	--db-driver=mysql \
 	--tables="${tables}" \
 	--table-size="${table_size}" \
