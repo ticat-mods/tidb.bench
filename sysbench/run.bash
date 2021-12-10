@@ -20,6 +20,11 @@ echo "bench.run.log=${log}" >> "${session}/env"
 
 begin=`timestamp`
 
+extra_opts=""
+if [[ ! `sysbench --version | awk '{print $2}'` < '1.1.0' ]]; then
+    extra_opts="--thread-init-timeout=1800"
+fi
+
 sysbench \
 	--mysql-host="${host}" \
 	--mysql-port="${port}" \
@@ -28,10 +33,10 @@ sysbench \
 	--time="${duration}" \
 	--threads="${threads}" \
 	--report-interval=10 \
-	--thread-init-timeout=1800 \
 	--db-driver=mysql \
 	--tables="${tables}" \
 	--table-size="${table_size}" \
+    ${extra_opts} \
 	"${test_name}" run | tee "${log}"
 
 end=`timestamp`
