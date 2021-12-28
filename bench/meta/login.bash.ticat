@@ -1,6 +1,8 @@
 help = login to meta db
 abbr = l
 
+interactive = true
+
 [args]
 host|h|H = 127.0.0.1
 port|p|P = 4100

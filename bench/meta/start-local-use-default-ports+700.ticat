@@ -6,7 +6,7 @@ trivial = 1
 [args]
 db-name|db = bench_meta
 cluster-name|cluster|name|n|N = bench-meta
-version|v|V = v5.1.0
+version|v|V = v5.3.0
 
 [arg2env]
 bench.meta.db-name|db = db-name
