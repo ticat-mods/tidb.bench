@@ -1,8 +1,0 @@
-help = expend bench tag by specified keys
-abbr = tag-add|tag-append|append-tag
-
-[arg]
-add-from-keys|add-from-key|add-keys|add-key|keys|add|append|expend = ''
-
-[env]
-bench.tag = read : write

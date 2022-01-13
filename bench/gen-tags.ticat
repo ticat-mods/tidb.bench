@@ -1,4 +1,0 @@
-help = genarate bench.tag and bench.data.tag by bench and cluster info
-trivial = 9
-
-flow = bench.gen-tag : bench.data.gen-tag

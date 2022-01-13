@@ -1,2 +1,0 @@
-help = setup all configs for quick test
-flow = tidb.yaml.predefined test : tidb.set-confirm no : tpcc.config.min

@@ -1,4 +1,0 @@
-help = setup all configs for quick test
-abbr = selftest.tpch.conf
-
-flow = tidb.yaml.predefined test+tiflash : tidb.set-confirm no : tpch.config.min
