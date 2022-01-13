@@ -1,8 +1,20 @@
 help = prepare data
+abbr = ld|l
+
+[arg]
+scale|s = 123456
+threads|thread|thrd|thd|t = 1
+
+[arg2env]
+bench.dummy-workload.scale = scale
+bench.dummy-workload.threads = threads
 
 [env]
 bench.dummy-workload.scale = read
 bench.dummy-workload.threads = read
+
+[val2env]
+bench.workload = dummy-workload
 
 [dep]
 python = pretend this workload is written by python

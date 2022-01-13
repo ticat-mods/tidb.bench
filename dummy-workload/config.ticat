@@ -2,11 +2,11 @@ help = config dumb workload
 abbr = conf
 
 [arg]
-scale = ''
-threads|thread|t|T = ''
+scale|s = 123456
+threads|thread|thrd|thd|t = 1
 
 [arg2env]
-bench.dummy-workload|dwl.scale = scale
+bench.dummy-workload.scale = scale
 bench.dummy-workload.threads = threads
 
 [val2env]

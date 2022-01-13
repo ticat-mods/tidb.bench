@@ -1,14 +1,14 @@
 help = run TPCH benchmark
 
 [arg]
-scale-factor|sf|SF = ''
-queries|query|q|Q = q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,q21,q22
-threads|thread|thrd|thd|t|T = ''
-duration|dur|d|D = ''
-host|h|H = 127.0.0.1
-port|p|P = 4000
-user|u|U = root
-db|DB = test
+scale-factor|sf = 1
+queries|query|q = q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,q21,q22
+threads|thread|thrd|thd|t = 1
+duration|dur|d|D = 1m
+host|h = 127.0.0.1
+port|p = 4000
+user|u = root
+db = test
 
 [arg2env]
 bench.tpch.threads = threads
@@ -22,21 +22,22 @@ mysql.user = user
 mysql.db = db
 
 [env]
-bench.tpch.threads|thread|thrd|terminal|term|t|T = read
-bench.tpch.scale-factor|scale-factor|sf = read
-bench.tpch.duration|dur|d|D|time = read
-bench.tpch.queries|queries|query|q|Q = read
-
+bench.tpch.threads = read
+bench.tpch.scale-factor = read
+bench.tpch.duration = read
+bench.tpch.queries = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
 mysql.db = db
-
 bench.workload = write
 bench.run.begin = write
 bench.run.end = write
 bench.run.log = write
 bench.run.score = write
+
+[val2env]
+bench.workload = tpch
 
 [dep]
 tiup = to use tiup bench tpch

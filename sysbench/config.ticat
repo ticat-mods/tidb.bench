@@ -2,12 +2,12 @@ help = config Sysbench workload
 abbr = conf
 
 [arg]
-load-threads|load-thread|lt|LT = ''
-threads|thread|t|T = ''
+load-threads|load-thread|lt = 1
+threads|thread|t = 1
 tables|table|tb = 1
 table-size|size = 1000
 test-name|name = oltp_point_select
-run-duration-secs|run-duration|duration|secs|dur|sec = 60
+run-duration-secs|run-duration|duration|dur|secs|sec = 60
 
 [arg2env]
 bench.sysbench.load.threads = load-threads

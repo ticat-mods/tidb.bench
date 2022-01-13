@@ -1,14 +1,14 @@
 help = prepare sysbench data
-abbr = ld|l|L
+abbr = ld|l
 
 [arg]
-tables|table|tb = ''
-table-size|size = ''
+threads|thread|thrd|thd|t = 1
+tables|table|tb = 1
+table-size|size = 1000
 test-name|name = oltp_point_select
-threads|thread|thrd|thd|t|T = ''
-host|h|H = ''
-port|p|P = ''
-user|u|U = root
+host|h = 127.0.0.1
+port|p = 4000
+user|u = root
 analyze = true
 
 [arg2env]
@@ -22,12 +22,14 @@ mysql.port = port
 mysql.user = user
 
 [env]
-bench.sysbench.load.threads|thread|thrd|terminal|term|t|T = read
+bench.sysbench.load.threads = read
 bench.sysbench.load.analyze = read
-bench.sysbench.tables|table|tb = read
-bench.sysbench.table-size|size = read
-bench.sysbench.test-name|name = read
+bench.sysbench.tables = read
+bench.sysbench.table-size = read
+bench.sysbench.test-name = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
 
+[val2env]
+bench.workload = sysbench

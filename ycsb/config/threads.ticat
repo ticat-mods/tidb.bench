@@ -1,8 +1,0 @@
-help = config YCSB threads number
-abbr = thread|thrd|t|T
-
-[arg]
-threads|thread|t|T = ''
-
-[arg2env]
-bench.ycsb.threads = threads

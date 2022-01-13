@@ -1,4 +1,0 @@
-help = reset cluster, load TPCH and run
-abbr = load-bench
-
-flow = db.rm : db.depl : db.up : my.conf.ti : tpch.load : tpch.run : db.down : db.rm

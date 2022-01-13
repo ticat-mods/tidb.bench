@@ -1,5 +1,11 @@
 help = prepare data
 
+[arg]
+threads|thread|thrd|thd|t = 1
+
+[arg2env]
+bench.dummy-workload.threads = threads
+
 [env]
 bench.dummy-workload.scale = read
 bench.dummy-workload.threads = read

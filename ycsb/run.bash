@@ -27,50 +27,50 @@ echo "bench.run.log=${log}" >> "${session}/env"
 
 repo_addr=`env_val "${env}" 'bench.ycsb.repo-address'`
 if [ -z "${repo_addr}" ]; then
-    begin=`timestamp`
+	begin=`timestamp`
 
-    tiup bench ycsb run \
-        -T "${threads}" \
-        -P "${port}" \
-        -H "${host}" \
-        -U "${user}" \
-        --batchsize "${bs}" \
-        --conncount "${cc}" \
-        -c "${c}" \
-        --isolation "${iso}" \
-        --readproportion "${rp}" \
-        --insertproportion "${ip}" \
-        --updateproportion "${up}" \
-        --readmodifywriteproportion "${rmwp}" \
-        --scanproportion "${sp}" \
-        --readallfields "${raf}" \
-        --requestdistribution "${rd}" \
-        | tee "${log}"
+	tiup bench ycsb run \
+		-T "${threads}" \
+		-P "${port}" \
+		-H "${host}" \
+		-U "${user}" \
+		--batchsize "${bs}" \
+		--conncount "${cc}" \
+		-c "${c}" \
+		--isolation "${iso}" \
+		--readproportion "${rp}" \
+		--insertproportion "${ip}" \
+		--updateproportion "${up}" \
+		--readmodifywriteproportion "${rmwp}" \
+		--scanproportion "${sp}" \
+		--readallfields "${raf}" \
+		--requestdistribution "${rd}" \
+		| tee "${log}"
 else
-    check_or_install_ycsb "${repo_addr}" "${here}"
+	check_or_install_ycsb "${repo_addr}" "${here}"
 
-    begin=`timestamp`
+	begin=`timestamp`
 
-    ycsb_workload=`env_val "${env}" 'bench.ycsb.workload'`
-    insert_count=`must_env_val "${env}" 'bench.ycsb.insert-count'`
-    record_count=`must_env_val "${env}" 'bench.ycsb.record-count'`
-    operation_count=`must_env_val "${env}" 'bench.ycsb.operation-count'`
-    if [ -z "${ycsb_workload}" ]; then
-        echo "[:(] unimplemention"
-        exit 1
-    else
-        ${here}/go-ycsb/bin/go-ycsb run mysql \
-            -p mysql.host=${host} \
-            -p mysql.port=${port} \
-            -p mysql.user=${user} \
-            -p mysql.db=test \
-            -p recordcount=${record_count} \
-            -p threadcount=${threads} \
-            -p insertcount=${insert_count} \
-            -p operationcount=${operation_count} \
-            -P ${here}/go-ycsb/workloads/${ycsb_workload} \
-            | tee "${log}"
-    fi
+	ycsb_workload=`env_val "${env}" 'bench.ycsb.workload'`
+	insert_count=`must_env_val "${env}" 'bench.ycsb.insert-count'`
+	record_count=`must_env_val "${env}" 'bench.ycsb.record-count'`
+	operation_count=`must_env_val "${env}" 'bench.ycsb.operation-count'`
+	if [ -z "${ycsb_workload}" ]; then
+		echo "[:(] unimplemention"
+		exit 1
+	else
+		${here}/go-ycsb/bin/go-ycsb run mysql \
+			-p mysql.host=${host} \
+			-p mysql.port=${port} \
+			-p mysql.user=${user} \
+			-p mysql.db=test \
+			-p recordcount=${record_count} \
+			-p threadcount=${threads} \
+			-p insertcount=${insert_count} \
+			-p operationcount=${operation_count} \
+			-P ${here}/go-ycsb/workloads/${ycsb_workload} \
+			| tee "${log}"
+	fi
 fi
 
 end=`timestamp`

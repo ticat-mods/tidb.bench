@@ -1,31 +1,29 @@
 help = prepare YCSB data
-abbr = ld|l|L
+abbr = ld|l
 
 [arg]
-load-threads|load-thread|lt|LT = ''
-threads|thread|t|T = ''
-batch-size|batchsize|bs = ''
-conn-count|conncount|cc = ''
-count|c = ''
-isolation|iso = ''
-read-all-fields|readallfields|raf = ''
-request-distribution|rd = ''
-read-proportion|readproportion|rp = ''
-insert-proportion|insertproportion|ip = ''
-update-proportion|up = ''
-read-modify-write-proportion|readmodifywriteproportion|rmwp = ''
-scan-proportion|scanproportion|sp = ''
-host|h|H = ''
-port|p|P = ''
-user|u|U = root
-insert-count|insertcount = 1000
-insert-start|insertstart = 0
-record-count|recordcount = 1000
+threads|thread|thrd|thd|t = 1
+batch-size|bs = 128
+conn-count|cc = 128
+count|c = 1000000
+isolation|iso = 0
+read-all-fields|raf = true
+request-distribution|rd = uniform
+read-proportion|rp = 0
+insert-proportion|ip = 0
+update-proportion|up = 0
+read-modify-write-proportion|rmwp = 0
+scan-proportion|sp = 0
+host|h = 127.0.0.1
+port|p = 4000
+user|u = root
+insert-count|ic = 1000
+insert-start|is = 0
+record-count|rc = 1000
 workload = ''
 
 [arg2env]
-bench.ycsb.load.threads = load-threads
-bench.ycsb.threads = threads
+bench.ycsb.load.threads = threads
 bench.ycsb.read-all-fields = read-all-fields
 bench.ycsb.batch-size = batch-size
 bench.ycsb.conn-count = conn-count
@@ -67,6 +65,9 @@ bench.ycsb.record-count = may-read
 mysql.host = read
 mysql.port = read
 mysql.user = read
+
+[val2env]
+bench.workload = ycsb
 
 [dep]
 tiup = to use tiup bench ycsb

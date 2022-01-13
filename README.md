@@ -4,16 +4,13 @@ for TiDB benchmark
 
 ## Apply this repo by running:
 ```bash
-ticat hub.add innerr/bench.tidb.ticat
+ticat hub.add ticat-mods/tidb.bench
 ```
 
-## Progress
+## Workloads
 ```
-*----  Jitter detecting
------  Simple auto config tuning
-*****  Workloads: TPCC
-*****  Workloads: TPCH
-*****  Workloads: sysbench
-*****  Workloads: ycsb
------  (TBD)
+*****  TPCC
+*****  TPCH
+*****  sysbench
+*****  ycsb
 ```

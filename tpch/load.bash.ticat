@@ -1,13 +1,13 @@
 help = prepare TPCH data
-abbr = ld|l|L
+abbr = ld|l
 
 [arg]
-scale-factor|sf|SF = ''
-threads|thread|thrd|thd|t|T = ''
-host|h|H = ''
-port|p|P = ''
-user|u|U = root
-db|DB = test
+scale-factor|sf = 1
+threads|thread|thrd|thd|t = 1
+host|h = 127.0.0.1
+port|p = 4000
+user|u = root
+db = test
 analyze = false
 
 [arg2env]
@@ -20,13 +20,16 @@ mysql.user = user
 mysql.db = db
 
 [env]
-bench.tpch.load.threads|thread|thrd|terminal|term|t|T = read
-bench.tpch.scale-factor|scale-factor|sf = read
+bench.tpch.load.threads = read
+bench.tpch.scale-factor = read
 bench.tpch.tiflash = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
 mysql.db = read
+
+[val2env]
+bench.workload = tpch
 
 [dep]
 tiup = to use tiup bench tpch
