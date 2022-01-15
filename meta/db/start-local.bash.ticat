@@ -1,0 +1,19 @@
+help = config meta db address
+
+[arg]
+port-delta|delta|port|p = +100
+version|ver|v = v5.3.0
+db-name|database|db = bench_meta
+cluster-name|cluster|name|n = bench-meta
+host = 127.0.0.1
+
+[arg2env]
+bench.meta.db-name = db-name
+
+[env]
+bench.meta.host = write
+bench.meta.port = write
+bench.meta.user = write
+
+[dep]
+tiup = to deploy and start meta db cluster

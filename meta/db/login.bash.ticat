@@ -1,0 +1,25 @@
+help = login bench db with mysql client
+abbrs = l
+
+interactive = true
+
+[args]
+host|h = 127.0.0.1
+port|p = 4100
+user|u = root
+db-name|database|db = bench_meta
+
+[arg2env]
+bench.meta.host = host
+bench.meta.port = port
+bench.meta.user = user
+bench.meta.db-name = db-name
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.user = read
+bench.meta.db-name = read
+
+[dep]
+mysql = as client
