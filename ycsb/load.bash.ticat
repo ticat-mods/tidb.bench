@@ -5,7 +5,8 @@ abbr = ld|l
 threads|thread|thrd|thd|t = 1
 batch-size|bs = 128
 conn-count|cc = 128
-count|c = 1000000
+#count|c = 1000000
+count|c = 100000
 isolation|iso = 0
 read-all-fields|raf = true
 request-distribution|rd = uniform
@@ -21,6 +22,7 @@ insert-count|ic = 1000
 insert-start|is = 0
 record-count|rc = 1000
 workload = ''
+cluster-name|cluster|name|n = ''
 
 [arg2env]
 bench.ycsb.load.threads = threads
@@ -42,11 +44,11 @@ bench.ycsb.workload = workload
 mysql.host = host
 mysql.port = port
 mysql.user = user
+tidb.cluster = cluster-name
 
 [env]
 bench.ycsb.repo-address = may-read
 bench.ycsb.load.threads = read
-bench.ycsb.threads = read
 bench.ycsb.read-all-fields = read
 bench.ycsb.batch-size = read
 bench.ycsb.conn-count = read
@@ -65,6 +67,7 @@ bench.ycsb.record-count = may-read
 mysql.host = read
 mysql.port = read
 mysql.user = read
+tidb.cluster = read
 
 [val2env]
 bench.workload = ycsb

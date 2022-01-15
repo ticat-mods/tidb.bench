@@ -1,5 +1,6 @@
 help = config TPCH workload
 abbr = conf
+tag = config
 
 [arg]
 load-threads|load-thread|l-t|lt = 1

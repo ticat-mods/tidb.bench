@@ -4,7 +4,8 @@ help = run YCSB benchmark
 threads|thread|t = 1
 batch-size|bs = 128
 conn-count|cc = 128
-count|c = 1000000
+#count|c = 1000000
+count|c = 100000
 isolation|iso = 0
 read-all-fields|raf = true
 request-distribution|rd = uniform
@@ -18,6 +19,7 @@ workload = ''
 host|h= 127.0.0.1
 port|p= 4000
 user|u= root
+cluster-name|cluster|name|n = ''
 
 [arg2env]
 bench.ycsb.threads = threads
@@ -37,6 +39,7 @@ bench.ycsb.workload = workload
 mysql.host = host
 mysql.port = port
 mysql.user = user
+tidb.cluster = cluster-name
 
 [env]
 bench.ycsb.repo-address = may-read
@@ -60,6 +63,7 @@ bench.ycsb.workload = may-read
 mysql.host = read
 mysql.port = read
 mysql.user = read
+tidb.cluster = read
 bench.workload = write
 bench.run.begin = write
 bench.run.end = write

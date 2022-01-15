@@ -1,5 +1,6 @@
-help = config Sysbench workload
+help = config SysBench workload
 abbr = conf
+tag = config
 
 [arg]
 load-threads|load-thread|lt = 1

@@ -1,0 +1,9 @@
+help = test YCSB toolbox
+tag = selftest
+
+[flow/]
+depl.ready.min cluster=test-ycsb delta=+142
+db.rm+new
+ycsb.load
+ycsb.run
+db.rm

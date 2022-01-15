@@ -1,0 +1,10 @@
+help = test SysBench toolbox
+abbr = sb
+tag = selftest
+
+[flow/]
+depl.ready.min cluster=test-sysbench delta=+142
+db.rm+new
+sb.load
+sb.run
+db.rm

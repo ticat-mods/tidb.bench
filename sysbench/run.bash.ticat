@@ -1,4 +1,4 @@
-help = run TPCC benchmark
+help = run SysBench benchmark
 
 [arg]
 test-name|name = oltp_point_select

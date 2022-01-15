@@ -1,0 +1,9 @@
+help = test TPCC toolbox
+tag = selftest
+
+[flow/]
+depl.ready.min cluster=test-tpcc delta=+262
+db.rm+new
+tpcc.load
+tpcc.run
+db.rm

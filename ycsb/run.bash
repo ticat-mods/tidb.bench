@@ -22,6 +22,9 @@ host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 
+cluster=`must_env_val "${env}" 'tidb.cluster'`
+pd=`must_pd_addr "${cluster}"`
+
 log="${session}/ycsb.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
 
@@ -30,6 +33,7 @@ if [ -z "${repo_addr}" ]; then
 	begin=`timestamp`
 
 	tiup bench ycsb run \
+		--pd "${pd}" \
 		-T "${threads}" \
 		-P "${port}" \
 		-H "${host}" \
@@ -60,6 +64,7 @@ else
 		exit 1
 	else
 		${here}/go-ycsb/bin/go-ycsb run mysql \
+			--pd "${pd}" \
 			-p mysql.host=${host} \
 			-p mysql.port=${port} \
 			-p mysql.user=${user} \

@@ -1,4 +1,4 @@
-help = prepare sysbench data
+help = prepare SysBench data
 abbr = ld|l
 
 [arg]

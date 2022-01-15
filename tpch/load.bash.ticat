@@ -9,11 +9,13 @@ port|p = 4000
 user|u = root
 db = test
 analyze = false
+with-tiflash|tiflash = true
 
 [arg2env]
 bench.tpch.load.threads = threads
 bench.tpch.load.analyze = analyze
 bench.tpch.scale-factor = scale-factor
+bench.tpch.tiflash = with-tiflash
 mysql.host = host
 mysql.port = port
 mysql.user = user

@@ -21,9 +21,13 @@ host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 
+cluster=`must_env_val "${env}" 'tidb.cluster'`
+pd=`must_pd_addr "${cluster}"`
+
 repo_addr=`env_val "${env}" 'bench.ycsb.repo-address'`
 if [ -z "${repo_addr}" ]; then
 	tiup bench ycsb prepare \
+		--pd "${pd}" \
 		-T "${threads}" \
 		-P "${port}" \
 		-H "${host}" \
@@ -52,6 +56,7 @@ else
 		exit 1
 	else
 		${here}/go-ycsb/bin/go-ycsb load mysql \
+			--pd "${pd}" \
 			-p mysql.host=${host} \
 			-p mysql.port=${port} \
 			-p mysql.user=${user} \
