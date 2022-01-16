@@ -2,7 +2,7 @@ help = test YCSB toolbox
 tag = selftest
 
 [flow/]
-depl.ready.min cluster=test-ycsb delta=+142
+depl.preset.min cluster=test-ycsb delta=+192
 db.rm+new
 ycsb.load
 ycsb.run

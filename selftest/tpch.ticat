@@ -2,7 +2,7 @@ help = test TPCH toolbox
 tag = selftest
 
 [flow/]
-depl.ready.min.tiflash cluster=test-tpch delta=+244
+depl.preset.min.tiflash cluster=test-tpch delta=+244
 db.rm+new
 tpch.load
 tpch.run
