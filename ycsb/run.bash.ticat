@@ -16,8 +16,8 @@ read-modify-write-proportion|rmwp = 0
 scan-proportion|sp = 0
 operation-count|oc = 1000
 workload = ''
-host|h= 127.0.0.1
-port|p= 4000
+host|h= ''
+port|p= ''
 user|u= root
 cluster-name|cluster|name|n = ''
 
