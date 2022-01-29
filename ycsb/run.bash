@@ -1,5 +1,6 @@
 set -euo pipefail
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../helper/helper.bash"
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/helper.bash"
 
 here="`dirname ${BASH_SOURCE[0]}`"
 session="${1}"
@@ -27,6 +28,11 @@ pd=`must_pd_addr "${cluster}"`
 
 log="${session}/ycsb.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
+
+function timestamp()
+{
+	echo `date +%s`
+}
 
 repo_addr=`env_val "${env}" 'bench.ycsb.repo-address'`
 if [ -z "${repo_addr}" ]; then

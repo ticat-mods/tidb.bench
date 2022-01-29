@@ -1,5 +1,8 @@
 help = run SysBench benchmark
 
+begin-ts-key = bench.run.begin
+end-ts-key = bench.run.end
+
 [arg]
 test-name|name = oltp_point_select
 threads|thread|thrd|t = 1

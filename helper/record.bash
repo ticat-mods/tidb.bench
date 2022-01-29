@@ -5,6 +5,8 @@ function bench_record_prepare()
 	local user="${3}"
 	local db="${4}"
 
+	my_ensure_db "${host}" "${port}" "${user}" "${db}"
+
 	my_exe "${host}" "${port}" "${user}" "${db}" "  \
 	CREATE TABLE IF NOT EXISTS bench_data (         \
 		bench_id VARCHAR(128),                      \
@@ -12,7 +14,7 @@ function bench_record_prepare()
 		section VARCHAR(64),                        \
 		key VARCHAR(128),                           \
 		val VARCHAR(512),                           \
-		valu_type VARCHAR(32),                      \
+		val_type VARCHAR(32),                       \
 		INDEX KEY(                                  \
 			bench_id,                               \
 			round_id,                               \

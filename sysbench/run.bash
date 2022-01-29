@@ -1,5 +1,6 @@
 set -euo pipefail
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../helper/helper.bash"
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/helper.bash"
 
 session="${1}"
 env=`cat "${session}/env"`
@@ -17,8 +18,6 @@ db='test'
 
 log="${session}/sysbench.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
-
-begin=`timestamp`
 
 extra_opts=""
 if [[ ! `sysbench --version | awk '{print $2}'` < '1.1.0' ]]; then
@@ -39,12 +38,9 @@ sysbench \
     ${extra_opts} \
 	"${test_name}" run | tee "${log}"
 
-end=`timestamp`
 score=`parse_sysbench_events "${log}"`
 detail=`parse_sysbench_detail "${log}" | sed 's/ /,/g' | tr '\n' ' '`
 
 echo "bench.workload=sysbench" >> "${session}/env"
-echo "bench.run.begin=${begin}" >> "${session}/env"
-echo "bench.run.end=${end}" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
 echo "bench.sysbench.detail=${detail}" >> "${session}/env"

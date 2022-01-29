@@ -1,0 +1,8 @@
+help = destroy meta db cluster
+abbr = destroy|delete|del|remove|rm|burn
+
+[arg]
+cluster-name|cluster|name|n = bench-meta
+
+[dep]
+tiup = to destroy cluster

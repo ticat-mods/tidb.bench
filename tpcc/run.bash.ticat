@@ -1,5 +1,8 @@
 help = run TPCC benchmark
 
+begin-ts-key = bench.run.begin
+end-ts-key = bench.run.end
+
 [arg]
 warehouses|warehouse|wh = 1
 threads|thread|thrd|thd|t = 1

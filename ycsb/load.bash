@@ -1,5 +1,6 @@
 set -euo pipefail
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../helper/helper.bash"
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/helper.bash"
 
 here=`dirname ${BASH_SOURCE[0]}`
 env=`cat "${1}/env"`
