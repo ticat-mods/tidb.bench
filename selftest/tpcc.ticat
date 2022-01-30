@@ -2,7 +2,7 @@ help = test TPCC toolbox
 tag = selftest
 
 [flow/]
-depl.preset.min cluster=test-tpcc delta=+262
+depl.preset.min cluster=test-tpcc delta=+262 keep-mon=false
 db.rm+new
 tpcc.load
 tpcc.run
