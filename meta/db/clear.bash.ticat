@@ -1,9 +1,7 @@
-help = login bench db with mysql client
-abbrs = log|l
+help = clear meta db
+abbr = clean|clr
 
-interactive = true
-
-[args]
+[arg]
 host|h = 127.0.0.1
 port|p = 4100
 user|u = root

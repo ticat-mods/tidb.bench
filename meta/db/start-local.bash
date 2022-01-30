@@ -38,7 +38,7 @@ if [ "${exist}" != 'false' ]; then
 	exit
 fi
 
-echo -e "deploy.host.tikv=${host}@${port}\ndeploy.host.pd=${host}@${port}\ndeploy.host.tidb=${host}@${port}\ndeploy.port.delta=${port}" | \
+echo -e "deploy.host.tikv=${host}\ndeploy.host.pd=${host}\ndeploy.host.tidb=${host}\ndeploy.port.delta=${port}" | \
 	PYTHONPATH='../../helper/python.helper' "${py}" '../../helper/tiup.helper/topology.py' | tee "${yaml}"
 echo
 echo "${yaml}"

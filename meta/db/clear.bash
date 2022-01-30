@@ -11,4 +11,6 @@ db=`must_env_val "${env}" 'bench.meta.db-name'`
 
 my_ensure_db "${host}" "${port}" "${user}" "${db}"
 
-mysql -h "${host}" -P "${port}" -u "${user}" --comments ${db}
+bench_record_clear "${host}" "${port}" "${user}" "${db}"
+
+echo "[:)] all clear"
