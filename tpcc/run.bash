@@ -24,7 +24,10 @@ tiup bench tpcc \
 	--warehouses "${warehouses}" --time "${duration}" run | tee "${log}"
 
 score=`parse_tpmc "${log}"`
-summary=`parse_tpmc_summary "${log}" | sed 's/ /-/g' | tr '\n' ' '`
+summary=`parse_tpmc_summary "${log}"`
+echo
+echo "${summary}" | tee "${log}.summary"
+#summary=`echo "${summary}" | sed 's/ /-/g' | tr '\n' ' '`
 
 echo "bench.workload=tpcc" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"

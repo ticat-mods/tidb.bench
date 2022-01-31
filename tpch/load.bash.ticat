@@ -9,7 +9,7 @@ port|p = ''
 user|u = root
 db = test
 analyze = false
-with-tiflash|tiflash = true
+with-tiflash|tiflash = false
 
 [arg2env]
 bench.tpch.load.threads = threads

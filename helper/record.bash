@@ -10,26 +10,28 @@ function bench_record_prepare()
 	my_exe "${host}" "${port}" "${user}" "${db}" "  \
 	CREATE TABLE IF NOT EXISTS bench_data (         \
 		bench_id VARCHAR(128),                      \
-		round_id TIMESTAMP,                         \
+		run_id TIMESTAMP,                           \
 		section VARCHAR(64),                        \
-		key VARCHAR(128),                           \
-		val VARCHAR(512),                           \
-		val_type VARCHAR(32),                       \
-		INDEX KEY(                                  \
+		name VARCHAR(128),                          \
+		val DECIMAL(16,2),                          \
+		display_order INT AUTO_INCREMENT,           \
+		INDEX (                                     \
 			bench_id,                               \
-			round_id,                               \
-		)                                           \
+			run_id,                                 \
+			section                                 \
+		),                                          \
+		INDEX (display_order)                       \
 	)                                               \
 	"
 
 	my_exe "${host}" "${port}" "${user}" "${db}" "  \
 	CREATE TABLE IF NOT EXISTS bench_tags (         \
 		bench_id VARCHAR(128),                      \
-		round_id TIMESTAMP,                         \
+		run_id TIMESTAMP,                           \
 		tag VARCHAR(512),                           \
-		INDEX KEY(                                  \
+		INDEX (                                     \
 			bench_id,                               \
-			round_id,                               \
+			run_id                                  \
 		)                                           \
 	)                                               \
 	"
@@ -37,88 +39,100 @@ function bench_record_prepare()
 	my_exe "${host}" "${port}" "${user}" "${db}" "  \
 	CREATE TABLE IF NOT EXISTS bench_meta (         \
 		bench_id VARCHAR(128),                      \
-		round_id TIMESTAMP,                         \
+		run_id TIMESTAMP,                           \
 		end_ts TIMESTAMP,                           \
-		PRIMARY KEY(                                \
+		host VARCHAR(128),                          \
+		PRIMARY KEY (                               \
 			bench_id,                               \
-			round_id,                               \
+			run_id                                  \
 		)                                           \
 	)                                               \
 	"
 }
 
-function convert_ver_dir_to_hash_in_tag()
+function bench_record_clear()
 {
-	local val="${1}"
-	local ver="${val%+*}"
-	local path="${val#*+}"
-	if [ -f "${path}" ]; then
-		local file=`basename "${path}"`
-		local role="${file%-*}"
-		local role="${role:0-2}"
-		local server="${file#*-}"
-		if [ "${server}" == 'server' ]; then
-			local hash=`${path} -V | grep Hash | awk '{print $NF}'`
-			local hash="${hash:0:5}"
-			echo "${ver}+${role}-${hash}"
-			return
-		fi
-	fi
-	echo "${val}"
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+
+	my_exe "${host}" "${port}" "${user}" "${db}" "DROP TABLE IF EXISTS bench_meta"
+	my_exe "${host}" "${port}" "${user}" "${db}" "DROP TABLE IF EXISTS bench_tags"
+	my_exe "${host}" "${port}" "${user}" "${db}" "DROP TABLE IF EXISTS bench_data"
 }
 
-function gen_tag()
+function bench_record_write()
 {
-	local keys_str="${1}"
-	local for_backup=`to_true "${2}"`
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+	shift 4
 
-	if [ ! -z "${3+x}" ]; then
-		local add_key_name=`to_true "${3}"`
-	else
-		local add_key_name='false'
-	fi
+	local env="${1}"
+	shift
 
-	if [ ! -z "${4+x}" ]; then
-		local nightly_major="${4}"
-	else
-		local nightly_major=''
-	fi
+	local section="${1}"
+	local name="${2}"
+	local val="${3}"
 
-	IFS=',' read -ra keys <<< "${keys_str}"
-	local vals=''
-	for key in "${keys[@]}"; do
-		if [ "${for_backup}" == 'true' ]; then
-			local val=`must_env_val "${env}" "${key}"`
-			if [ -z "${val}" ]; then
-				exit 1
-			fi
-			if [ "${key}" == 'tidb.version' ]; then
-				local val="${val%+*}"
-				if [ "${val}" == 'nightly' ] && [ ! -z "${nightly_major}" ]; then
-					local val="${nightly_major}"
-				else
-					# Consider versions with the same major number are compatible in storage
-					local val="${val%%.*}"
-				fi
-			fi
-		else
-			local val=`env_val "${env}" "${key}"`
-			if [ -z "${val}" ]; then
-				local val="{${key}}"
-			else
-				local val=`convert_ver_dir_to_hash_in_tag "${val}"`
-			fi
-		fi
+	local bench_id=`must_env_val "${env}" 'sys.session.id'`
+	local run_id=`must_env_val "${env}" 'bench.run.begin'`
+	local end_ts=`must_env_val "${env}" 'bench.run.end'`
 
-		if [ "${add_key_name}" == 'true' ]; then
-			local val="${key}-${val}"
-		fi
-		local vals="${vals}@${val}"
-	done
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+		INSERT INTO bench_data (                                      \
+			bench_id,                                                 \
+			run_id,                                                   \
+			section,                                                  \
+			name,                                                     \
+			val                                                       \
+		) VALUES (                                                    \
+			\"${bench_id}\",                                          \
+			FROM_UNIXTIME(${run_id}),                                 \
+			\"${section}\",                                           \
+			\"${name}\",                                              \
+			${val}                                                    \
+		)"
+}
 
-	if [ "${for_backup}" == 'true' ]; then
-		local vals=`echo ${vals//./-}`
-	fi
+function bench_record_write_finish()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+	local env="${5}"
 
-	echo "${vals}"
+	local bench_id=`must_env_val "${env}" 'sys.session.id'`
+	local ip=`must_env_val "${env}" 'sys.session.id.ip'`
+	local run_id=`must_env_val "${env}" 'bench.run.begin'`
+	local end_ts=`must_env_val "${env}" 'bench.run.end'`
+
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+		INSERT INTO bench_meta (                                      \
+			bench_id,                                                 \
+			run_id,                                                   \
+			end_ts,                                                   \
+			host                                                      \
+		) VALUES (                                                    \
+			\"${bench_id}\",                                          \
+			FROM_UNIXTIME(${run_id}),                                 \
+			FROM_UNIXTIME(${end_ts}),                                 \
+			\"${ip}\"                                                 \
+		)"
+}
+
+function bench_record_show()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+
+	echo
+	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_meta;"
+	echo
+	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_data;"
 }
