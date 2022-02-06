@@ -26,6 +26,9 @@ if [ -z "${run_begin}" ]; then
 	echo "[:-] env 'bench.run.begin' is empty, skipped" >&2
 	exit
 fi
+if [ -z "${bench_begin}" ]; then
+	bench_begin="${run_begin}"
+fi
 run_end=`must_env_val "${env}" 'bench.run.end'`
 run_log=`must_env_val "${env}" 'bench.run.log'`
 

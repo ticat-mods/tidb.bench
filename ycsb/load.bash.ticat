@@ -2,11 +2,17 @@ help = prepare YCSB data
 abbr = ld|l
 
 [arg]
+# shared args for both go-ycsb version
 threads|thread|thrd|thd|t = 1
+host|h = ''
+port|p = ''
+user|u = root
+cluster-name|cluster|name|n = ''
+
+# for tiup version of go-ycsb only (use by default)
+count|c = 100000
 batch-size|bs = 128
 conn-count|cc = 128
-#count|c = 1000000
-count|c = 100000
 isolation|iso = 0
 read-all-fields|raf = true
 request-distribution|rd = uniform
@@ -15,14 +21,12 @@ insert-proportion|ip = 0
 update-proportion|up = 0
 read-modify-write-proportion|rmwp = 0
 scan-proportion|sp = 0
-host|h = ''
-port|p = ''
-user|u = root
-insert-count|ic = 1000
+
+# for non-tiup version of go-ycsb only
+record-count|rc = 100000
 insert-start|is = 0
-record-count|rc = 1000
+insert-count|ic = 100000
 workload = ''
-cluster-name|cluster|name|n = ''
 
 [arg2env]
 bench.ycsb.load.threads = threads
@@ -47,12 +51,11 @@ mysql.user = user
 tidb.cluster = cluster-name
 
 [env]
-bench.ycsb.repo-address = may-read
+bench.ycsb.count = read
 bench.ycsb.load.threads = read
 bench.ycsb.read-all-fields = read
 bench.ycsb.batch-size = read
 bench.ycsb.conn-count = read
-bench.ycsb.count = read
 bench.ycsb.isolation = read
 bench.ycsb.request-distribution = read
 bench.ycsb.read-proportion = read
@@ -60,14 +63,17 @@ bench.ycsb.insert-proportion = read
 bench.ycsb.update-proportion = read
 bench.ycsb.read-modify-write-proportion = read
 bench.ycsb.scan-proportion = read
-bench.ycsb.workload = may-read
-bench.ycsb.insert-count = may-read
-bench.ycsb.insert-start = may-read
-bench.ycsb.record-count = may-read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read
 tidb.cluster = read
+
+bench.ycsb.workload = may-read
+bench.ycsb.repo-address = may-read
+bench.ycsb.insert-count = may-read
+bench.ycsb.insert-start = may-read
+bench.ycsb.record-count = may-read
 
 [val2env]
 bench.workload = ycsb

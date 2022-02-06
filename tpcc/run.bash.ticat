@@ -4,7 +4,7 @@ begin-ts-key = bench.run.begin
 end-ts-key = bench.run.end
 
 [arg]
-warehouses|warehouse|wh = 1
+warehouses|warehouse|wh = ''
 threads|thread|thrd|thd|t = 1
 duration|dur|d = 1m
 host|h = ''
@@ -31,7 +31,6 @@ bench.run.begin = write
 bench.run.end = write
 bench.run.log = write
 bench.run.score = write
-bench.tpcc.summary = write
 
 [val2env]
 bench.workload = tpcc

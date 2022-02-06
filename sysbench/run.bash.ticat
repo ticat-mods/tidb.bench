@@ -6,8 +6,8 @@ end-ts-key = bench.run.end
 [arg]
 test-name|name = oltp_point_select
 threads|thread|thrd|t = 1
-tables|table|tb = 1
-table-size|size = 1000
+tables|table|tb = ''
+table-size|size = ''
 duration|dur|secs|sec = 60
 host|h = ''
 port|p = ''

@@ -1,7 +1,7 @@
 help = record detail info of one run of a workload bench
 
 [arg]
-tag = ''
+tag|tags|t = ''
 
 [arg2env]
 bench.tag = tag
@@ -12,10 +12,14 @@ bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
 
-bench.tag = read
+bench.tag = may-read
 
 bench.run.begin = may-read
 bench.run.end = may-read
 bench.run.log = may-read
 bench.run.score = may-read
-bench.tpcc.summary = may-read
+
+# use for default tags
+bench.tpcc.threads = may-read
+bench.tpcc.warehouses = may-read
+bench.tpcc.duration = may-read

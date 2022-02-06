@@ -42,3 +42,37 @@ function parse_tpmc_summary()
 	}
 	'
 }
+
+function tpcc_result_agg_action()
+{
+	local key="${1}"
+	if [ "${key}" == 'tpm' ]; then
+		echo 'SUM'
+	elif [ "${key}" == 'max' ]; then
+		echo 'MAX'
+	else
+		echo 'AVG'
+	fi
+}
+
+function tpcc_result_verb_level()
+{
+	local key="${1}"
+	if [ "${key}" == 'avg' ]; then
+		echo 0
+	elif [ "${key}" == 'p50' ]; then
+		echo 2
+	elif [ "${key}" == 'p90' ]; then
+		echo 2
+	elif [ "${key}" == 'p95' ]; then
+		echo 2
+	elif [ "${key}" == 'p99' ]; then
+		echo 1
+	elif [ "${key}" == 'p999' ]; then
+		echo 2
+	elif [ "${key}" == 'tpm' ]; then
+		echo 0
+	else
+		echo 3
+	fi
+}

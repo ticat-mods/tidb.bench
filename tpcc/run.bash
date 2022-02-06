@@ -31,4 +31,3 @@ echo "${summary}" | tee "${log}.summary"
 
 echo "bench.workload=tpcc" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
-echo "bench.tpcc.summary=${summary}" >> "${session}/env"

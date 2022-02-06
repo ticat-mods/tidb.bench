@@ -18,11 +18,26 @@ cat "${summary}" | grep -v ERR | while read line; do
 	section="${fields[0]}"
 	keys=(`echo "${fields[1]}" | tr ',' ' '`)
 	vals=(`echo "${fields[2]}" | tr ',' ' '`)
-	for (( i = 0; i < ${#fields[@]}; i++ )); do
-		bench_record_write "${host}" "${port}" "${user}" "${db}" "${env}" "${section}" "${keys[i]}" "${vals[i]}"
+	for (( i = 0; i < ${#keys[@]}; i++ )); do
+		agg_action=`tpcc_result_agg_action "${keys[i]}"`
+		verb_level=`tpcc_result_verb_level "${keys[i]}"`
+		bench_record_write "${host}" "${port}" "${user}" "${db}" "${env}" "${section}" "${keys[i]}" "${vals[i]}" \
+			"${agg_action}" "${verb_level}"
 	done
 done
 
-bench_record_write_finish "${host}" "${port}" "${user}" "${db}" "${env}"
+warehouses=`env_val "${env}" 'bench.tpcc.warehouses'`
+if [ ! -z "${warehouses}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "warehouses=${warehouses}" "${env}"
+fi
+threads=`env_val "${env}" 'bench.tpcc.threads'`
+if [ ! -z "${threads}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "threads=${threads}" "${env}"
+fi
+duration=`env_val "${env}" 'bench.tpcc.duration'`
+if [ ! -z "${duration}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "duration=${duration}" "${env}"
+fi
+bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${db}" "${env}"
 
-bench_record_show "${host}" "${port}" "${user}" "${db}"
+bench_record_write_finish "${host}" "${port}" "${user}" "${db}" 'tpcc' "${env}"
