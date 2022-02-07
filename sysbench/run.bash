@@ -39,8 +39,7 @@ sysbench \
 	"${test_name}" run | tee "${log}"
 
 score=`parse_sysbench_events "${log}"`
-detail=`parse_sysbench_detail "${log}" | sed 's/ /,/g' | tr '\n' ' '`
+parse_sysbench_detail "${log}" | sed 's/ /,/g' | tr '\n' ' ' | tee "${log}.summary"
 
 echo "bench.workload=sysbench" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
-echo "bench.sysbench.detail=${detail}" >> "${session}/env"

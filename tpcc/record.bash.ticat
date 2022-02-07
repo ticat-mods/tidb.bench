@@ -17,7 +17,6 @@ bench.tag = may-read
 bench.run.begin = may-read
 bench.run.end = may-read
 bench.run.log = may-read
-bench.run.score = may-read
 
 # use for default tags
 bench.tpcc.threads = may-read

@@ -142,10 +142,10 @@ def _bench_result_merge_aligned(ids, runs_lines, sections_all, color, indent):
 	for id in ids:
 		header_lines, tags_lines, sections, sections_lines = runs_lines[id]
 		header_lines = colorize_lines(header_lines, 0, 86, 214, 0)
-		tags_lines = colorize_lines(tags_lines, 34, 91, 0, 0)
+		tags_lines = colorize_lines(tags_lines, 27, 91, 0, 0)
 		for section in sections_all:
 			section_lines = sections_lines[section]
-			sections_lines[section] = colorize_lines(section_lines, 34, 0, 0, 130)
+			sections_lines[section] = colorize_lines(section_lines, 27, 0, 0, 130)
 		runs_lines[id] = (header_lines, tags_lines, sections, sections_lines)
 
 	indent = ' ' * indent
@@ -205,7 +205,7 @@ def bench_result_display(host, port, user, db, verb, ids_str, color):
 		query = 'SELECT tag FROM bench_tags WHERE id=\"%s\" ORDER BY display_order' % id
 		tags = my_exe(host, port, user, db, query, 'tab')
 		tags = _bench_result_normalize_tag(tags)
-		query = 'SELECT section, name, val FROM bench_data WHERE id=\"%s\" AND verb_level=\"%s\" ORDER BY display_order' % (id, verb)
+		query = 'SELECT section, name, val FROM bench_data WHERE id=\"%s\" AND verb_level<=\"%s\" ORDER BY display_order' % (id, verb)
 		kvs = my_exe(host, port, user, db, query, 'tab')
 		sections, kvs = _bench_result_kvs_to_section(kvs)
 		if len(sections) != 0:
@@ -214,13 +214,8 @@ def bench_result_display(host, port, user, db, verb, ids_str, color):
 			infos[id] = info
 			runs_lines[id] = _bench_result_format_one(info, 4)
 
-	# Vertical format, debug only
-	#for id in ids:
-	#	lines = runs_lines[id]
-	#	_bench_result_display_one(lines)
-
 	runs_lines, sections_all = _bench_result_v_align(ids, runs_lines)
-	merged_lines = _bench_result_merge_aligned(ids, runs_lines, sections_all, color, 4)
+	merged_lines = _bench_result_merge_aligned(ids, runs_lines, sections_all, color, 3)
 	_bench_result_display_one(merged_lines)
 
 if __name__ == '__main__':

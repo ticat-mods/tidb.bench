@@ -26,10 +26,6 @@ cat "${summary}" | grep -v ERR | while read line; do
 	done
 done
 
-warehouses=`env_val "${env}" 'bench.tpcc.warehouses'`
-if [ ! -z "${warehouses}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "warehouses=${warehouses}"
-fi
 threads=`env_val "${env}" 'bench.tpcc.threads'`
 if [ ! -z "${threads}" ]; then
 	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "threads=${threads}"
@@ -37,6 +33,10 @@ fi
 duration=`env_val "${env}" 'bench.tpcc.duration'`
 if [ ! -z "${duration}" ]; then
 	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "duration=${duration}"
+fi
+warehouses=`env_val "${env}" 'bench.tpcc.warehouses'`
+if [ ! -z "${warehouses}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "warehouses=${warehouses}"
 fi
 bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${db}" "${id}" "${env}"
 

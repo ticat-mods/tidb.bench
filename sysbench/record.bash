@@ -5,81 +5,42 @@ set -euo pipefail
 env_file="${1}/env"
 env=`cat "${env_file}"`
 
-# The meta db to create table and insert any records we want
-meta_host=`env_val "${env}" 'bench.meta.host'`
-if [ -z "${meta_host}" ]; then
-	echo "[:-] env 'bench.meta.host' is empty, skipped" >&2
-	exit
+host=`must_env_val "${env}" 'bench.meta.host'`
+port=`must_env_val "${env}" 'bench.meta.port'`
+user=`must_env_val "${env}" 'bench.meta.user'`
+db=`must_env_val "${env}" 'bench.meta.db-name'`
+summary=`must_env_val "${env}" 'bench.run.log'`".summary"
+
+id=`bench_record_write_start "${host}" "${port}" "${user}" "${db}" 'sysbench' "${env}"`
+test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
+
+fields=(`cat "${summary}"`)
+keys=(`echo "${fields[0]}" | tr ',' ' '`)
+vals=(`echo "${fields[1]}" | tr ',' ' '`)
+for (( i = 0; i < ${#keys[@]}; i++ )); do
+	agg_action=`sysbench_result_agg_action "${keys[i]}"`
+	verb_level=`sysbench_result_verb_level "${keys[i]}"`
+	bench_record_write "${host}" "${port}" "${user}" "${db}" "${id}" "${test_name}" "${keys[i]}" "${vals[i]}" \
+		"${agg_action}" "${verb_level}"
+done
+
+threads=`env_val "${env}" 'bench.sysbench.threads'`
+if [ ! -z "${threads}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "threads=${threads}"
 fi
-meta_port=`must_env_val "${env}" 'bench.meta.port'`
-meta_db=`must_env_val "${env}" 'bench.meta.db-name'`
-meta_user=`must_env_val "${env}" 'bench.meta.user'`
-
-# The context of one bench
-bench_tag=`env_val "${env}" 'bench.tag'`
-bench_begin=`env_val "${env}" 'bench.begin'`
-workload='sysbench'
-
-# The context of one run
-run_begin=`env_val "${env}" 'bench.run.begin'`
-if [ -z "${run_begin}" ]; then
-	echo "[:-] env 'bench.run.begin' is empty, skipped" >&2
-	exit
+duration=`env_val "${env}" 'bench.sysbench.duration'`
+if [ ! -z "${duration}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "duration=${duration}"
 fi
-if [ -z "${bench_begin}" ]; then
-	bench_begin="${run_begin}"
+tables=`env_val "${env}" 'bench.sysbench.tables'`
+if [ ! -z "${tables}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "tables=${tables}"
 fi
-run_end=`must_env_val "${env}" 'bench.run.end'`
-run_log=`must_env_val "${env}" 'bench.run.log'`
+table_size=`env_val "${env}" 'bench.sysbench.table-size'`
+if [ ! -z "${table_size}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "table-size=${table_size}"
+fi
+bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "test=${test_name}"
+bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${db}" "${id}" "${env}"
 
-detail=(`must_env_val "${env}" 'bench.sysbench.detail'`)
-score=`must_env_val "${env}" 'bench.run.score'`
-tag=`env_val "${env}" 'bench.tag'`
-
-## Write the record tables if has meta db
-#
-function my_exe()
-{
-	local query="${1}"
-	mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" --database="${meta_db}" -e "${query}"
-}
-
-mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" -e "CREATE DATABASE IF NOT EXISTS ${meta_db}"
-
-function write_record()
-{
-	local table="${1}"
-
-	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
-		score DECIMAL(16,2),                        \
-		bench_begin TIMESTAMP,                      \
-		run_begin TIMESTAMP,                        \
-		qps DECIMAL(16,2),                          \
-		tps DECIMAL(16,2),                          \
-		min DECIMAL(16,2),                          \
-		avg DECIMAL(16,2),                          \
-		p95 DECIMAL(16,2),                          \
-		max DECIMAL(16,2),                          \
-		tag VARCHAR(512),                           \
-		PRIMARY KEY(                                \
-			bench_begin,                            \
-			run_begin                               \
-		)                                           \
-	)                                               \
-	"
-
-	my_exe "INSERT INTO ${table} (                  \
-		score, bench_begin, run_begin,              \
-		${detail[0]}, tag                            \
-	)                   				            \
-		VALUES (                                    \
-		${score},                                   \
-		FROM_UNIXTIME(${bench_begin}),              \
-		FROM_UNIXTIME(${run_begin}),                \
-		${detail[1]},                                \
-		\"${tag}\"                                  \
-	)                                               \
-	"
-}
-
-write_record 'sysbench'
+bench_record_write_finish "${host}" "${port}" "${user}" "${db}" "${id}"

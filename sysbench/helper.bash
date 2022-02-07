@@ -85,3 +85,37 @@ function sysbench_short_name()
 	done
 	echo "n_a"
 }
+
+function sysbench_result_agg_action()
+{
+	local key="${1}"
+	if [ "${key}" == 'qps' ] || [ "${key}" == 'tps' ]; then
+		echo 'SUM'
+	elif [ "${key}" == 'min' ]; then
+		echo 'MIN'
+	elif [ "${key}" == 'max' ]; then
+		echo 'MAX'
+	else
+		echo 'AVG'
+	fi
+}
+
+function sysbench_result_verb_level()
+{
+	local key="${1}"
+	local verb=3
+	if [ "${key}" == 'qps' ]; then
+		local verb=0
+	elif [ "${key}" == 'tps' ]; then
+		local verb=1
+	elif [ "${key}" == 'min' ]; then
+		local verb=2
+	elif [ "${key}" == 'avg' ]; then
+		local verb=0
+	elif [ "${key}" == 'p95' ]; then
+		local verb=1
+	elif [ "${key}" == 'max' ]; then
+		local verb=1
+	fi
+	echo ${verb}
+}

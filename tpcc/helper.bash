@@ -76,7 +76,7 @@ function tpcc_result_verb_level()
 		local verb=0
 	fi
 	if [ "${section}" != 'NEW_ORDER' ]; then
-		((verb=verb+1))
+		((verb=verb+2))
 	fi
 	echo ${verb}
 }
