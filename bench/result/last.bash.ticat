@@ -1,0 +1,11 @@
+help = show last bench result
+abbr = l
+
+[arg]
+verb = 0
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read

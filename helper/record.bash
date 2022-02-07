@@ -29,10 +29,12 @@ function bench_record_prepare()
 	CREATE TABLE IF NOT EXISTS bench_tags (                           \
 		id INT,                                                       \
 		tag VARCHAR(512),                                             \
+		display_order INT AUTO_INCREMENT,                             \
 		INDEX (                                                       \
 			id,                                                       \
 			tag                                                       \
-		)                                                             \
+		),                                                            \
+		INDEX (display_order)                                         \
 	)                                                                 \
 	"
 
@@ -192,32 +194,6 @@ function bench_record_write_tags_from_env()
 	for tag in ${tags[@]}; do
 		bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "${tag}"
 	done
-}
-
-function bench_record_show_last()
-{
-	local host="${1}"
-	local port="${2}"
-	local user="${3}"
-	local db="${4}"
-
-	local verb_level='0'
-	if [ ! -z "${5+x}" ]; then
-		local verb_level="${5}"
-	fi
-
-	local query="SELECT MAX(bench_id) FROM bench_meta"
-	local bench_id=`my_exe "${host}" "${port}" "${user}" "${db}" "${query}" 'tab' | grep -v 'bench_id'`
-	if [ -z "${bench_id}" ]; then
-		echo "[:(] no bench result found" >&2
-		exit
-	fi
-
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
-		SELECT section, name, val FROM bench_data WHERE               \
-			bench_id=\"${bench_id}\" AND                              \
-			verb_level=\"${verb_level}\"                              \
-	"
 }
 
 function bench_record_show()
