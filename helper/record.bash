@@ -7,53 +7,53 @@ function bench_record_prepare()
 
 	my_ensure_db "${host}" "${port}" "${user}" "${db}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "  \
-	CREATE TABLE IF NOT EXISTS bench_data (         \
-		bench_id VARCHAR(128),                      \
-		run_id TIMESTAMP,                           \
-		section VARCHAR(64),                        \
-		name VARCHAR(128),                          \
-		val DECIMAL(16,2),                          \
-		display_order INT AUTO_INCREMENT,           \
-		agg_action VARCHAR(32),                     \
-		verb_level INT,                             \
-		INDEX (                                     \
-			bench_id,                               \
-			run_id,                                 \
-			section                                 \
-		),                                          \
-		INDEX (name),                               \
-		INDEX (display_order)                       \
-	)                                               \
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	CREATE TABLE IF NOT EXISTS bench_data (                           \
+		id INT,                                                       \
+		section VARCHAR(64),                                          \
+		name VARCHAR(128),                                            \
+		val DECIMAL(16,2),                                            \
+		display_order INT AUTO_INCREMENT,                             \
+		agg_action VARCHAR(32),                                       \
+		run_host VARCHAR(128),                                        \
+		verb_level INT,                                               \
+		INDEX (                                                       \
+			id,                                                       \
+			section                                                   \
+		),                                                            \
+		INDEX (display_order)                                         \
+	)                                                                 \
 	"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "  \
-	CREATE TABLE IF NOT EXISTS bench_tags (         \
-		bench_id VARCHAR(128),                      \
-		run_id TIMESTAMP,                           \
-		tag VARCHAR(512),                           \
-		INDEX (                                     \
-			bench_id,                               \
-			run_id                                  \
-		),                                          \
-		INDEX (tag)                                 \
-	)                                               \
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	CREATE TABLE IF NOT EXISTS bench_tags (                           \
+		id INT,                                                       \
+		tag VARCHAR(512),                                             \
+		INDEX (                                                       \
+			id,                                                       \
+			tag                                                       \
+		)                                                             \
+	)                                                                 \
 	"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "  \
-	CREATE TABLE IF NOT EXISTS bench_meta (         \
-		bench_id VARCHAR(128),                      \
-		run_id TIMESTAMP,                           \
-		end_ts TIMESTAMP,                           \
-		run_host VARCHAR(128),                      \
-		workload VARCHAR(128),                      \
-		PRIMARY KEY (                               \
-			bench_id,                               \
-			run_id                                  \
-		),                                          \
-		INDEX (run_host),                           \
-		INDEX (workload)                            \
-	)                                               \
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	CREATE TABLE IF NOT EXISTS bench_meta (                           \
+		id INT AUTO_INCREMENT,                                        \
+		finished INT,                                                 \
+		bench_id VARCHAR(128),                                        \
+		run_id TIMESTAMP,                                             \
+		end_ts TIMESTAMP,                                             \
+		run_host VARCHAR(128),                                        \
+		workload VARCHAR(128),                                        \
+		PRIMARY KEY (id),                                             \
+		INDEX (                                                       \
+			bench_id,                                                 \
+			run_id,                                                   \
+			end_ts                                                    \
+		),                                                            \
+		INDEX (run_host),                                             \
+		INDEX (workload)                                              \
+	)                                                                 \
 	"
 }
 
@@ -69,91 +69,7 @@ function bench_record_clear()
 	my_exe "${host}" "${port}" "${user}" "${db}" "DROP TABLE IF EXISTS bench_data"
 }
 
-function bench_record_write()
-{
-	local host="${1}"
-	local port="${2}"
-	local user="${3}"
-	local db="${4}"
-	shift 4
-
-	local env="${1}"
-	shift
-
-	local section="${1}"
-	local name="${2}"
-	local val="${3}"
-	local agg_action="${4}"
-	local verb_level="${5}"
-
-	local bench_id=`must_env_val "${env}" 'sys.session.id'`
-	local run_id=`must_env_val "${env}" 'bench.run.begin'`
-	local end_ts=`must_env_val "${env}" 'bench.run.end'`
-
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
-		INSERT INTO bench_data (                                      \
-			bench_id,                                                 \
-			run_id,                                                   \
-			section,                                                  \
-			name,                                                     \
-			val,                                                      \
-			agg_action,                                               \
-			verb_level                                                \
-		) VALUES (                                                    \
-			\"${bench_id}\",                                          \
-			FROM_UNIXTIME(${run_id}),                                 \
-			\"${section}\",                                           \
-			\"${name}\",                                              \
-			${val},                                                   \
-			\"${agg_action}\",                                        \
-			${verb_level}                                             \
-		)"
-}
-
-function bench_record_write_tag()
-{
-	local host="${1}"
-	local port="${2}"
-	local user="${3}"
-	local db="${4}"
-	local tag="${5}"
-	local env="${6}"
-
-	local bench_id=`must_env_val "${env}" 'sys.session.id'`
-	local run_id=`must_env_val "${env}" 'bench.run.begin'`
-
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
-		INSERT INTO bench_tags (                                      \
-			bench_id,                                                 \
-			run_id,                                                   \
-			tag                                                       \
-		) VALUES (                                                    \
-			\"${bench_id}\",                                          \
-			FROM_UNIXTIME(${run_id}),                                 \
-			\"${tag}\"                                                \
-		)"
-}
-
-function bench_record_write_tags_from_env()
-{
-	local host="${1}"
-	local port="${2}"
-	local user="${3}"
-	local db="${4}"
-	local env="${5}"
-
-	local tags=`env_val "${env}" 'bench.tag'`
-	if [ -z "${tags}" ]; then
-		return
-	fi
-
-	local tags=`list_to_array "${tags}"`
-	for tag in ${tags[@]}; do
-		bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${tag}" "${env}"
-	done
-}
-
-function bench_record_write_finish()
+function bench_record_write_start()
 {
 	local host="${1}"
 	local port="${2}"
@@ -167,20 +83,141 @@ function bench_record_write_finish()
 	local run_id=`must_env_val "${env}" 'bench.run.begin'`
 	local end_ts=`must_env_val "${env}" 'bench.run.end'`
 
+	bench_record_prepare "${host}" "${port}" "${user}" "${db}"
+
 	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
 		INSERT INTO bench_meta (                                      \
+			finished,                                                 \
 			bench_id,                                                 \
 			run_id,                                                   \
 			end_ts,                                                   \
 			workload,                                                 \
 			run_host                                                  \
 		) VALUES (                                                    \
+			0,                                                        \
 			\"${bench_id}\",                                          \
 			FROM_UNIXTIME(${run_id}),                                 \
 			FROM_UNIXTIME(${end_ts}),                                 \
 			\"${workload}\",                                          \
 			\"${ip}\"                                                 \
+		);                                                            \
+		SELECT last_insert_id() FROM bench_meta LIMIT 1               \
+		" 'tab' | tail -n 1
+}
+
+function bench_record_write_finish()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+
+	local id="${5}"
+
+	my_exe "${host}" "${port}" "${user}" "${db}" "UPDATE bench_meta SET finished=1 WHERE id=\"${id}\""
+}
+
+function bench_record_write()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+	shift 4
+
+	local id="${1}"
+	local section="${2}"
+	local name="${3}"
+	local val="${4}"
+	local agg_action="${5}"
+	local verb_level="${6}"
+
+	local run_host=`get_ip_or_host`
+
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+		INSERT INTO bench_data (                                      \
+			id,                                                       \
+			section,                                                  \
+			name,                                                     \
+			val,                                                      \
+			agg_action,                                               \
+			run_host,                                                 \
+			verb_level                                                \
+		) VALUES (                                                    \
+			${id},                                                    \
+			\"${section}\",                                           \
+			\"${name}\",                                              \
+			${val},                                                   \
+			\"${agg_action}\",                                        \
+			\"${run_host}\",                                          \
+			${verb_level}                                             \
 		)"
+}
+
+function bench_record_write_tag()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+
+	local id="${5}"
+	local tag="${6}"
+
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+		INSERT INTO bench_tags (                                      \
+			id,                                                       \
+			tag                                                       \
+		) VALUES (                                                    \
+			\"${id}\",                                                \
+			\"${tag}\"                                                \
+		)"
+}
+
+function bench_record_write_tags_from_env()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+	local id="${5}"
+	local env="${6}"
+
+	local tags=`env_val "${env}" 'bench.tag'`
+	if [ -z "${tags}" ]; then
+		return
+	fi
+
+	local tags=`list_to_array "${tags}"`
+	for tag in ${tags[@]}; do
+		bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "${tag}"
+	done
+}
+
+function bench_record_show_last()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+
+	local verb_level='0'
+	if [ ! -z "${5+x}" ]; then
+		local verb_level="${5}"
+	fi
+
+	local query="SELECT MAX(bench_id) FROM bench_meta"
+	local bench_id=`my_exe "${host}" "${port}" "${user}" "${db}" "${query}" 'tab' | grep -v 'bench_id'`
+	if [ -z "${bench_id}" ]; then
+		echo "[:(] no bench result found" >&2
+		exit
+	fi
+
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+		SELECT section, name, val FROM bench_data WHERE               \
+			bench_id=\"${bench_id}\" AND                              \
+			verb_level=\"${verb_level}\"                              \
+	"
 }
 
 function bench_record_show()

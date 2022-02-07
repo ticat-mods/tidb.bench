@@ -57,22 +57,26 @@ function tpcc_result_agg_action()
 
 function tpcc_result_verb_level()
 {
-	local key="${1}"
+	local section="${1}"
+	local key="${2}"
+	local verb=3
 	if [ "${key}" == 'avg' ]; then
-		echo 0
+		local verb=0
 	elif [ "${key}" == 'p50' ]; then
-		echo 2
+		local verb=2
 	elif [ "${key}" == 'p90' ]; then
-		echo 2
+		local verb=2
 	elif [ "${key}" == 'p95' ]; then
-		echo 2
+		local verb=1
 	elif [ "${key}" == 'p99' ]; then
-		echo 1
+		local verb=0
 	elif [ "${key}" == 'p999' ]; then
-		echo 2
+		local verb=1
 	elif [ "${key}" == 'tpm' ]; then
-		echo 0
-	else
-		echo 3
+		local verb=0
 	fi
+	if [ "${section}" != 'NEW_ORDER' ]; then
+		((verb=verb+1))
+	fi
+	echo ${verb}
 }

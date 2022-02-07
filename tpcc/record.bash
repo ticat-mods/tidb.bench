@@ -11,7 +11,7 @@ user=`must_env_val "${env}" 'bench.meta.user'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
-bench_record_prepare "${host}" "${port}" "${user}" "${db}"
+id=`bench_record_write_start "${host}" "${port}" "${user}" "${db}" 'tpcc' "${env}"`
 
 cat "${summary}" | grep -v ERR | while read line; do
 	fields=(${line})
@@ -20,24 +20,24 @@ cat "${summary}" | grep -v ERR | while read line; do
 	vals=(`echo "${fields[2]}" | tr ',' ' '`)
 	for (( i = 0; i < ${#keys[@]}; i++ )); do
 		agg_action=`tpcc_result_agg_action "${keys[i]}"`
-		verb_level=`tpcc_result_verb_level "${keys[i]}"`
-		bench_record_write "${host}" "${port}" "${user}" "${db}" "${env}" "${section}" "${keys[i]}" "${vals[i]}" \
+		verb_level=`tpcc_result_verb_level "${section}" "${keys[i]}"`
+		bench_record_write "${host}" "${port}" "${user}" "${db}" "${id}" "${section}" "${keys[i]}" "${vals[i]}" \
 			"${agg_action}" "${verb_level}"
 	done
 done
 
 warehouses=`env_val "${env}" 'bench.tpcc.warehouses'`
 if [ ! -z "${warehouses}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "warehouses=${warehouses}" "${env}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "warehouses=${warehouses}"
 fi
 threads=`env_val "${env}" 'bench.tpcc.threads'`
 if [ ! -z "${threads}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "threads=${threads}" "${env}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "threads=${threads}"
 fi
 duration=`env_val "${env}" 'bench.tpcc.duration'`
 if [ ! -z "${duration}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "duration=${duration}" "${env}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "duration=${duration}"
 fi
-bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${db}" "${env}"
+bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${db}" "${id}" "${env}"
 
-bench_record_write_finish "${host}" "${port}" "${user}" "${db}" 'tpcc' "${env}"
+bench_record_write_finish "${host}" "${port}" "${user}" "${db}" "${id}"

@@ -23,3 +23,6 @@ bench.run.score = may-read
 bench.tpcc.threads = may-read
 bench.tpcc.warehouses = may-read
 bench.tpcc.duration = may-read
+
+[dep]
+ifconfig = to fetch client ip for recording
