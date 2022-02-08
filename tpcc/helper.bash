@@ -60,20 +60,20 @@ function tpcc_result_verb_level()
 	local section="${1}"
 	local key="${2}"
 	local verb=3
-	if [ "${key}" == 'avg' ]; then
+	if [ "${key}" == 'tpm' ]; then
 		local verb=0
+	elif [ "${key}" == 'avg' ]; then
+		local verb=0
+	elif [ "${key}" == 'p99' ]; then
+		local verb=0
+	elif [ "${key}" == 'p95' ]; then
+		local verb=1
+	elif [ "${key}" == 'p999' ]; then
+		local verb=1
 	elif [ "${key}" == 'p50' ]; then
 		local verb=2
 	elif [ "${key}" == 'p90' ]; then
 		local verb=2
-	elif [ "${key}" == 'p95' ]; then
-		local verb=1
-	elif [ "${key}" == 'p99' ]; then
-		local verb=0
-	elif [ "${key}" == 'p999' ]; then
-		local verb=1
-	elif [ "${key}" == 'tpm' ]; then
-		local verb=0
 	fi
 	if [ "${section}" != 'NEW_ORDER' ]; then
 		((verb=verb+2))

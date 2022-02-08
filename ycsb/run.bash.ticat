@@ -1,20 +1,24 @@
 help = run YCSB benchmark
 
+begin-ts-key = bench.run.begin
+end-ts-key = bench.run.end
+
 [arg]
-count|c = 100000
 threads|thread|t = 1
+count|c = 100000
 batch-size|bs = 128
 conn-count|cc = 128
-isolation|iso = 0
+
 read-all-fields|raf = true
-request-distribution|rd = uniform
-read-proportion|rp = 0
-insert-proportion|ip = 0
-update-proportion|up = 0
 read-modify-write-proportion|rmwp = 0
+read-proportion|rp = 0
+request-distribution|rd = uniform
+insert-proportion|ip = 0
+isolation|iso = 0
 scan-proportion|sp = 0
-operation-count|oc = 1000
-workload = ''
+scan-length-distribution|sld = uniform
+update-proportion|up = 0
+
 host|h= ''
 port|p= ''
 user|u= root
@@ -22,58 +26,51 @@ cluster-name|cluster|name|n = ''
 
 [arg2env]
 bench.ycsb.threads = threads
-bench.ycsb.read-all-fields = read-all-fields
+bench.ycsb.count = count
 bench.ycsb.batch-size = batch-size
 bench.ycsb.conn-count = conn-count
-bench.ycsb.count = count
-bench.ycsb.isolation = isolation
-bench.ycsb.request-distribution = request-distribution
-bench.ycsb.read-proportion = read-proportion
-bench.ycsb.insert-proportion = insert-proportion
-bench.ycsb.update-proportion = update-proportion
+
+bench.ycsb.read-all-fields = read-all-fields
 bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
+bench.ycsb.read-proportion = read-proportion
+bench.ycsb.request-distribution = request-distribution
+bench.ycsb.insert-proportion = insert-proportion
+bench.ycsb.isolation = isolation
 bench.ycsb.scan-proportion = scan-proportion
-bench.ycsb.operation-count = operation-count
-bench.ycsb.workload = workload
+bench.ycsb.scan-length-distribution = scan-length-distribution
+bench.ycsb.update-proportion = update-proportion
+
 mysql.host = host
 mysql.port = port
 mysql.user = user
 tidb.cluster = cluster-name
 
 [env]
-bench.ycsb.load.threads = read
 bench.ycsb.threads = read
-bench.ycsb.read-all-fields = read
+bench.ycsb.count = read
 bench.ycsb.batch-size = read
 bench.ycsb.conn-count = read
-bench.ycsb.count = read
-bench.ycsb.isolation = read
-bench.ycsb.request-distribution = read
-bench.ycsb.read-proportion = read
-bench.ycsb.insert-proportion = read
-bench.ycsb.update-proportion = read
+
+bench.ycsb.read-all-fields = read
 bench.ycsb.read-modify-write-proportion = read
+bench.ycsb.read-proportion = read
+bench.ycsb.request-distribution = read
+bench.ycsb.insert-proportion = read
+bench.ycsb.isolation = read
 bench.ycsb.scan-proportion = read
+bench.ycsb.scan-length-distribution = read
+bench.ycsb.update-proportion = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read
 tidb.cluster = read
-bench.workload = write
-bench.run.begin = write
-bench.run.end = write
+
 bench.run.score = write
 bench.run.log = write
-bench.ycsb.summary = write
-
-bench.ycsb.repo-address = may-read
-bench.ycsb.record-count = may-read
-bench.ycsb.operation-count = may-read
-bench.ycsb.insert-count = may-read
-bench.ycsb.workload = may-read
 
 [val2env]
 bench.workload = ycsb
 
 [dep]
 tiup = to use tiup bench ycsb
-wget = download go-ycsb tarball

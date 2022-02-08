@@ -106,15 +106,15 @@ function sysbench_result_verb_level()
 	local verb=3
 	if [ "${key}" == 'qps' ]; then
 		local verb=0
-	elif [ "${key}" == 'tps' ]; then
-		local verb=1
-	elif [ "${key}" == 'min' ]; then
-		local verb=2
 	elif [ "${key}" == 'avg' ]; then
 		local verb=0
 	elif [ "${key}" == 'p95' ]; then
-		local verb=1
+		local verb=0
 	elif [ "${key}" == 'max' ]; then
+		local verb=0
+	elif [ "${key}" == 'min' ]; then
+		local verb=1
+	elif [ "${key}" == 'tps' ]; then
 		local verb=1
 	fi
 	echo ${verb}

@@ -93,3 +93,43 @@ function parse_ycsb_summary()
 	}
 '
 }
+
+function ycsb_result_agg_action()
+{
+	local key="${1}"
+	if [ "${key}" == 'takes' ] || [ "${key}" == 'ops' ] || [ "${key}" == 'count' ]; then
+		echo 'SUM'
+	elif [ "${key}" == 'min' ]; then
+		echo 'MIN'
+	elif [ "${key}" == 'max' ]; then
+		echo 'MAX'
+	else
+		echo 'AVG'
+	fi
+}
+
+function ycsb_result_verb_level()
+{
+	local key="${1}"
+	local verb=3
+	if [ "${key}" == 'ops' ]; then
+		local verb=0
+	elif [ "${key}" == 'avg' ]; then
+		local verb=0
+	elif [ "${key}" == 'p99' ]; then
+		local verb=0
+	elif [ "${key}" == 'p999' ]; then
+		local verb=1
+	elif [ "${key}" == 'p9999' ]; then
+		local verb=1
+	elif [ "${key}" == 'max' ]; then
+		local verb=2
+	elif [ "${key}" == 'min' ]; then
+		local verb=3
+	elif [ "${key}" == 'takes' ]; then
+		local verb=3
+	elif [ "${key}" == 'count' ]; then
+		local verb=3
+	fi
+	echo ${verb}
+}
