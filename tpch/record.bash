@@ -5,94 +5,43 @@ set -euo pipefail
 env_file="${1}/env"
 env=`cat "${env_file}"`
 
-# The meta db to create table and insert any records we want
-meta_host=`env_val "${env}" 'bench.meta.host'`
-if [ -z "${meta_host}" ]; then
-	echo "[:-] env 'bench.meta.host' is empty, skipped" >&2
-	exit
+host=`must_env_val "${env}" 'bench.meta.host'`
+port=`must_env_val "${env}" 'bench.meta.port'`
+user=`must_env_val "${env}" 'bench.meta.user'`
+db=`must_env_val "${env}" 'bench.meta.db-name'`
+summary=`must_env_val "${env}" 'bench.run.log'`".summary"
+
+id=`bench_record_write_start "${host}" "${port}" "${user}" "${db}" 'tpch' "${env}"`
+
+fields=(`cat "${summary}"`)
+keys=(`echo "${fields[0]}" | tr ',' ' '`)
+vals=(`echo "${fields[1]}" | tr ',' ' '`)
+for (( i = 0; i < ${#keys[@]}; i++ )); do
+	agg_action='AVG'
+	verb_level=0
+	bench_record_write "${host}" "${port}" "${user}" "${db}" "${id}" "benchmark" "${keys[i]}" "${vals[i]}" \
+		"${agg_action}" "${verb_level}"
+done
+
+threads=`env_val "${env}" 'bench.tpch.threads'`
+if [ ! -z "${threads}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "threads=${threads}"
 fi
-meta_port=`must_env_val "${env}" 'bench.meta.port'`
-meta_db=`must_env_val "${env}" 'bench.meta.db-name'`
-meta_user=`must_env_val "${env}" 'bench.meta.user'`
-
-# The context of one bench
-bench_tag=`env_val "${env}" 'bench.tag'`
-bench_begin=`env_val "${env}" 'bench.begin'`
-workload='tpch'
-
-# The context of one run
-run_begin=`env_val "${env}" 'bench.run.begin'`
-if [ -z "${run_begin}" ]; then
-	echo "[:-] env 'bench.run.begin' is empty, skipped" >&2
-	exit
+duration=`env_val "${env}" 'bench.tpch.duration'`
+if [ ! -z "${duration}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "duration=${duration}"
 fi
-run_end=`must_env_val "${env}" 'bench.run.end'`
-run_log=`must_env_val "${env}" 'bench.run.log'`
-detail=(`must_env_val "${env}" 'bench.tpch.detail'`)
-score=`must_env_val "${env}" 'bench.run.score'`
-tag=`env_val "${env}" 'bench.tag'`
+sf=`env_val "${env}" 'bench.tpch.scale-factor'`
+if [ ! -z "${sf}" ]; then
+	bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" "scale-factor=${sf}"
+fi
+tiflash=`env_val "${env}" 'bench.tpch.tiflash'`
+if [ ! -z "${tiflash}" ]; then
+	tiflash=`to_true "${tiflash}"`
+	if [ "${tiflash}" == 'true' ]; then
+		bench_record_write_tag "${host}" "${port}" "${user}" "${db}" "${id}" 'with-tiflash'
+	fi
+fi
+bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${db}" "${id}" "${env}"
 
-## Write the record tables if has meta db
-#
-
-function my_exe()
-{
-	local query="${1}"
-	mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" --database="${meta_db}" -e "${query}"
-}
-
-mysql -h "${meta_host}" -P "${meta_port}" -u "${meta_user}" -e "CREATE DATABASE IF NOT EXISTS ${meta_db}"
-
-function write_record()
-{
-	local table="${1}"
-
-	my_exe "CREATE TABLE IF NOT EXISTS ${table} (   \
-		score DECIMAL(16,2),                        \
-		bench_begin TIMESTAMP,                      \
-		run_begin TIMESTAMP,                        \
-		Q1  DECIMAL(6,2),                           \
-		Q2  DECIMAL(6,2),                           \
-		Q3  DECIMAL(6,2),                           \
-		Q4  DECIMAL(6,2),                           \
-		Q5  DECIMAL(6,2),                           \
-		Q6  DECIMAL(6,2),                           \
-		Q7  DECIMAL(6,2),                           \
-		Q8  DECIMAL(6,2),                           \
-		Q9  DECIMAL(6,2),                           \
-		Q10 DECIMAL(6,2),                           \
-		Q11 DECIMAL(6,2),                           \
-		Q12 DECIMAL(6,2),                           \
-		Q13 DECIMAL(6,2),                           \
-		Q14 DECIMAL(6,2),                           \
-		Q15 DECIMAL(6,2),                           \
-		Q16 DECIMAL(6,2),                           \
-		Q17 DECIMAL(6,2),                           \
-		Q18 DECIMAL(6,2),                           \
-		Q19 DECIMAL(6,2),                           \
-		Q20 DECIMAL(6,2),                           \
-		Q21 DECIMAL(6,2),                           \
-		Q22 DECIMAL(6,2),                           \
-		tag VARCHAR(512),                           \
-		PRIMARY KEY(                                \
-			bench_begin,                            \
-			run_begin                               \
-		)                                           \
-	)                                               \
-	"
-
-	my_exe "INSERT INTO ${table} (                  \
-		score, bench_begin, run_begin,              \
-		${detail[0]} tag                            \
-	)                   				            \
-		VALUES (                                    \
-		${score},                                   \
-		FROM_UNIXTIME(${bench_begin}),              \
-		FROM_UNIXTIME(${run_begin}),                \
-		${detail[1]}                                \
-		\"${tag}\"                                  \
-	)                                               \
-	"
-}
-
-write_record 'tpch'
+bench_record_write_finish "${host}" "${port}" "${user}" "${db}" "${id}"

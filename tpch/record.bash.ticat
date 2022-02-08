@@ -1,14 +1,28 @@
 help = record detail info of one run of a workload bench
 
-[env]
-bench.meta.host = may-read
-bench.meta.port = may-read
-bench.meta.db-name = may-read
-bench.meta.user = may-read
+[arg]
+tag|tags|t = ''
 
-bench.begin = may-read
+[arg2env]
+bench.tag = tag
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read
+
 bench.tag = may-read
 
 bench.run.begin = may-read
 bench.run.end = may-read
 bench.run.log = may-read
+
+# use for default tags
+bench.tpch.threads = may-read
+bench.tpch.duration = may-read
+bench.tpch.scale-factor = may-read
+bench.tpch.tiflash = may-read
+
+[dep]
+ifconfig = to fetch client ip for recording

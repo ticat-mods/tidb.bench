@@ -20,11 +20,11 @@ bench.run.log = may-read
 bench.run.score = may-read
 
 # use for default tags
-bench.sysbench.test-name = read
+bench.sysbench.threads = may-read
+bench.sysbench.duration = may-read
 bench.sysbench.tables = may-read
 bench.sysbench.table-size = may-read
-bench.sysbench.duration = may-read
-bench.sysbench.threads = may-read
+bench.sysbench.test-name = read
 
 [dep]
 ifconfig = to fetch client ip for recording

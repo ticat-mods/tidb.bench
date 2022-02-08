@@ -20,8 +20,8 @@ bench.run.log = may-read
 
 # use for default tags
 bench.tpcc.threads = may-read
-bench.tpcc.warehouses = may-read
 bench.tpcc.duration = may-read
+bench.tpcc.warehouses = may-read
 
 [dep]
 ifconfig = to fetch client ip for recording
