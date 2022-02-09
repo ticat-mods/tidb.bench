@@ -6,4 +6,6 @@ depl.preset.min cluster=test-tpcc delta=+262 keep-mon=false
 db.rm+new
 tpcc.load
 tpcc.run
+meta.db.local
+tpcc.record
 db.rm

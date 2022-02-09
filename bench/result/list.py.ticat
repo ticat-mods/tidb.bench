@@ -1,5 +1,8 @@
-help = show bench result
-abbr = res
+help = show latest bench result list
+abbr = ls
+
+[arg]
+max-rows|max|limit = 16
 
 [env]
 bench.meta.host = read

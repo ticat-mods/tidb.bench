@@ -6,5 +6,6 @@ depl.preset.min.tiflash cluster=test-tpch delta=+244 keep-mon=false
 db.rm+new
 tpch.load
 tpch.run
-meta.db.local : tpch.record
+meta.db.local
+tpch.record
 db.rm

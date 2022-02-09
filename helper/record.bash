@@ -196,6 +196,26 @@ function bench_record_write_tags_from_env()
 	done
 }
 
+function bench_record_list()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+	local max="${5}"
+
+	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+		SELECT                                                        \
+			id as record_id,                                          \
+			bench_id,                                                 \
+			run_id as begin,                                          \
+			workload                                                  \
+		FROM bench_meta                                               \
+		WHERE finished=1 ORDER BY bench_id DESC                       \
+		LIMIT ${max}                                                  \
+	"
+}
+
 function bench_record_show()
 {
 	local host="${1}"
@@ -204,9 +224,9 @@ function bench_record_show()
 	local db="${4}"
 
 	echo
-	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_meta;"
+	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_meta"
 	echo
-	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_tags;"
+	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_tags"
 	echo
-	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_data;"
+	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_data"
 }

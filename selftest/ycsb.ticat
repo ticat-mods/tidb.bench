@@ -6,4 +6,6 @@ depl.preset.min cluster=test-ycsb delta=+192 keep-mon=false
 db.rm+new
 ycsb.load
 ycsb.run
+meta.db.local
+ycsb.record
 db.rm

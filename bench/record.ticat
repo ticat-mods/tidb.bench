@@ -1,5 +1,5 @@
 help = record current bench result to meta db
-abbr = rec|r
+abbr = rec
 
 flow = [[bench.workload]].record
 

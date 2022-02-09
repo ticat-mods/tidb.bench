@@ -1,0 +1,17 @@
+help = test block-size comparing
+abbr = bs
+tag = selftest
+
+[flow/]
+meta.db.start-local
+
+depl.preset.min cluster=test-tpcc-bs-4k-64k delta=+352 keep-mon=false : db.rm+new : tpcc.load
+tpcc.run t=4 : tpcc.record bs64k
+db.rm
+
+depl.set.kv.conf rocksdb.defaultcf.block-size 4K
+depl.preset.min cluster=test-tpcc-bs-4k-64k delta=+352 keep-mon=false : db.rm+new : tpcc.load
+tpcc.run t=4 : tpcc.record bs4k
+db.rm
+
+bench.result.last

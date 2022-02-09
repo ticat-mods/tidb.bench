@@ -7,17 +7,19 @@ sys.path.append('../../helper/python.helper')
 from my import my_exe
 from strs import colorize
 
-def _bench_result_format_one(info, indent):
+def _bench_result_format_one(info, verb, indent):
 	indent = ' ' * indent
 	id, meta, tags, sections, kvs = info
 
 	header_lines = []
 	header_lines.append('record-id: %s' % id)
 	header_lines.append('workload:  %s' % meta[4])
-	#header_lines.append('bench-id:  %s ' % meta[0])
 	header_lines.append('begin:     %s' % meta[1])
-	header_lines.append('end:       %s' % meta[2])
-	#header_lines.append('run-host:  %s ' % meta[3])
+	if verb > 0:
+		header_lines.append('end:       %s' % meta[2])
+	if verb > 3:
+		header_lines.append('run-host:  %s ' % meta[3])
+		header_lines.append('bench-id:  %s ' % meta[0])
 
 	tags_lines = []
 	if len(tags) != 0:
@@ -212,7 +214,7 @@ def bench_result_display(host, port, user, db, verb, ids_str, color):
 			ids.append(id)
 			info = (id, meta, tags, sections, kvs)
 			infos[id] = info
-			runs_lines[id] = _bench_result_format_one(info, 4)
+			runs_lines[id] = _bench_result_format_one(info, verb, 4)
 
 	runs_lines, sections_all = _bench_result_v_align(ids, runs_lines)
 	merged_lines = _bench_result_merge_aligned(ids, runs_lines, sections_all, color, 3)
@@ -226,7 +228,7 @@ if __name__ == '__main__':
 	port = sys.argv[2]
 	user = sys.argv[3]
 	db = sys.argv[4]
-	verb = sys.argv[5]
+	verb = int(sys.argv[5])
 	color = sys.argv[6].lower() == 'true'
 	ids = sys.argv[7]
 	bench_result_display(host, port, user, db, verb, ids, color)
