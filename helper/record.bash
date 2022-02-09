@@ -30,7 +30,7 @@ function bench_record_prepare()
 		id INT,                                                       \
 		tag VARCHAR(512),                                             \
 		display_order INT AUTO_INCREMENT,                             \
-		INDEX (                                                       \
+		PRIMARY KEY (                                                 \
 			id,                                                       \
 			tag                                                       \
 		),                                                            \
@@ -116,7 +116,7 @@ function bench_record_write_finish()
 
 	local id="${5}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "UPDATE bench_meta SET finished=1 WHERE id=\"${id}\""
+	my_exe "${host}" "${port}" "${user}" "${db}" "UPDATE bench_meta SET finished=1 WHERE id=${id}"
 }
 
 function bench_record_write()
@@ -171,7 +171,7 @@ function bench_record_write_tag()
 			id,                                                       \
 			tag                                                       \
 		) VALUES (                                                    \
-			\"${id}\",                                                \
+			${id},                                                    \
 			\"${tag}\"                                                \
 		)"
 }
@@ -214,6 +214,56 @@ function bench_record_list()
 		WHERE finished=1 ORDER BY bench_id DESC                       \
 		LIMIT ${max}                                                  \
 	"
+}
+
+function bench_record_add_tags()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+
+	local ids="${5}"
+	local tags="${6}"
+	local ids=(`list_to_array "${ids}"`)
+	local tags=(`list_to_array "${tags}"`)
+
+	for id in "${ids[@]}"; do
+		for tag in "${tags[@]}"; do
+			echo "adding tag '${tag}' to record '${id}'"
+			my_exe "${host}" "${port}" "${user}" "${db}" "            \
+				INSERT INTO bench_tags (                              \
+					id,                                               \
+					tag                                               \
+				) VALUES (                                            \
+					${id},                                            \
+					\"${tag}\"                                        \
+				)                                                     \
+				ON DUPLICATE KEY UPDATE tag=tag                       \
+			"
+		done
+	done
+}
+
+function bench_record_rm_tags()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local db="${4}"
+
+	local ids="${5}"
+	local tags="${6}"
+	local ids=(`list_to_array "${ids}"`)
+	local tags=(`list_to_array "${tags}"`)
+
+	for id in "${ids[@]}"; do
+		for tag in "${tags[@]}"; do
+			echo "removing tag '${tag}' from record '${id}'"
+			local query="DELETE FROM bench_tags WHERE id=${id} AND tag=\"${tag}\""
+			my_exe "${host}" "${port}" "${user}" "${db}" "${query}"
+		done
+	done
 }
 
 function bench_record_show()

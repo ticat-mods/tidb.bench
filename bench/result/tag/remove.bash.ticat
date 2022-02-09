@@ -1,0 +1,12 @@
+help = remove a tag or tag list from a bench record or records
+abbr = rm|delete|del
+
+[arg]
+record-id-list|record-ids|record-id|record-list|records|rec|r = ''
+tags = ''
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read

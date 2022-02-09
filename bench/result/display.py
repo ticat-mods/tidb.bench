@@ -224,6 +224,8 @@ def bench_result_display(host, port, user, db, verb, ids_str, color, width):
 	for id in ids_str.split(','):
 		query = 'SELECT bench_id, run_id, end_ts, run_host, workload FROM bench_meta WHERE id=\"%s\"' % id
 		meta = my_exe(host, port, user, db, query, 'tab')
+		if len(meta) == 0:
+			break
 		meta = meta[0]
 		query = 'SELECT tag FROM bench_tags WHERE id=\"%s\" ORDER BY display_order' % id
 		tags = my_exe(host, port, user, db, query, 'tab')

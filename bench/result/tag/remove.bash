@@ -1,0 +1,17 @@
+set -euo pipefail
+here=`cd $(dirname ${BASH_SOURCE[0]}) && pwd`
+. "${here}/../../../helper/helper.bash"
+
+env=`cat "${1}/env"`
+shift
+
+ids="${1}"
+tags="${2}"
+
+host=`must_env_val "${env}" 'bench.meta.host'`
+port=`must_env_val "${env}" 'bench.meta.port'`
+user=`must_env_val "${env}" 'bench.meta.user'`
+db=`must_env_val "${env}" 'bench.meta.db-name'`
+
+bench_record_rm_tags "${host}" "${port}" "${user}" "${db}" "${ids}" "${tags}"
+echo "[:)] done"
