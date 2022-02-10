@@ -1,0 +1,15 @@
+help = show tiup topology yaml file by record-id(s)
+abbr = topology|tiup|yaml
+
+[arg]
+record-id|record|id|records|rec|r = ''
+to-file = ''
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read
+
+[dep]
+base64 = to decode topology file from text

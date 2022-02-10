@@ -47,6 +47,7 @@ function bench_record_prepare()
 		end_ts TIMESTAMP,                                             \
 		run_host VARCHAR(128),                                        \
 		workload VARCHAR(128),                                        \
+		tiup_yaml TEXT,                                               \
 		PRIMARY KEY (id),                                             \
 		INDEX (                                                       \
 			bench_id,                                                 \
@@ -85,6 +86,12 @@ function bench_record_write_start()
 	local run_id=`must_env_val "${env}" 'bench.run.begin'`
 	local end_ts=`must_env_val "${env}" 'bench.run.end'`
 
+	local tiup_yaml=''
+	local tiup_yaml_path=`env_val "${env}" 'tidb.tiup.yaml'`
+	if [ ! -z "${tiup_yaml_path}" ] && [ -f "${tiup_yaml_path}" ]; then
+		local tiup_yaml=`cat "${tiup_yaml_path}" | base64 -w 0`
+	fi
+
 	bench_record_prepare "${host}" "${port}" "${user}" "${db}"
 
 	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
@@ -94,14 +101,16 @@ function bench_record_write_start()
 			run_id,                                                   \
 			end_ts,                                                   \
 			workload,                                                 \
-			run_host                                                  \
+			run_host,                                                 \
+			tiup_yaml                                                 \
 		) VALUES (                                                    \
 			0,                                                        \
 			\"${bench_id}\",                                          \
 			FROM_UNIXTIME(${run_id}),                                 \
 			FROM_UNIXTIME(${end_ts}),                                 \
 			\"${workload}\",                                          \
-			\"${ip}\"                                                 \
+			\"${ip}\",                                                 \
+			\"${tiup_yaml}\"                                          \
 		);                                                            \
 		SELECT last_insert_id() FROM bench_meta LIMIT 1               \
 		" 'tab' | tail -n 1

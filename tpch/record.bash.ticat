@@ -26,3 +26,4 @@ bench.tpch.tiflash = may-read
 
 [dep]
 ifconfig = to fetch client ip for recording
+base64 = to encode topology file to text
