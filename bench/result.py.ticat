@@ -1,0 +1,16 @@
+help = show matched bench result in comparing mode
+abbr = res
+
+[arg]
+workload|wl = ''
+tags|tag|t = ''
+verb = 0
+record-id-list|record-ids|record-id|record-list|records|record|rec|r = ''
+bench-id|bench|ben|b = ''
+vertical|v = false
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read

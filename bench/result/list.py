@@ -33,12 +33,6 @@ def bench_result_list():
 	rows = my_exe(host, port, user, db, query, 'tab')
 	rows.sort(key = lambda row: row[0])
 
-	def normalize_tags(tags):
-		result = []
-		for tag in tags:
-			result.append(tag[0])
-		return result
-
 	def normalize_kvs(kvs):
 		first_section = ''
 		cols = []
@@ -63,7 +57,7 @@ def bench_result_list():
 		query = 'SELECT section, name, val FROM bench_data WHERE id=\"%s\" AND verb_level=0 ORDER BY display_order' % record_id
 		kvs = my_exe(host, port, user, db, query, 'tab')
 		section, kvs = normalize_kvs(kvs)
-		bench.append((record_id, begin, workload, normalize_tags(tags), section, kvs))
+		bench.append((record_id, begin, workload, tags, section, kvs))
 		benchs[bench_id] = bench
 
 	for bench_id in bench_ids:

@@ -2,7 +2,7 @@ help = show result by record-id(s)
 abbr = by-record|record|rec
 
 [arg]
-record-id-list|record-ids|record-id|record-list|records|rec|r = ''
+record-id-list|record-ids|record-id|record-list|records|record|rec|r|id = ''
 verb = 0
 
 [env]

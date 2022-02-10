@@ -1,8 +1,0 @@
-help = show bench result
-abbr = res
-
-[env]
-bench.meta.host = read
-bench.meta.port = read
-bench.meta.db-name = read
-bench.meta.user = read

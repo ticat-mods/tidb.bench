@@ -274,18 +274,3 @@ function bench_record_rm_tags()
 		done
 	done
 }
-
-function bench_record_show()
-{
-	local host="${1}"
-	local port="${2}"
-	local user="${3}"
-	local db="${4}"
-
-	echo
-	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_meta"
-	echo
-	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_tags"
-	echo
-	my_exe "${host}" "${port}" "${user}" "${db}" "SELECT * FROM bench_data"
-}

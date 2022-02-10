@@ -2,7 +2,7 @@ help = show result by bench-id
 abbr = by-bench|bench|ben
 
 [arg]
-bench-id|bench|b = ''
+bench-id|bench|ben|b = ''
 verb = 0
 
 [env]

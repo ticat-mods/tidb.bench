@@ -196,16 +196,10 @@ def _bench_result_merge_aligned(ids, runs_lines, sections_all, merging, color, w
 		runs_lines[id] = (header_lines, tags_lines, sections, sections_lines)
 
 	merging.merge(ids, runs_lines, indent)
-	return len(ids)
+	return len(ids), prefix_len - indent * 2 + 1
 
 # TODO: support multiply client's data aggregation
 def bench_result_display(host, port, user, db, verb, ids_str, color, width):
-	def _bench_result_normalize_tag(tags):
-		result = []
-		for tag in tags:
-			result.append(tag[0])
-		return result
-
 	def _bench_result_kvs_to_section(kvs):
 		names = []
 		lists = []
@@ -229,7 +223,6 @@ def bench_result_display(host, port, user, db, verb, ids_str, color, width):
 		meta = meta[0]
 		query = 'SELECT tag FROM bench_tags WHERE id=\"%s\" ORDER BY display_order' % id
 		tags = my_exe(host, port, user, db, query, 'tab')
-		tags = _bench_result_normalize_tag(tags)
 		query = 'SELECT section, name, val FROM bench_data WHERE id=\"%s\" AND verb_level<=\"%s\" ORDER BY display_order' % (id, verb)
 		kvs = my_exe(host, port, user, db, query, 'tab')
 		sections, kvs = _bench_result_kvs_to_section(kvs)
@@ -243,7 +236,7 @@ def bench_result_display(host, port, user, db, verb, ids_str, color, width):
 
 	while len(ids) > 0:
 		merging = BenchResultMerging()
-		merged_cnt = _bench_result_merge_aligned(ids, runs_lines, sections_all, merging, color, width, 3)
+		merged_cnt, line_max = _bench_result_merge_aligned(ids, runs_lines, sections_all, merging, color, width, 3)
 		_bench_result_display_one(merging.header_lines, merging.tags_lines, sections_all, merging.sections_lines)
 		ids = ids[merged_cnt:]
 		if len(ids) > 0:
@@ -251,7 +244,7 @@ def bench_result_display(host, port, user, db, verb, ids_str, color, width):
 
 if __name__ == '__main__':
 	if len(sys.argv) != 9:
-		print('usage: python display.py host port user db verb colorize display-width session-id-list')
+		print('usage: display_ids.py host port user db verb colorize display-width session-id-list')
 		sys.exit(1)
 	host = sys.argv[1]
 	port = sys.argv[2]
