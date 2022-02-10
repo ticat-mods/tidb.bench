@@ -1,0 +1,10 @@
+help = select last bench result, will show in the coming bench.result
+abbr = l
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read
+
+bench.meta.result.ids = write

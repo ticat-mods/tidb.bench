@@ -1,0 +1,13 @@
+help = select bench result by tag(s), will show in the coming bench.result
+abbr = tag
+
+[arg]
+tags|tag|t = ''
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read
+
+bench.meta.result.ids = write

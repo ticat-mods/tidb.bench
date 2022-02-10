@@ -25,6 +25,11 @@ query="SELECT id FROM bench_meta WHERE bench_id=\"${bench_id}\" AND finished=1"
 ids=`my_exe "${host}" "${port}" "${user}" "${db}" "${query}" 'tab' | grep -v 'id'`
 ids=`lines_to_list "${ids}"`
 
+if [ -z "${ids}" ]; then
+	echo "[:(] no bench result found" >&2
+	exit
+fi
+
 color=`must_env_val "${env}" 'display.color'`
 width=`must_env_val "${env}" 'display.width.max'`
 

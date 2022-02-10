@@ -1,12 +1,13 @@
-help = show bench result by record-id(s)
+help = select bench result by record-id(s), will show in the coming bench.result
 abbr = by-record|record|rec
 
 [arg]
 record-id-list|record-ids|record-id|record-list|records|record|rec|r|id = ''
-verb = 0
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
+
+bench.meta.result.ids = write

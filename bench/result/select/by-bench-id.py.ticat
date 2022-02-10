@@ -1,12 +1,13 @@
-help = show bench result by bench-id
+help = select bench result by bench-id, will show in the coming bench.result
 abbr = by-bench|bench|ben
 
 [arg]
 bench-id|bench|ben|b = ''
-verb = 0
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
+
+bench.meta.result.ids = write

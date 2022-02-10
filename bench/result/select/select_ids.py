@@ -49,3 +49,23 @@ def bench_result_select(host, port, user, db, bench_id, record_ids, tags, worklo
 		where = ' WHERE ' + where
 	query = 'SELECT id FROM bench_meta' + where
 	return my_exe(host, port, user, db, query, 'tab')
+
+def bench_result_merge_ids(ids_old_str, ids):
+	if len(ids_old_str) == 0:
+		return ids
+	ids_old = ids_old_str.split(',')
+	for id in ids:
+		if id not in ids_old:
+			ids_old.append(id)
+	return ids_old
+
+def bench_result_update_ids_to_env(env, ids):
+	if len(ids) == 0:
+		return
+	key = 'bench.meta.result.ids'
+	ids_old = env.get_ex(key, '')
+	ids = bench_result_merge_ids(ids_old, ids)
+	ids_str = ','.join(ids)
+	env.set(key, ids_str)
+	print(key + '=' + ids_str)
+	env.flush()

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import copy
 import sys
 sys.path.append('../../helper/python.helper')
 

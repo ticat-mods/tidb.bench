@@ -1,8 +1,8 @@
-help = show bench result by bench-id
-abbr = by-bench|bench|ben
+help = show bench result by tag(s)
+abbr = tag
 
 [arg]
-bench-id|bench|ben|b = ''
+tags|tag|t = ''
 verb = 0
 
 [env]
