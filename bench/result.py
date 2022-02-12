@@ -6,6 +6,7 @@ sys.path.append('./result')
 sys.path.append('./result/select')
 
 from ticat import Env
+from my import my_exe
 from select_ids import bench_result_select
 from select_ids import bench_result_merge_ids
 from display_ids import bench_result_display
@@ -17,9 +18,6 @@ def bench_result():
 	record_ids = sys.argv[5]
 	bench_id = sys.argv[6]
 	has_filter = len(bench_id) != 0 or len(record_ids) != 0 or len(tags) != 0 or len(workload) != 0
-
-	vertical = sys.argv[7].lower()
-	vertical = (vertical == 'vertical') or (vertical == 'v') or (vertical == 'true')
 
 	env = Env()
 
@@ -33,7 +31,14 @@ def bench_result():
 	db = env.must_get('bench.meta.db-name')
 
 	if not has_filter and len(ids_old) == 0:
-		print("[:(] all args are empty, skipped. use args 'workload' 'tags' 'record-id' ... to match results")
+		print('[:(] all args are empty, will be too many contents to show, skipped')
+		print("     - use args 'workload' 'tags' 'record-id' ... to match results")
+		print("     - or use another command 'bench.result.ls' to list all in simple mode")
+		return
+
+	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	if 'bench_meta' not in tables:
+		print('[:(] bench_meta table not found')
 		return
 
 	ids = []

@@ -2,13 +2,20 @@
 
 import sys
 sys.path.append('../../helper/python.helper')
+sys.path.append('./select')
 
 from ticat import Env
 from my import my_exe
 from strs import colorize
+from select_ids import bench_result_select
 
 def bench_result_list():
-	limit = int(sys.argv[2])
+	workload = sys.argv[2]
+	tags = sys.argv[3]
+	record_ids = sys.argv[4]
+	bench_id = sys.argv[5]
+	limit = int(sys.argv[6])
+
 	env = Env()
 
 	color = env.must_get('display.color') == 'true'
@@ -19,6 +26,16 @@ def bench_result_list():
 	user = env.must_get('bench.meta.user')
 	db = env.must_get('bench.meta.db-name')
 
+	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	if 'bench_meta' not in tables:
+		print('[:(] bench_meta table not found')
+		return
+
+	ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload)
+	matching_id_str = ''
+	if len(ids) != 0:
+		matching_id_str = ' AND id in(%s)' % ','.join(ids)
+
 	sub_query = 'SELECT DISTINCT(bench_id) FROM bench_meta WHERE finished=1 ORDER BY bench_id DESC LIMIT %s' % limit
 	query = '''
 		SELECT
@@ -26,9 +43,12 @@ def bench_result_list():
 			id as record_id,
 			run_id as begin,
 			workload
-		FROM bench_meta WHERE bench_id IN (%s)
+		FROM
+			bench_meta
+		WHERE
+			bench_id IN (%s)%s
 		ORDER BY bench_id DESC
-	''' % sub_query
+	''' % (sub_query, matching_id_str)
 	rows = my_exe(host, port, user, db, query, 'tab')
 	rows.sort(key = lambda row: row[0])
 
@@ -53,7 +73,7 @@ def bench_result_list():
 			bench_ids.append(bench_id)
 		query = 'SELECT tag FROM bench_tags WHERE id=\"%s\" ORDER BY display_order' % record_id
 		tags = my_exe(host, port, user, db, query, 'tab')
-		query = 'SELECT section, name, val FROM bench_data WHERE id=\"%s\" AND verb_level=0 ORDER BY display_order' % record_id
+		query = 'SELECT section, name, val FROM bench_data WHERE id=\"%s\" AND verb_level<=1 ORDER BY display_order' % record_id
 		kvs = my_exe(host, port, user, db, query, 'tab')
 		section, kvs = normalize_kvs(kvs)
 		bench.append((record_id, begin, workload, tags, section, kvs))

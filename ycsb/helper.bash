@@ -112,25 +112,25 @@ function ycsb_result_agg_action()
 function ycsb_result_verb_level()
 {
 	local key="${1}"
-	local verb=3
+	local verb=4
 	if [ "${key}" == 'ops' ]; then
-		local verb=0
+		local verb=1
 	elif [ "${key}" == 'avg' ]; then
-		local verb=0
+		local verb=1
 	elif [ "${key}" == 'p99' ]; then
-		local verb=0
+		local verb=1
 	elif [ "${key}" == 'p999' ]; then
-		local verb=1
-	elif [ "${key}" == 'p9999' ]; then
-		local verb=1
-	elif [ "${key}" == 'max' ]; then
 		local verb=2
+	elif [ "${key}" == 'p9999' ]; then
+		local verb=2
+	elif [ "${key}" == 'max' ]; then
+		local verb=3
 	elif [ "${key}" == 'min' ]; then
-		local verb=3
+		local verb=4
 	elif [ "${key}" == 'takes' ]; then
-		local verb=3
+		local verb=4
 	elif [ "${key}" == 'count' ]; then
-		local verb=3
+		local verb=4
 	fi
 	echo ${verb}
 }

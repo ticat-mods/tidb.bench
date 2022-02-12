@@ -12,16 +12,16 @@ from strs import colorize
 class Line:
 	def __init__(self, line, gig = -1, better = -1, sym = ''):
 		self.line = line
-		self.rendered = line
+		self.colorized = line
 		self.gig = gig
 		self.better = better
 		self.sym = sym
 
-		self.is_blank = True
-		for c in line:
+	def is_blank(self):
+		for c in self.line:
 			if c != ' ' and c != '|':
-				self.is_blank = False
-				break
+				return False
+		return True
 
 	def __len__(self):
 		return len(self.line)
@@ -31,29 +31,29 @@ class Line:
 
 	def append(self, s):
 		self.line += s
-		self.rendered += s
+		self.colorized += s
 
 	def merge(self, line):
 		self.line += line.line
-		self.rendered += line.rendered
+		self.colorized += line.colorized
 
 	def colorize(self, c1, c2, c3, c4):
-		if len(self.line) == 0 or self.is_blank:
+		if len(self.line) == 0:
 			return
 		if self.line[0] == '[':
-			self.rendered = colorize(c1, self.line)
+			self.colorized = colorize(c1, self.line)
 			return
 		n = self.line.find(':')
 		if n < 0:
-			self.rendered = colorize(c2, self.line)
+			self.colorized = colorize(c2, self.line)
 			return
 		head = self.line[:n+1]
 		tail = self.line[n+1:]
 		if self.line[0] != ' ':
-			self.rendered = colorize(c3, head) + colorize(c2, tail)
+			self.colorized = colorize(c3, head) + colorize(c2, tail)
 			return
 		if self.better < 0:
-			self.rendered = colorize(c4, head) + tail
+			self.colorized = colorize(c4, head) + tail
 			return
 		last_field_idx = self.line.rfind(self.sym)
 		if self.better == 1:
@@ -62,12 +62,12 @@ class Line:
 			color_delta = 124 #red
 		mid = self.line[n+1:last_field_idx]
 		tail = self.line[last_field_idx:]
-		self.rendered = colorize(c4, head) + mid + colorize(color_delta, tail)
+		self.colorized = colorize(c4, head) + mid + colorize(color_delta, tail)
 
-	def print(self):
-		if self.is_blank:
+	def display(self):
+		if self.is_blank():
 			return
-		print(self.rendered)
+		print(self.colorized)
 
 class BenchResultMerging:
 	def __init__(self):
@@ -133,6 +133,8 @@ class BaselineKvs:
 		if k not in kvs:
 			return '', False, -1
 		baseline_v, gig = kvs[k]
+		if gig < 0:
+			return '', False, -1
 		v = float(v)
 		percent = abs(baseline_v - v) * 100 / baseline_v
 		percent = "%.2f" % percent
@@ -155,9 +157,12 @@ class RunInfo:
 	def render(self, verb, baseline, indent):
 		bench_id, begin, end, run_host, workload = self.meta
 
-		indent = ' ' * indent
+		id_line = 'record-id: %s' % self.id
+		if baseline.my_id == self.id:
+			id_line += ' (baseline)'
+
 		header_lines = []
-		header_lines.append(Line('record-id: %s' % self.id))
+		header_lines.append(Line(id_line))
 		header_lines.append(Line('workload:  %s' % workload))
 		header_lines.append(Line('begin:     %s' % begin))
 		if verb > 0:
@@ -166,6 +171,7 @@ class RunInfo:
 			header_lines.append(Line('run-host:  %s ' % run_host))
 			header_lines.append(Line('bench-id:  %s ' % bench_id))
 
+		indent = ' ' * indent
 		tags_lines = []
 		if len(self.tags) != 0:
 			tags_lines.append(Line('[tags]'))
@@ -225,25 +231,25 @@ class RunsLines:
 			lines = self.runs_lines[id]
 			header_lines, tags_lines, sections, sections_lines = lines
 			while len(header_lines) < self.header_max:
-				header_lines.append('')
+				header_lines.append(Line(''))
 			while len(tags_lines) < self.tags_max:
-				tags_lines.append('')
+				tags_lines.append(Line(''))
 			for section in self.sections_all:
 				if section not in sections_lines:
 					sections_lines[section] = []
 				section_lines = sections_lines[section]
 				while len(section_lines) < self.sections_max[section]:
-					section_lines.append(('', -1, -1, ''))
+					section_lines.append(Line(''))
 				sections_lines[section] = section_lines
 			self.runs_lines[id] = (header_lines, tags_lines, self.sections_all, sections_lines)
 
 	def pop_h_merged(self, width, gap):
 		if len(self.ids) == 0:
-			return None, 0
+			return None, 0, 0
 		merging = BenchResultMerging()
 		merged_cnt, line_max = self._merge_aligned_and_colorize(merging, width, gap)
 		self.ids = self.ids[merged_cnt:]
-		return merging, len(self.ids)
+		return merging, len(self.ids), line_max
 
 	def _merge_aligned_and_colorize(self, merging, width, indent, min_line_max = 34):
 		ids = self.ids
@@ -328,22 +334,23 @@ class BenchResultDisplay:
 		runs_lines = RunsLines(ids, infos, self.verb, baseline, self.use_color, 4)
 		runs_lines.v_align()
 		while True:
-			merged, remain = runs_lines.pop_h_merged(self.width, 3)
+			merged, remain, line_max = runs_lines.pop_h_merged(self.width, 3)
 			if merged == None:
 				break
 			BenchResultDisplay._display_one(merged.header_lines, merged.tags_lines, runs_lines.sections_all, merged.sections_lines)
 			if remain > 0:
-				print('-' * self.width)
+				#print('-' * self.width)
+				print('=' * line_max)
 
 	@staticmethod
 	def _display_one(header_lines, tags_lines, sections, sections_lines):
 		for line in header_lines:
-			line.print()
+			line.display()
 		for line in tags_lines:
-			line.print()
+			line.display()
 		for section in sections:
 			for line in sections_lines[section]:
-				line.print()
+				line.display()
 
 	def _fetch_result(self):
 		baseline = BaselineKvs()
@@ -357,10 +364,10 @@ class BenchResultDisplay:
 			if meta == None:
 				break
 			tags = self._read_tags(id)
-			sections, kvs = self._read_sections(id)
+			sections, kvs, cnt = self._read_sections(id)
 			if self.first_as_baseline and baseline.uninited():
 				baseline.set_my_id(id)
-			if len(sections) == 0:
+			if cnt == 0:
 				continue
 			baseline.add(id, sections, kvs)
 			ids.append(id)
@@ -397,19 +404,22 @@ class BenchResultDisplay:
 	def _kvs_to_section(self, rows):
 		sections = []
 		kvs = []
-		name = ''
-		for n, k, v, gig in rows:
-			if name != n:
-				name = n
-				sections.append(name)
+		section = ''
+		row_cnt = 0
+		for name, k, v, gig in rows:
+			if section != name:
+				section = name
+				sections.append(section)
 				kvs.append([])
 			kvs[-1].append((k, v, int(gig)))
-		return sections, kvs
+			row_cnt += 1
+		return sections, kvs, row_cnt
 
 	def _my_exe(self, query):
 		return my_exe(self.host, self.port, self.user, self.db, query, 'tab')
 
 def bench_result_display(host, port, user, db, verb, ids_str, use_color, width, first_as_baseline = True, baseline_id = -1):
+	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
 	BenchResultDisplay(host, port, user, db, verb, ids_str, use_color, width, first_as_baseline, baseline_id).display()
 
 if __name__ == '__main__':

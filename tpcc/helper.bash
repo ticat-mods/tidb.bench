@@ -60,21 +60,21 @@ function tpcc_result_verb_level()
 {
 	local section="${1}"
 	local key="${2}"
-	local verb=3
+	local verb=4
 	if [ "${key}" == 'tpm' ]; then
-		local verb=0
+		local verb=1
 	elif [ "${key}" == 'avg' ]; then
-		local verb=0
+		local verb=1
 	elif [ "${key}" == 'p99' ]; then
-		local verb=0
+		local verb=1
 	elif [ "${key}" == 'p95' ]; then
-		local verb=1
+		local verb=2
 	elif [ "${key}" == 'p999' ]; then
-		local verb=1
+		local verb=2
 	elif [ "${key}" == 'p50' ]; then
-		local verb=2
+		local verb=3
 	elif [ "${key}" == 'p90' ]; then
-		local verb=2
+		local verb=3
 	fi
 	if [ "${section}" != 'NEW_ORDER' ]; then
 		((verb=verb+2))
@@ -87,6 +87,8 @@ function tpcc_result_gig()
 	local key="${1}"
 	if [ "${key}" == 'tpm' ]; then
 		echo '1'
+	elif [ "${key}" == 'takes' ] || [ "${key}" == 'count' ]; then
+		echo '-1'
 	else
 		echo '0'
 	fi

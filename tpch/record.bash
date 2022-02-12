@@ -15,7 +15,7 @@ id=`bench_record_write_start "${host}" "${port}" "${user}" "${db}" 'tpch' "${env
 
 lines=`tpch_result_read_from_file "${summary}" | sort -n`
 agg_action='AVG'
-verb_level=0
+verb_level=1
 greater_is_good=0
 echo "${lines}" | while read line; do
 	kv=(${line})
