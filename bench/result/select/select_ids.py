@@ -5,7 +5,7 @@ sys.path.append('../../helper/python.helper')
 
 from my import my_exe
 
-def bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload):
+def bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt):
 	def query_by_tags(tags):
 		assert(len(tags) > 0)
 		for i in range(1, len(tags)):
@@ -18,6 +18,9 @@ def bench_result_select(host, port, user, db, bench_id, record_ids, tags, worklo
 			table = 't' + str(i + 1)
 			join += ' INNER JOIN bench_tags AS %s ON t1.id=%s.id' % (table, table)
 			where += ' AND %s.tag="%s"' % (table, tags[i])
+		where += ' ORDER BY t1.id DESC'
+		if max_cnt > 0:
+			where += ' LIMIT %d' % max_cnt
 		return query + join + where
 
 	where = ''
@@ -45,10 +48,18 @@ def bench_result_select(host, port, user, db, bench_id, record_ids, tags, worklo
 			where += ' AND '
 		where += 'id IN (%s)' % query_by_tags(tags.strip().split(','))
 
-	if len(where) > 0:
+	has_where = (len(where) > 0)
+
+	where += ' ORDER BY end_ts DESC'
+	if max_cnt > 0:
+		where += ' LIMIT %d' % max_cnt
+
+	if has_where:
 		where = ' WHERE ' + where
 	query = 'SELECT id FROM bench_meta' + where
-	return my_exe(host, port, user, db, query, 'tab')
+	ids = my_exe(host, port, user, db, query, 'tab')
+	ids.sort(key = lambda x: int(x))
+	return ids
 
 def bench_result_merge_ids(ids_old_str, ids):
 	if len(ids_old_str) == 0:

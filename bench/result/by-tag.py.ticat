@@ -4,6 +4,7 @@ abbr = tag
 [arg]
 tags|tag|t = ''
 verb = 1
+max-records|max-cnt|max|limit = 0
 
 [env]
 bench.meta.host = read

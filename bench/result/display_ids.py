@@ -174,9 +174,9 @@ class RunInfo:
 		header_lines.append(Line(id_line))
 		header_lines.append(Line('workload:  %s' % workload))
 		header_lines.append(Line('begin:     %s' % begin))
-		if verb > 0:
+		if verb > 1:
 			header_lines.append(Line('end:       %s' % end))
-		if verb > 3:
+		if verb > 4:
 			header_lines.append(Line('run-host:  %s ' % run_host))
 			header_lines.append(Line('bench-id:  %s ' % bench_id))
 
@@ -320,7 +320,7 @@ class RunsLines:
 		return (header_lines, tags_lines, sections, sections_lines), line_max, True
 
 class BenchResultDisplay:
-	def __init__(self, host, port, user, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True):
+	def __init__(self, host, port, user, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt):
 		self.host = host
 		self.port = port
 		self.user = user
@@ -328,6 +328,7 @@ class BenchResultDisplay:
 		self.ids_str = ids_str
 		self.use_color = use_color
 		self.width = width
+		self.max_cnt = max_cnt
 
 		self.verb = int(verb)
 		if self.verb <= 0:
@@ -377,7 +378,7 @@ class BenchResultDisplay:
 			if id not in ids_set:
 				ids_dedup.append(id)
 				ids_set.add(id)
-		ids = ids_dedup
+		ids = ids_dedup[:self.max_cnt]
 
 		infos = {}
 		for id in ids:
@@ -396,7 +397,20 @@ class BenchResultDisplay:
 		return ids, infos, baseline
 
 	def _read_meta(self, id):
-		query = 'SELECT bench_id, run_id, end_ts, run_host, workload FROM bench_meta WHERE id=\"%s\" AND finished=1' % id
+		query = '''
+			SELECT
+				bench_id,
+				run_id,
+				end_ts,
+				run_host,
+				workload
+			FROM
+				bench_meta
+			WHERE
+				id=\"%s\"
+			AND
+				finished=1
+		''' % id
 		meta = self._my_exe(query)
 		if len(meta) == 0:
 			return None
@@ -438,9 +452,9 @@ class BenchResultDisplay:
 	def _my_exe(self, query):
 		return my_exe(self.host, self.port, self.user, self.db, query, 'tab')
 
-def bench_result_display(host, port, user, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True):
+def bench_result_display(host, port, user, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32):
 	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
-	BenchResultDisplay(host, port, user, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline).display()
+	BenchResultDisplay(host, port, user, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt).display()
 
 if __name__ == '__main__':
 	if len(sys.argv) != 9:

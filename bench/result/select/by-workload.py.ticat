@@ -5,6 +5,7 @@ quiet-err = true
 [arg]
 workload|wl = ''
 as-baseline|baseline|base = false
+max-records|max-cnt|max|limit = 0
 
 [env]
 bench.meta.host = read

@@ -14,7 +14,7 @@ def bench_result_list():
 	tags = sys.argv[3]
 	record_ids = sys.argv[4]
 	bench_id = sys.argv[5]
-	limit = int(sys.argv[6])
+	max_cnt = int(sys.argv[6])
 
 	env = Env()
 
@@ -31,12 +31,14 @@ def bench_result_list():
 		print('[:(] bench_meta table not found')
 		return
 
-	ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload)
+	ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
 	matching_id_str = ''
 	if len(ids) != 0:
 		matching_id_str = ' AND id in(%s)' % ','.join(ids)
 
-	sub_query = 'SELECT DISTINCT(bench_id) FROM bench_meta WHERE finished=1 ORDER BY bench_id DESC LIMIT %s' % limit
+	sub_query = 'SELECT DISTINCT(bench_id) FROM bench_meta WHERE finished=1 ORDER BY bench_id DESC'
+	if max_cnt > 0:
+		sub_query += ' LIMIT %d' % max_cnt
 	query = '''
 		SELECT
 			bench_id,

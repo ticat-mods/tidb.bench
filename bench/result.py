@@ -17,6 +17,7 @@ def bench_result():
 	verb = int(sys.argv[4])
 	record_ids = sys.argv[5]
 	bench_id = sys.argv[6]
+	max_cnt = int(sys.argv[7])
 	has_filter = len(bench_id) != 0 or len(record_ids) != 0 or len(tags) != 0 or len(workload) != 0
 
 	env = Env()
@@ -31,10 +32,7 @@ def bench_result():
 	db = env.must_get('bench.meta.db-name')
 
 	if not has_filter and len(ids_old) == 0:
-		print('[:(] all args are empty, will be too many contents to show, skipped')
-		print("     - use args 'workload' 'tags' 'record-id' 'bench-id' to match results")
-		print("     - or use another command 'bench.result.ls' to list all in simple mode")
-		return
+		max_cnt = 64
 
 	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:
@@ -43,7 +41,7 @@ def bench_result():
 
 	ids = []
 	if has_filter:
-		ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload)
+		ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
 	ids = bench_result_merge_ids(ids_old, ids)
 	baseline_id = env.get_ex('bench.meta.result.baseline-id', '')
 

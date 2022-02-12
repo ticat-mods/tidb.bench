@@ -7,6 +7,7 @@ tags|tag|t = ''
 verb = 1
 record-id-list|record-ids|record-id|record-list|records|record|rec|r = ''
 bench-id|bench|ben|b = ''
+max-records|max-cnt|max|limit = 0
 
 [env]
 bench.meta.host = read

@@ -14,6 +14,7 @@ def bench_result_select_by_tag():
 	tags = sys.argv[2]
 	as_baseline = sys.argv[3].lower()
 	as_baseline = as_baseline == 'baseline' or to_true(as_baseline)
+	max_cnt = int(sys.argv[4])
 
 	if len(tags) == 0:
 		print("[:(] arg 'tag' is empty, skipped")
@@ -31,7 +32,7 @@ def bench_result_select_by_tag():
 		print('[:(] bench_meta table not found')
 		return
 
-	ids = bench_result_select(host, port, user, db, '', '', tags, '')
+	ids = bench_result_select(host, port, user, db, '', '', tags, '', max_cnt)
 	ok = bench_result_update_ids_to_env(env, ids, as_baseline)
 	if not ok:
 		sys.exit(-1)

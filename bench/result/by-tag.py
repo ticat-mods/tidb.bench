@@ -18,6 +18,7 @@ def bench_result_by_tag():
 		return
 
 	verb = int(sys.argv[3])
+	max_cnt = int(sys.argv[4])
 
 	env = Env()
 
@@ -34,7 +35,7 @@ def bench_result_by_tag():
 		print('[:(] bench_meta table not found')
 		return
 
-	ids = bench_result_select(host, port, user, db, '', '', tags, '')
+	ids = bench_result_select(host, port, user, db, '', '', tags, '', max_cnt)
 	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width)
 
 bench_result_by_tag()
