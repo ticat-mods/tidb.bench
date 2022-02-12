@@ -32,7 +32,7 @@ def bench_result():
 
 	if not has_filter and len(ids_old) == 0:
 		print('[:(] all args are empty, will be too many contents to show, skipped')
-		print("     - use args 'workload' 'tags' 'record-id' ... to match results")
+		print("     - use args 'workload' 'tags' 'record-id' 'bench-id' to match results")
 		print("     - or use another command 'bench.result.ls' to list all in simple mode")
 		return
 
@@ -45,8 +45,11 @@ def bench_result():
 	if has_filter:
 		ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload)
 	ids = bench_result_merge_ids(ids_old, ids)
-
 	baseline_id = env.get_ex('bench.meta.result.baseline-id', '')
+
+	if len(baseline_id) == 0 and len(ids) == 0:
+		print('[:(] no matched bench results')
+		return
 	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width, baseline_id)
 
 bench_result()

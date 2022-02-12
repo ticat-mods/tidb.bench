@@ -7,6 +7,7 @@ import sys
 sys.path.append('../../helper/python.helper')
 
 from my import my_exe
+from strs import to_true
 from strs import colorize
 
 class Line:
@@ -366,7 +367,8 @@ class BenchResultDisplay:
 		if len(self.baseline_id) > 0:
 			baseline.set_my_id(self.baseline_id)
 			ids.append(self.baseline_id)
-		ids += self.ids_str.split(',')
+		if len(self.ids_str) > 0:
+			ids += self.ids_str.split(',')
 
 		ids_dedup = []
 		ids_set = set()
@@ -394,7 +396,7 @@ class BenchResultDisplay:
 		return ids, infos, baseline
 
 	def _read_meta(self, id):
-		query = 'SELECT bench_id, run_id, end_ts, run_host, workload FROM bench_meta WHERE id=\"%s\"' % id
+		query = 'SELECT bench_id, run_id, end_ts, run_host, workload FROM bench_meta WHERE id=\"%s\" AND finished=1' % id
 		meta = self._my_exe(query)
 		if len(meta) == 0:
 			return None
@@ -450,7 +452,7 @@ if __name__ == '__main__':
 	user = sys.argv[3]
 	db = sys.argv[4]
 	verb = int(sys.argv[5])
-	use_color = sys.argv[6].lower() == 'true'
+	use_color = to_true(sys.argv[6].lower())
 	width = int(sys.argv[7])
 	ids = sys.argv[8]
 

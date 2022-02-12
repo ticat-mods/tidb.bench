@@ -95,6 +95,20 @@ function parse_ycsb_summary()
 '
 }
 
+function ycsb_result_to_lines()
+{
+	local summary_file="${1}"
+	cat "${summary_file}" | while read line; do
+		local fields=(${line})
+		local section="${fields[0]}"
+		local keys=(`echo "${fields[1]}" | tr ',' ' '`)
+		local vals=(`echo "${fields[2]}" | tr ',' ' '`)
+		for (( i = 0; i < ${#keys[@]}; i++ )); do
+			echo "${fields}" "${keys[i]}" "${vals[i]}"
+		done
+	done
+}
+
 function ycsb_result_agg_action()
 {
 	local key="${1}"

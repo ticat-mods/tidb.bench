@@ -19,7 +19,7 @@ def bench_result_list():
 	env = Env()
 
 	color = env.must_get('display.color') == 'true'
-	width = int(env.must_get('display.width.max'))
+	width = int(env.must_get('display.width.max')) - 2
 
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')

@@ -13,18 +13,18 @@ summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
 id=`bench_record_write_start "${host}" "${port}" "${user}" "${db}" 'ycsb' "${env}"`
 
-cat "${summary}" | while read line; do
+summary=`ycsb_result_to_lines "${summary}" | sort -k 1,2`
+
+echo "${summary}" | while read line; do
 	fields=(${line})
 	section="${fields[0]}"
-	keys=(`echo "${fields[1]}" | tr ',' ' '`)
-	vals=(`echo "${fields[2]}" | tr ',' ' '`)
-	for (( i = 0; i < ${#keys[@]}; i++ )); do
-		agg_action=`ycsb_result_agg_action "${keys[i]}"`
-		verb_level=`ycsb_result_verb_level "${keys[i]}"`
-		greater_is_good=`ycsb_result_gig "${keys[i]}"`
-		bench_record_write "${host}" "${port}" "${user}" "${db}" "${id}" "${section}" "${keys[i]}" "${vals[i]}" \
-			"${agg_action}" "${verb_level}" "${greater_is_good}"
-	done
+	key="${fields[1]}"
+	val="${fields[2]}"
+	agg_action=`ycsb_result_agg_action "${key}"`
+	verb_level=`ycsb_result_verb_level "${key}"`
+	greater_is_good=`ycsb_result_gig "${key}"`
+	bench_record_write "${host}" "${port}" "${user}" "${db}" "${id}" "${section}" "${key}" "${val}" \
+		"${agg_action}" "${verb_level}" "${greater_is_good}"
 done
 
 threads=`env_val "${env}" 'bench.ycsb.threads'`
