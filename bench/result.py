@@ -32,7 +32,7 @@ def bench_result():
 	db = env.must_get('bench.meta.db-name')
 
 	if not has_filter and len(ids_old) == 0:
-		max_cnt = 64
+		max_cnt = 1024
 
 	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:

@@ -15,6 +15,7 @@ def bench_result_list():
 	record_ids = sys.argv[4]
 	bench_id = sys.argv[5]
 	max_cnt = int(sys.argv[6])
+	has_filter = len(bench_id) != 0 or len(record_ids) != 0 or len(tags) != 0 or len(workload) != 0
 
 	env = Env()
 
@@ -31,14 +32,19 @@ def bench_result_list():
 		print('[:(] bench_meta table not found')
 		return
 
-	ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
-	matching_id_str = ''
+	ids = []
+	if has_filter:
+		ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt = -1)
+	where = ''
 	if len(ids) != 0:
-		matching_id_str = ' AND id in(%s)' % ','.join(ids)
+		where = 'WHERE id in(%s)' % ','.join(ids)
+	elif has_filter:
+		print('[:(] no matched bench results')
+		return
 
-	sub_query = 'SELECT DISTINCT(bench_id) FROM bench_meta WHERE finished=1 ORDER BY bench_id DESC'
+	limit_str = ''
 	if max_cnt > 0:
-		sub_query += ' LIMIT %d' % max_cnt
+		limit_str = ' LIMIT %d' % max_cnt
 	query = '''
 		SELECT
 			bench_id,
@@ -47,11 +53,15 @@ def bench_result_list():
 			workload
 		FROM
 			bench_meta
-		WHERE
-			bench_id IN (%s)%s
-		ORDER BY bench_id DESC
-	''' % (sub_query, matching_id_str)
+		%s
+		ORDER BY begin DESC
+		%s
+	''' % (where, limit_str)
 	rows = my_exe(host, port, user, db, query, 'tab')
+	if len(rows) <= 0:
+		print('[:(] no matched result found')
+		return
+
 	rows.sort(key = lambda row: row[0])
 
 	class RunInfo:
@@ -179,7 +189,7 @@ def bench_result_list():
 
 	for bench_id in bench_ids:
 		bench = benchs[bench_id]
-		print_line('[session-id]: ' + bench_id, 202, 202)
+		print_line('[session]: ' + bench_id, 202, 202)
 		for id in bench.record_ids:
 			run = bench.runs[id]
 			print_line(indent + 'record-id: ' + run.id, 214, 214)

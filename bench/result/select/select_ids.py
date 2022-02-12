@@ -11,7 +11,7 @@ def bench_result_select(host, port, user, db, bench_id, record_ids, tags, worklo
 		for i in range(1, len(tags)):
 			tags[i] = tags[i].strip()
 
-		query = 'SELECT DISTINCT t1.id as id from bench_tags AS t1'
+		query = 'SELECT DISTINCT t1.id as id FROM bench_tags AS t1'
 		join = ''
 		where = ' WHERE t1.tag="%s"' % tags[0]
 		for i in range(1, len(tags)):
@@ -19,8 +19,6 @@ def bench_result_select(host, port, user, db, bench_id, record_ids, tags, worklo
 			join += ' INNER JOIN bench_tags AS %s ON t1.id=%s.id' % (table, table)
 			where += ' AND %s.tag="%s"' % (table, tags[i])
 		where += ' ORDER BY t1.id DESC'
-		if max_cnt > 0:
-			where += ' LIMIT %d' % max_cnt
 		return query + join + where
 
 	where = ''
