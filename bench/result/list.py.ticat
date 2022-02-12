@@ -1,5 +1,6 @@
 help = find and show bench results
 abbr = find|search|ls
+quiet-err = true
 
 [arg]
 workload|wl = ''

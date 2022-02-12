@@ -54,36 +54,104 @@ def bench_result_list():
 	rows = my_exe(host, port, user, db, query, 'tab')
 	rows.sort(key = lambda row: row[0])
 
-	def normalize_kvs(kvs):
-		first_section = ''
-		cols = []
-		for section, name, val in kvs:
-			if len(first_section) == 0:
-				first_section = section
-			elif section != first_section:
-				continue
-			cols.append((name, val))
-		return first_section, cols
+	class RunInfo:
+		def __init__(self, id, begin, workload):
+			self.id = id
+			self.begin = begin
+			self.workload = workload
+			self.tags = []
+			self.first_section = ''
+			self.kvs = []
+
+		def add_tag(self, tag):
+			self.tags.append(tag)
+
+		def add_kv(self, section, k, v):
+			if len(self.first_section) == 0:
+				self.first_section = section
+			elif section != self.first_section:
+				return
+			self.kvs.append((k, v))
+
+	class Bench:
+		def __init__(self, bench_id):
+			self.bench_id = bench_id
+			self.record_ids = []
+			self.runs = {}
+
+		def add(self, record_id, begin, workload):
+			if record_id in self.runs:
+				return False
+			self.runs[record_id] = RunInfo(record_id, begin, workload)
+			self.record_ids.append(record_id)
+			return True
+
+		def get(self, record_id):
+			return self.runs[record_id]
+
+		def sort_runs(self):
+			self.record_ids.sort()
 
 	benchs = {}
 	bench_ids = []
+	record_ids = set()
 	for bench_id, record_id, begin, workload in rows:
-		bench = []
 		if bench_id in benchs:
 			bench = benchs[bench_id]
 		else:
+			bench = Bench(bench_id)
+			benchs[bench_id] = bench
 			bench_ids.append(bench_id)
-		query = 'SELECT tag FROM bench_tags WHERE id=\"%s\" ORDER BY display_order' % record_id
-		tags = my_exe(host, port, user, db, query, 'tab')
-		query = 'SELECT section, name, val FROM bench_data WHERE id=\"%s\" AND verb_level<=1 ORDER BY display_order' % record_id
-		kvs = my_exe(host, port, user, db, query, 'tab')
-		section, kvs = normalize_kvs(kvs)
-		bench.append((record_id, begin, workload, tags, section, kvs))
-		benchs[bench_id] = bench
+		bench.add(record_id, begin, workload)
+		record_ids.add(record_id)
 
 	for bench_id in bench_ids:
-		runs = benchs[bench_id]
-		runs.sort(key = lambda run: int(run[0]))
+		benchs[bench_id].sort_runs()
+
+	record_ids_str = ','.join(record_ids)
+
+	query = '''
+		SELECT
+			m.bench_id,
+			m.id,
+			t.tag
+		FROM
+			bench_tags AS t
+		LEFT JOIN
+			bench_meta AS m
+		ON
+			t.id = m.id
+		WHERE
+			t.id IN (%s)
+		ORDER BY
+			t.display_order
+		''' % record_ids_str
+	tags = my_exe(host, port, user, db, query, 'tab')
+	for bench_id, record_id, tag in tags:
+		benchs[bench_id].get(record_id).add_tag(tag)
+
+	query = '''
+		SELECT
+			m.bench_id,
+			d.id,
+			d.section,
+			d.name,
+			d.val
+		FROM
+			bench_data AS d
+		LEFT JOIN
+			bench_meta AS m
+		ON
+			d.id = m.id
+		WHERE
+			d.id IN (%s)
+		AND
+			d.verb_level<=1
+		ORDER BY d.display_order
+	''' % record_ids_str
+	kvs = my_exe(host, port, user, db, query, 'tab')
+	for bench_id, record_id, section, k, v in kvs:
+		benchs[bench_id].get(record_id).add_kv(section, k, v)
 
 	indent = ' ' * 4
 
@@ -110,16 +178,17 @@ def bench_result_list():
 		print(line)
 
 	for bench_id in bench_ids:
-		runs = benchs[bench_id]
+		bench = benchs[bench_id]
 		print_line('[bench-id]: ' + bench_id, 202, 202)
-		for record_id, begin, workload, tags, section, kvs in runs:
-			print_line(indent + 'record-id: ' + record_id, 214, 214)
-			print_line(indent * 2 + 'workload: ' + workload, 27, 0)
-			#print_header(indent + 'begin: ' + begin)
-			if len(tags) > 0:
-				print_line(indent * 2 + 'tags: ' + ' '.join(tags), 27, 8)
-			if len(kvs) > 0:
-				prefix = indent * 2 + section + ': '
-				print_line(prefix + format_kvs(kvs, width-len(prefix)), 27, 0)
+		for id in bench.record_ids:
+			run = bench.runs[id]
+			print_line(indent + 'record-id: ' + run.id, 214, 214)
+			print_line(indent * 2 + 'workload: ' + run.workload, 27, 0)
+			#print_header(indent + 'begin: ' + run.begin)
+			if len(run.tags) > 0:
+				print_line(indent * 2 + 'tags: ' + ' '.join(run.tags), 27, 8)
+			if len(run.kvs) > 0:
+				prefix = indent * 2 + run.first_section + ': '
+				print_line(prefix + format_kvs(run.kvs, width-len(prefix)), 27, 0)
 
 bench_result_list()
