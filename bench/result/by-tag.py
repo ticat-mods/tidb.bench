@@ -6,6 +6,7 @@ sys.path.append('.')
 sys.path.append('./select')
 
 from ticat import Env
+from my import my_exe
 from select_ids import bench_result_select
 from display_ids import bench_result_display
 
@@ -27,6 +28,11 @@ def bench_result_by_tag():
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
 	db = env.must_get('bench.meta.db-name')
+
+	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	if 'bench_meta' not in tables:
+		print('[:(] bench_meta table not found')
+		return
 
 	ids = bench_result_select(host, port, user, db, '', '', tags, '')
 	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width)

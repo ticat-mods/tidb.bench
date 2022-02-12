@@ -103,18 +103,21 @@ class BenchResultMerging:
 				else:
 					self.sections_lines[section] = _merge(self.sections_lines[section], section_lines)
 
-class BaselineKvs:
+class Baseline:
 	def __init__(self):
 		self.sections = {}
 		self.my_id = ''
+		self.seen_ids = set()
 
 	def uninited(self):
 		return len(self.my_id) == 0
 
 	def set_my_id(self, id):
 		self.my_id = id
+		self.seen_ids.add(id)
 
 	def add(self, id, sections, kvs):
+		self.seen_ids.add(id)
 		if id != self.my_id:
 			return
 		for i in range(0, len(sections)):
@@ -146,6 +149,11 @@ class BaselineKvs:
 		better = (gig == 1 and v > baseline_v) or (gig == 0 and v < baseline_v)
 		return sym + percent + '%', True, better
 
+	def should_show_baseline_mark(self, id):
+		if id != self.my_id:
+			return False
+		return len(self.seen_ids) > 1
+
 class RunInfo:
 	def __init__(self, id, meta, tags, sections, kvs):
 		self.id = id
@@ -158,7 +166,7 @@ class RunInfo:
 		bench_id, begin, end, run_host, workload = self.meta
 
 		id_line = 'record-id: %s' % self.id
-		if baseline.my_id == self.id:
+		if baseline.should_show_baseline_mark(self.id):
 			id_line += ' (baseline)'
 
 		header_lines = []
@@ -311,7 +319,7 @@ class RunsLines:
 		return (header_lines, tags_lines, sections, sections_lines), line_max, True
 
 class BenchResultDisplay:
-	def __init__(self, host, port, user, db, verb, ids_str, use_color, width, first_as_baseline = True, baseline_id = -1):
+	def __init__(self, host, port, user, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True):
 		self.host = host
 		self.port = port
 		self.user = user
@@ -326,8 +334,8 @@ class BenchResultDisplay:
 
 		self.first_as_baseline = first_as_baseline
 		self.baseline_id = baseline_id
-		if baseline_id >= 0:
-			assert(not first_as_baseline)
+		if len(baseline_id) > 0:
+			self.first_as_baseline = False
 
 	def display(self):
 		ids, infos, baseline = self._fetch_result()
@@ -353,13 +361,24 @@ class BenchResultDisplay:
 				line.display()
 
 	def _fetch_result(self):
-		baseline = BaselineKvs()
-		if self.baseline_id >= 0:
-			baseline.set_my_id(id)
-
 		ids = []
+		baseline = Baseline()
+		if len(self.baseline_id) > 0:
+			baseline.set_my_id(self.baseline_id)
+			ids.append(self.baseline_id)
+		ids += self.ids_str.split(',')
+
+		ids_dedup = []
+		ids_set = set()
+		for id in ids:
+			id = id.strip()
+			if id not in ids_set:
+				ids_dedup.append(id)
+				ids_set.add(id)
+		ids = ids_dedup
+
 		infos = {}
-		for id in self.ids_str.split(','):
+		for id in ids:
 			meta = self._read_meta(id)
 			if meta == None:
 				break
@@ -370,7 +389,6 @@ class BenchResultDisplay:
 			if cnt == 0:
 				continue
 			baseline.add(id, sections, kvs)
-			ids.append(id)
 			infos[id] = RunInfo(id, meta, tags, sections, kvs)
 
 		return ids, infos, baseline
@@ -418,9 +436,9 @@ class BenchResultDisplay:
 	def _my_exe(self, query):
 		return my_exe(self.host, self.port, self.user, self.db, query, 'tab')
 
-def bench_result_display(host, port, user, db, verb, ids_str, use_color, width, first_as_baseline = True, baseline_id = -1):
+def bench_result_display(host, port, user, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True):
 	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
-	BenchResultDisplay(host, port, user, db, verb, ids_str, use_color, width, first_as_baseline, baseline_id).display()
+	BenchResultDisplay(host, port, user, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline).display()
 
 if __name__ == '__main__':
 	if len(sys.argv) != 9:

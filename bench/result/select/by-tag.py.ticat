@@ -1,8 +1,10 @@
 help = select bench result by tag(s), will show in the coming bench.result
 abbr = tag
+quiet-err = true
 
 [arg]
 tags|tag|t = ''
+as-baseline|baseline|base = false
 
 [env]
 bench.meta.host = read

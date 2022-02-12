@@ -45,6 +45,8 @@ def bench_result():
 	if has_filter:
 		ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload)
 	ids = bench_result_merge_ids(ids_old, ids)
-	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width)
+
+	baseline_id = env.get_ex('bench.meta.result.baseline-id', '')
+	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width, baseline_id)
 
 bench_result()

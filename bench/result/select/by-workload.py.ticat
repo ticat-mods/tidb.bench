@@ -1,9 +1,9 @@
-help = select bench result by bench-id, will show in the coming bench.result
-abbr = by-bench|bench|ben
+help = select bench result by workload, will show in the coming bench.result
+abbr = workload|wl
 quiet-err = true
 
 [arg]
-bench-id|bench|ben|b = ''
+workload|wl = ''
 as-baseline|baseline|base = false
 
 [env]

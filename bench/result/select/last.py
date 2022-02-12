@@ -6,16 +6,25 @@ sys.path.append('../../../helper/ticat.helper')
 sys.path.append('.')
 
 from ticat import Env
+from strs import to_true
 from my import my_exe
 from select_ids import bench_result_update_ids_to_env
 
 def bench_result_select_last():
+	as_baseline = sys.argv[2].lower()
+	as_baseline = as_baseline == 'baseline' or to_true(as_baseline)
+
 	env = Env()
 
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
 	db = env.must_get('bench.meta.db-name')
+
+	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	if 'bench_meta' not in tables:
+		print('[:(] bench_meta table not found')
+		return
 
 	query = 'SELECT MAX(bench_id) as bench_id FROM bench_meta WHERE finished=1'
 	bench_ids = my_exe(host, port, user, db, query, 'tab')
@@ -29,6 +38,8 @@ def bench_result_select_last():
 		print('[:(] no bench result found')
 		return
 
-	bench_result_update_ids_to_env(env, ids)
+	ok = bench_result_update_ids_to_env(env, ids, as_baseline)
+	if not ok:
+		sys.exit(-1)
 
 bench_result_select_last()

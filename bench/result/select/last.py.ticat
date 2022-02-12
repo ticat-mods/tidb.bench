@@ -1,5 +1,9 @@
 help = select last bench result, will show in the coming bench.result
 abbr = l
+quiet-err = true
+
+[arg]
+as-baseline|baseline|base = false
 
 [env]
 bench.meta.host = read

@@ -1,8 +1,10 @@
 help = select bench result by record-id(s), will show in the coming bench.result
 abbr = by-record|record|rec
+quiet-err = true
 
 [arg]
 record-id-list|record-ids|record-id|record-list|records|record|rec|r|id = ''
+as-baseline|baseline|base = false
 
 [env]
 bench.meta.host = read

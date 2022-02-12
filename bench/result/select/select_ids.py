@@ -59,13 +59,26 @@ def bench_result_merge_ids(ids_old_str, ids):
 			ids_old.append(id)
 	return ids_old
 
-def bench_result_update_ids_to_env(env, ids):
+def bench_result_update_ids_to_env(env, ids, as_baseline):
 	if len(ids) == 0:
-		return
-	key = 'bench.meta.result.ids'
+		return True
+
+	if as_baseline:
+		key = 'bench.meta.result.baseline-id'
+		if len(ids) > 1:
+			print('[:(] select more than one id as baseline, skipped')
+			return False
+	else:
+		key = 'bench.meta.result.ids'
+
 	ids_old = env.get_ex(key, '')
+	if as_baseline and len(ids_old) != 0:
+		print('[:(] has previous selected baseline, skipped')
+		return False
+
 	ids = bench_result_merge_ids(ids_old, ids)
 	ids_str = ','.join(ids)
 	env.set(key, ids_str)
-	print(key + '=' + ids_str)
 	env.flush()
+	print(key + '=' + ids_str)
+	return True
