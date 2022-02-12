@@ -179,7 +179,7 @@ def bench_result_list():
 
 	for bench_id in bench_ids:
 		bench = benchs[bench_id]
-		print_line('[bench-id]: ' + bench_id, 202, 202)
+		print_line('[session-id]: ' + bench_id, 202, 202)
 		for id in bench.record_ids:
 			run = bench.runs[id]
 			print_line(indent + 'record-id: ' + run.id, 214, 214)

@@ -5,8 +5,8 @@ quiet-err = true
 [arg]
 workload|wl = ''
 tags|tag|t = ''
-record-id-list|record-ids|record-id|record-list|records|record|rec|r = ''
-bench-id|bench|ben|b = ''
+record-id-list|record-ids|record-id|rid|record-list|records|record|rec|r = ''
+session-id|session|sid|s = ''
 max-benchs|max-cnt|max|limit = 0
 
 [env]

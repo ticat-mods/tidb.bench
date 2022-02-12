@@ -3,7 +3,7 @@ abbr = by-record|record|rec
 quiet-err = true
 
 [arg]
-record-id-list|record-ids|record-id|record-list|records|record|rec|r|id = ''
+record-id-list|record-ids|record-id|rid|record-list|records|record|rec|r|id = ''
 as-baseline|baseline|base = false
 max-records|max-cnt|max|limit = 0
 

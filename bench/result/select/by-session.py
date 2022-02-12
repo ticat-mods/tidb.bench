@@ -17,7 +17,7 @@ def bench_result_select_by_tag():
 	max_cnt = int(sys.argv[4])
 
 	if len(bench_id) == 0:
-		print("[:(] arg 'bench-id' is empty, skipped")
+		print("[:(] arg 'session-id' is empty, skipped")
 		sys.exit(-1)
 
 	env = Env()

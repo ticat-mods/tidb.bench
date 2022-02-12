@@ -1,8 +1,8 @@
-help = show bench result by bench-id
-abbr = by-bench|bench|ben
+help = show bench result by session-id
+abbr = session|sid|s
 
 [arg]
-bench-id|bench|ben|b = ''
+session-id|session|sid|s = ''
 verb = 1
 
 [env]

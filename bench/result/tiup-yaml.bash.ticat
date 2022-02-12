@@ -2,7 +2,7 @@ help = show tiup topology yaml file by record-id(s)
 abbr = topology|tiup|yaml
 
 [arg]
-record-id|record|id|records|rec|r = ''
+record-id|record|rid|id|records|rec|r = ''
 to-file = ''
 
 [env]

@@ -1,9 +1,9 @@
-help = select bench result by bench-id, will show in the coming bench.result
-abbr = by-bench|bench|ben
+help = select bench result by session-id, will show in the coming bench.result
+abbr = session|sid|s
 quiet-err = true
 
 [arg]
-bench-id|bench|ben|b = ''
+session-id|session|sid|s = ''
 as-baseline|baseline|base = false
 max-records|max-cnt|max|limit = 0
 

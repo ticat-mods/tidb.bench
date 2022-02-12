@@ -166,19 +166,19 @@ class RunInfo:
 	def render(self, verb, baseline, indent):
 		bench_id, begin, end, run_host, workload = self.meta
 
-		id_line = 'record-id: %s' % self.id
+		id_line = 'record-id:  %s' % self.id
 		if baseline.should_show_baseline_mark(self.id):
 			id_line += ' (baseline)'
 
 		header_lines = []
 		header_lines.append(Line(id_line))
-		header_lines.append(Line('workload:  %s' % workload))
-		header_lines.append(Line('begin:     %s' % begin))
+		header_lines.append(Line('workload:   %s' % workload))
+		header_lines.append(Line('begin:      %s' % begin))
 		if verb > 1:
-			header_lines.append(Line('end:       %s' % end))
+			header_lines.append(Line('end:        %s' % end))
 		if verb > 4:
-			header_lines.append(Line('run-host:  %s ' % run_host))
-			header_lines.append(Line('bench-id:  %s ' % bench_id))
+			header_lines.append(Line('run-host:   %s ' % run_host))
+			header_lines.append(Line('session-id: %s ' % bench_id))
 
 		indent = ' ' * indent
 		tags_lines = []
