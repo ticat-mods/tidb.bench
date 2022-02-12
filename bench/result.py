@@ -46,8 +46,11 @@ def bench_result():
 	baseline_id = env.get_ex('bench.meta.result.baseline-id', '')
 
 	if len(baseline_id) == 0 and len(ids) == 0:
-		print('[:(] no matched bench results')
-		return
+		if has_filter:
+			print('[:(] no matched bench results')
+			return
+		else:
+			ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
 	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width, baseline_id)
 
 bench_result()

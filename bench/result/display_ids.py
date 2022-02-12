@@ -380,25 +380,35 @@ class BenchResultDisplay:
 				ids_set.add(id)
 		ids = ids_dedup[:self.max_cnt]
 
+		metas_map = self._read_meta(ids)
+		tags_map = self._read_tags(ids)
+		runs_map = self._read_sections(ids)
+
 		infos = {}
 		for id in ids:
-			meta = self._read_meta(id)
-			if meta == None:
-				break
-			tags = self._read_tags(id)
-			sections, kvs, cnt = self._read_sections(id)
+			if id not in metas_map:
+				continue
+			meta = metas_map[id]
+			if id not in tags_map:
+				tags = []
+			else:
+				tags = tags_map[id]
+			if id not in runs_map:
+				continue
+			run_sections = runs_map[id]
+			if run_sections.kv_cnt <= 0:
+				continue
 			if self.first_as_baseline and baseline.uninited():
 				baseline.set_my_id(id)
-			if cnt == 0:
-				continue
-			baseline.add(id, sections, kvs)
-			infos[id] = RunInfo(id, meta, tags, sections, kvs)
+			baseline.add(id, run_sections.sections, run_sections.kvs)
+			infos[id] = RunInfo(id, meta, tags, run_sections.sections, run_sections.kvs)
 
 		return ids, infos, baseline
 
-	def _read_meta(self, id):
+	def _read_meta(self, ids):
 		query = '''
-			SELECT
+			SELECT DISTINCT
+				id,
 				bench_id,
 				run_id,
 				end_ts,
@@ -407,47 +417,75 @@ class BenchResultDisplay:
 			FROM
 				bench_meta
 			WHERE
-				id=\"%s\"
+				id IN (%s)
 			AND
 				finished=1
-		''' % id
-		meta = self._my_exe(query)
-		if len(meta) == 0:
-			return None
-		return meta[0]
+		''' % ','.join(ids)
+		rows = self._my_exe(query)
+		metas_map = {}
+		for id, bench_id, begin, end, run_host, workload in rows:
+			assert(id not in metas_map)
+			metas_map[id] = (bench_id, begin, end, run_host, workload)
+		return metas_map
 
-	def _read_tags(self, id):
-		query = 'SELECT tag FROM bench_tags WHERE id=\"%s\" ORDER BY display_order' % id
-		return self._my_exe(query)
-
-	def _read_sections(self, id):
+	def _read_tags(self, ids):
 		query = '''
 			SELECT
+				id,
+				tag
+			FROM
+				bench_tags
+			WHERE
+				id IN (%s)
+			ORDER BY
+				display_order
+		''' % ','.join(ids)
+		rows = self._my_exe(query)
+		tags_map = {}
+		for id, tag in rows:
+			if id not in tags_map:
+				tags_map[id] = []
+			tags_map[id].append(tag)
+		return tags_map
+
+	def _read_sections(self, ids):
+		query = '''
+			SELECT
+				id,
 				section,
 				name,
 				val,
-				greater_is_good as gig
+				greater_is_good AS gig
 			FROM
 				bench_data
-			WHERE id=\"%s\"
-			AND verb_level<=\"%d\"
-			ORDER BY display_order''' % (id, self.verb)
-		kvs = self._my_exe(query)
-		return self._kvs_to_section(kvs)
+			WHERE
+				id IN (%s)
+			AND
+				verb_level<=%d
+			ORDER BY
+				display_order
+			''' % (','.join(ids), self.verb)
+		rows = self._my_exe(query)
 
-	def _kvs_to_section(self, rows):
-		sections = []
-		kvs = []
-		section = ''
-		row_cnt = 0
-		for name, k, v, gig in rows:
-			if section != name:
-				section = name
-				sections.append(section)
-				kvs.append([])
-			kvs[-1].append((k, v, int(gig)))
-			row_cnt += 1
-		return sections, kvs, row_cnt
+		class RunSections:
+			def __init__(self):
+				self.sections = []
+				self.kvs = []
+				self.kv_cnt = 0
+
+			def add(self, section, k, v, gig):
+				if section not in self.sections:
+					self.sections.append(section)
+					self.kvs.append([])
+				self.kvs[-1].append((k, v, int(gig)))
+				self.kv_cnt += 1
+
+		runs_map = {}
+		for id, section, k, v, gig in rows:
+			if id not in runs_map:
+				runs_map[id] = RunSections()
+			runs_map[id].add(section, k, v, gig)
+		return runs_map
 
 	def _my_exe(self, query):
 		return my_exe(self.host, self.port, self.user, self.db, query, 'tab')
