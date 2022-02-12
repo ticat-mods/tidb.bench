@@ -61,7 +61,7 @@ def bench_result_list():
 
 	for bench_id in bench_ids:
 		runs = benchs[bench_id]
-		runs.sort(key = lambda run: run[0])
+		runs.sort(key = lambda run: int(run[0]))
 
 	indent = ' ' * 4
 

@@ -22,5 +22,6 @@ tables=(
 for table in ${tables[@]}; do
 	query="SELECT count(*) FROM ${db}.${table}"
 	echo "[${table}]"
-	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}" --batch | grep -v 'count' | awk '{print "    "$0}'
+	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}" --batch | \
+		{ grep -v 'count' || test $? = 1; } | awk '{print "    "$0}'
 done

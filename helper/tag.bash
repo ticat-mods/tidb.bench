@@ -11,7 +11,7 @@ function convert_ver_dir_to_hash_in_tag()
 		local role="${role:0-2}"
 		local server="${file#*-}"
 		if [ "${server}" == 'server' ]; then
-			local hash=`${path} -V | grep Hash | awk '{print $NF}'`
+			local hash=`${path} -V | { grep Hash || test $? = 1; } | awk '{print $NF}'`
 			local hash="${hash:0:5}"
 			echo "${ver}+${role}-${hash}"
 			return

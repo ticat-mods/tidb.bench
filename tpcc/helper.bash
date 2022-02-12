@@ -1,7 +1,8 @@
 function parse_tpmc()
 {
 	local log="${1}"
-	cat "${log}" | grep Summary | grep 'NEW_ORDER ' | awk -F 'TPM: ' '{print $2}' | awk '{print $1}' | awk -F ',' '{print $1}'
+	cat "${log}" | { grep 'Summary' || test $? = 1; } | { grep 'NEW_ORDER ' || test $? = 1; } | \
+		awk -F 'TPM: ' '{print $2}' | awk '{print $1}' | awk -F ',' '{print $1}'
 }
 
 function parse_tpmc_summary()
@@ -79,4 +80,14 @@ function tpcc_result_verb_level()
 		((verb=verb+2))
 	fi
 	echo ${verb}
+}
+
+function tpcc_result_gig()
+{
+	local key="${1}"
+	if [ "${key}" == 'tpm' ]; then
+		echo '1'
+	else
+		echo '0'
+	fi
 }

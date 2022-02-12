@@ -1,7 +1,7 @@
 function parse_sysbench_events()
 {
 	local log="${1}"
-	cat "${log}" | grep "total number of events" | awk -F 'events: ' '{print $2}' | awk '{print $1}'
+	cat "${log}" | { grep "total number of events" || test $? = 1; } | awk -F 'events: ' '{print $2}' | awk '{print $1}'
 }
 
 function parse_sysbench_detail()
@@ -118,4 +118,14 @@ function sysbench_result_verb_level()
 		local verb=1
 	fi
 	echo ${verb}
+}
+
+function sysbench_result_gig()
+{
+	local key="${1}"
+	if [ "${key}" == 'qps' ] || [ "${key}" == 'tps' ]; then
+		echo '1'
+	else
+		echo '0'
+	fi
 }

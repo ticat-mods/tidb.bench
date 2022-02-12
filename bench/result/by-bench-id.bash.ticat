@@ -3,7 +3,7 @@ abbr = by-bench|bench|ben
 
 [arg]
 bench-id|bench|ben|b = ''
-verb = 0
+verb = 1
 
 [env]
 bench.meta.host = read

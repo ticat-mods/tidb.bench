@@ -16,7 +16,6 @@ def bench_result():
 	verb = int(sys.argv[4])
 	record_ids = sys.argv[5]
 	bench_id = sys.argv[6]
-
 	has_filter = len(bench_id) != 0 or len(record_ids) != 0 or len(tags) != 0 or len(workload) != 0
 
 	vertical = sys.argv[7].lower()
@@ -34,7 +33,7 @@ def bench_result():
 	db = env.must_get('bench.meta.db-name')
 
 	if not has_filter and len(ids_old) == 0:
-		print('[:(] all args are empty, skipped')
+		print("[:(] all args are empty, skipped. use args 'workload' 'tags' 'record-id' ... to match results")
 		return
 
 	ids = []

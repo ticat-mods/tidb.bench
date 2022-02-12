@@ -4,7 +4,7 @@ abbr = res
 [arg]
 workload|wl = ''
 tags|tag|t = ''
-verb = 0
+verb = 1
 record-id-list|record-ids|record-id|record-list|records|record|rec|r = ''
 bench-id|bench|ben|b = ''
 vertical|v = false

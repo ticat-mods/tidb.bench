@@ -11,7 +11,8 @@ function check_or_install_ycsb()
 function parse_ycsb()
 {
 	local log="${1}"
-	cat "${log}" | grep "OPS:" | awk -F 'OPS: ' '{print $2}' | awk -F ',' '{print $1}' | awk '{sum += $1} END {print sum}'
+	cat "${log}" | { grep "OPS:" || test $? = 1; } | \
+		awk -F 'OPS: ' '{print $2}' | awk -F ',' '{print $1}' | awk '{sum += $1} END {print sum}'
 }
 
 function parse_ycsb_summary()
@@ -132,4 +133,16 @@ function ycsb_result_verb_level()
 		local verb=3
 	fi
 	echo ${verb}
+}
+
+function ycsb_result_gig()
+{
+	local key="${1}"
+	if [ "${key}" == 'ops' ] || [ "${key}" == 'count' ]; then
+		echo '1'
+	elif [ "${key}" == 'takes' ]; then
+		echo '-1'
+	else
+		echo '0'
+	fi
 }

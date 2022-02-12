@@ -2,7 +2,7 @@ help = show last bench result
 abbr = l
 
 [arg]
-verb = 0
+verb = 1
 
 [env]
 bench.meta.host = read

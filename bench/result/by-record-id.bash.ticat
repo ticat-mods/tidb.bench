@@ -3,7 +3,7 @@ abbr = by-record|record|rec
 
 [arg]
 record-id-list|record-ids|record-id|record-list|records|record|rec|r|id = ''
-verb = 0
+verb = 1
 
 [env]
 bench.meta.host = read

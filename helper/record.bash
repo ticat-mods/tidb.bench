@@ -17,6 +17,7 @@ function bench_record_prepare()
 		agg_action VARCHAR(32),                                       \
 		run_host VARCHAR(128),                                        \
 		verb_level INT,                                               \
+		greater_is_good INT,                                          \
 		INDEX (                                                       \
 			id,                                                       \
 			section                                                   \
@@ -142,6 +143,7 @@ function bench_record_write()
 	local val="${4}"
 	local agg_action="${5}"
 	local verb_level="${6}"
+	local gig="${7}"
 
 	local run_host=`get_ip_or_host`
 
@@ -153,7 +155,8 @@ function bench_record_write()
 			val,                                                      \
 			agg_action,                                               \
 			run_host,                                                 \
-			verb_level                                                \
+			verb_level,                                               \
+			greater_is_good                                           \
 		) VALUES (                                                    \
 			${id},                                                    \
 			\"${section}\",                                           \
@@ -161,7 +164,8 @@ function bench_record_write()
 			${val},                                                   \
 			\"${agg_action}\",                                        \
 			\"${run_host}\",                                          \
-			${verb_level}                                             \
+			${verb_level},                                            \
+			${gig}                                                    \
 		)"
 }
 
