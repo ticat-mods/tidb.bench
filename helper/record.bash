@@ -5,9 +5,9 @@ function bench_record_prepare()
 	local user="${3}"
 	local db="${4}"
 
-	my_ensure_db "${host}" "${port}" "${user}" "${db}"
+	my_ensure_db "${host}" "${port}" "${user}" '' "${db}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "                    \
 	CREATE TABLE IF NOT EXISTS bench_data (                           \
 		id INT,                                                       \
 		section VARCHAR(64),                                          \
@@ -26,7 +26,7 @@ function bench_record_prepare()
 	)                                                                 \
 	"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "                    \
 	CREATE TABLE IF NOT EXISTS bench_tags (                           \
 		id INT,                                                       \
 		tag VARCHAR(512),                                             \
@@ -39,7 +39,7 @@ function bench_record_prepare()
 	)                                                                 \
 	"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "                    \
 	CREATE TABLE IF NOT EXISTS bench_meta (                           \
 		id INT AUTO_INCREMENT,                                        \
 		finished INT,                                                 \
@@ -68,9 +68,9 @@ function bench_record_clear()
 	local user="${3}"
 	local db="${4}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "DROP TABLE IF EXISTS bench_meta"
-	my_exe "${host}" "${port}" "${user}" "${db}" "DROP TABLE IF EXISTS bench_tags"
-	my_exe "${host}" "${port}" "${user}" "${db}" "DROP TABLE IF EXISTS bench_data"
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "DROP TABLE IF EXISTS bench_meta"
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "DROP TABLE IF EXISTS bench_tags"
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "DROP TABLE IF EXISTS bench_data"
 }
 
 function bench_record_write_start()
@@ -95,7 +95,7 @@ function bench_record_write_start()
 
 	bench_record_prepare "${host}" "${port}" "${user}" "${db}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "                    \
 		INSERT INTO bench_meta (                                      \
 			finished,                                                 \
 			bench_id,                                                 \
@@ -126,7 +126,7 @@ function bench_record_write_finish()
 
 	local id="${5}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "UPDATE bench_meta SET finished=1 WHERE id=${id}"
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "UPDATE bench_meta SET finished=1 WHERE id=${id}"
 }
 
 function bench_record_write()
@@ -147,7 +147,7 @@ function bench_record_write()
 
 	local run_host=`get_ip_or_host`
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "                    \
 		INSERT INTO bench_data (                                      \
 			id,                                                       \
 			section,                                                  \
@@ -179,7 +179,7 @@ function bench_record_write_tag()
 	local id="${5}"
 	local tag="${6}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "                    \
 		INSERT INTO bench_tags (                                      \
 			id,                                                       \
 			tag                                                       \
@@ -217,7 +217,7 @@ function bench_record_list()
 	local db="${4}"
 	local max="${5}"
 
-	my_exe "${host}" "${port}" "${user}" "${db}" "                    \
+	my_exe "${host}" "${port}" "${user}" '' "${db}" "                    \
 		SELECT                                                        \
 			id as record_id,                                          \
 			bench_id,                                                 \
@@ -244,7 +244,7 @@ function bench_record_add_tags()
 	for id in "${ids[@]}"; do
 		for tag in "${tags[@]}"; do
 			echo "adding tag '${tag}' to record '${id}'"
-			my_exe "${host}" "${port}" "${user}" "${db}" "            \
+			my_exe "${host}" "${port}" "${user}" '' "${db}" "            \
 				INSERT INTO bench_tags (                              \
 					id,                                               \
 					tag                                               \
@@ -274,7 +274,7 @@ function bench_record_rm_tags()
 		for tag in "${tags[@]}"; do
 			echo "removing tag '${tag}' from record '${id}'"
 			local query="DELETE FROM bench_tags WHERE id=${id} AND tag=\"${tag}\""
-			my_exe "${host}" "${port}" "${user}" "${db}" "${query}"
+			my_exe "${host}" "${port}" "${user}" "${db}" '' "${query}"
 		done
 	done
 }

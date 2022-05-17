@@ -20,6 +20,7 @@ update-proportion|up = 0
 host|h = ''
 port|p = ''
 user|u = root
+password|pwd = ''
 cluster-name|cluster|name|n = ''
 
 [arg2env]
@@ -41,6 +42,7 @@ bench.ycsb.update-proportion = update-proportion
 mysql.host = host
 mysql.port = port
 mysql.user = user
+mysql.pwd = password
 tidb.cluster = cluster-name
 
 [env]

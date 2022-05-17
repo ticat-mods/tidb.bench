@@ -9,12 +9,14 @@ threads=`must_env_val "${env}" 'bench.tpcc.load.threads'`
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
+pp=`env_val "${env}" 'mysql.pwd'`
 
 tiup bench tpcc \
 	-T "${threads}" \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
+	-p "${pp}" \
 	--dropdata \
 	--warehouses "${warehouses}" --time "102400h" prepare
 
@@ -40,6 +42,6 @@ tables=(
 for table in ${tables[@]}; do
 	query="analyze table ${db}.${table}"
 	echo "[:-] ${query} begin"
-	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
 	echo "[:)] ${query} done"
 done

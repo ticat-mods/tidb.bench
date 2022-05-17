@@ -12,6 +12,7 @@ duration|dur|secs|sec = 60
 host|h = ''
 port|p = ''
 user|u = root
+password|pwd = ''
 
 [arg2env]
 bench.sysbench.threads = threads
@@ -23,6 +24,7 @@ bench.sysbench.duration = duration
 mysql.host = host
 mysql.port = port
 mysql.user = user
+mysql.pwd = password
 
 [env]
 bench.sysbench.threads = read
@@ -36,8 +38,6 @@ mysql.port = read
 mysql.user = read
 
 bench.workload = write
-bench.run.begin = write
-bench.run.end = write
 bench.run.log = write
 bench.run.score = write
 

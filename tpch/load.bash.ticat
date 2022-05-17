@@ -7,6 +7,7 @@ threads|thread|thrd|thd|t = 1
 host|h = ''
 port|p = ''
 user|u = root
+password|pwd = ''
 db = test
 analyze = false
 with-tiflash|tiflash = false
@@ -19,6 +20,7 @@ bench.tpch.tiflash = with-tiflash
 mysql.host = host
 mysql.port = port
 mysql.user = user
+mysql.pwd = password
 mysql.db = db
 
 [env]

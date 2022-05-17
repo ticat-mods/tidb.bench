@@ -11,10 +11,11 @@ test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
+pp=`env_val "${env}" 'mysql.pwd'`
 db='test'
 
-mysql -h "${host}" -P "${port}" -u "${user}" -e "SET GLOBAL tidb_disable_txn_auto_retry = 'OFF'"
-mysql -h "${host}" -P "${port}" -u "${user}" -e "CREATE DATABASE IF NOT EXISTS ${db}"
+MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "SET GLOBAL tidb_disable_txn_auto_retry = 'OFF'"
+MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "CREATE DATABASE IF NOT EXISTS ${db}"
 
 check_or_install sysbench
 
@@ -22,6 +23,7 @@ sysbench \
 	--mysql-host="${host}" \
 	--mysql-port="${port}" \
 	--mysql-user="${user}" \
+	--mysql-password="${pp}" \
 	--mysql-db="${db}" \
 	--threads="${threads}" \
 	--db-driver=mysql \
@@ -39,6 +41,6 @@ fi
 for ((i=1;i<=tables;i++)); do
 	query="analyze table ${db}.sbtest${i}"
 	echo "[:-] ${query} begin"
-	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
 	echo "[:)] ${query} done"
 done

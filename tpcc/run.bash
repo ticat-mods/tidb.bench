@@ -13,6 +13,8 @@ host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 
+pp=`env_val "${env}" 'mysql.pwd'`
+
 log="${session}/tpcc.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
 
@@ -21,6 +23,7 @@ tiup bench tpcc \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
+	-p "${pp}" \
 	--warehouses "${warehouses}" --time "${duration}" run | tee "${log}"
 
 score=`parse_tpmc "${log}"`

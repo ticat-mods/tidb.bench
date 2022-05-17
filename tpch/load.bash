@@ -17,10 +17,11 @@ fi
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
+pp=`env_val "${env}" 'mysql.pwd'`
 db=`must_env_val "${env}" 'mysql.db'`
 
 query="SET GLOBAL tidb_multi_statement_mode='ON'"
-mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
 
 ## TODO: check tiflash node in cluster
 
@@ -29,6 +30,7 @@ tiup bench tpch prepare \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
+	-p "${pp}" \
 	-D "${db}" \
 	--dropdata \
 	--sf "${sf}" --time "102400h" \
@@ -46,6 +48,6 @@ tables=(lineitem orders partsupp part customer supplier nation part region)
 for table in ${tables[@]}; do
 	query="analyze table ${db}.${table}"
 	echo "[:-] ${query} begin"
-	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
 	echo "[:)] ${query} done"
 done

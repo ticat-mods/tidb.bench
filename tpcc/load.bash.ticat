@@ -7,6 +7,7 @@ threads|thread|thrd|thd|t = 1
 host|h = ''
 port|p = ''
 user|u = root
+password|pwd = ''
 analyze = true
 
 [arg2env]
@@ -16,6 +17,7 @@ bench.tpcc.warehouses = warehouses
 mysql.host = host
 mysql.port = port
 mysql.user = user
+mysql.pwd = password
 
 [env]
 bench.tpcc.load.threads = read

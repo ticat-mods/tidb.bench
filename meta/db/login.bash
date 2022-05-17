@@ -9,6 +9,6 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 
-my_ensure_db "${host}" "${port}" "${user}" "${db}"
+my_ensure_db "${host}" "${port}" "${user}" '' "${db}"
 
 mysql -h "${host}" -P "${port}" -u "${user}" --comments ${db}

@@ -6,6 +6,7 @@ env=`cat "${1}/env"`
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
+pp=`env_val "${env}" 'mysql.pwd'`
 
 db="test"
 tables=(
@@ -22,6 +23,6 @@ tables=(
 for table in ${tables[@]}; do
 	query="SELECT count(*) FROM ${db}.${table}"
 	echo "[${table}]"
-	mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}" --batch | \
+	MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}" --batch | \
 		{ grep -v 'count' || test $? = 1; } | awk '{print "    "$0}'
 done

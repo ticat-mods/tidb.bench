@@ -10,6 +10,7 @@ duration|dur|d = 1m
 host|h = ''
 port|p = ''
 user|u = root
+password|pwd = ''
 
 [arg2env]
 bench.tpcc.threads = threads
@@ -18,6 +19,7 @@ bench.tpcc.duration = duration
 mysql.host = host
 mysql.port = port
 mysql.user = user
+mysql.pwd = password
 
 [env]
 bench.tpcc.threads = read
@@ -27,8 +29,6 @@ mysql.host = read
 mysql.port = read
 mysql.user = read
 bench.workload = write
-bench.run.begin = write
-bench.run.end = write
 bench.run.log = write
 bench.run.score = write
 

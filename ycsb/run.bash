@@ -24,6 +24,7 @@ up=`must_env_val "${env}" 'bench.ycsb.update-proportion'`
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
+pp=`env_val "${env}" 'mysql.pwd'`
 
 cluster=`must_env_val "${env}" 'tidb.cluster'`
 pd=`must_pd_addr "${cluster}"`
@@ -36,6 +37,7 @@ tiup bench ycsb run \
 	-P "${port}" \
 	-H "${host}" \
 	-U "${user}" \
+	-p "${pp}" \
 	-T "${threads}" \
 	-c "${count}" \
 	--batchsize "${bs}" \
