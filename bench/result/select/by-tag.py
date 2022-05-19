@@ -25,14 +25,15 @@ def bench_result_select_by_tag():
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
+	pp = env.get_ex('bench.meta.pwd', '')
 	db = env.must_get('bench.meta.db-name')
 
-	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
 		return
 
-	ids = bench_result_select(host, port, user, db, '', '', tags, '', max_cnt)
+	ids = bench_result_select(host, port, user, pp, db, '', '', tags, '', max_cnt)
 	ok = bench_result_update_ids_to_env(env, ids, as_baseline)
 	if not ok:
 		sys.exit(-1)

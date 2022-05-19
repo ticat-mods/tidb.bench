@@ -1,5 +1,6 @@
 help = show tiup topology yaml file by record-id(s)
 abbr = topology|tiup|yaml
+quiet-error = true
 
 [arg]
 record-id|record|rid|id|records|rec|r = ''

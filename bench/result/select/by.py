@@ -32,16 +32,17 @@ def bench_result():
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
+	pp = env.get_ex('bench.meta.pwd', '')
 	db = env.must_get('bench.meta.db-name')
 
-	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
 		return
 
 	ids = []
 	if has_filter:
-		ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
+		ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)
 	baseline_id = env.get_ex('bench.meta.result.baseline-id', '')
 
 	if len(baseline_id) == 0 and len(ids) == 0:
@@ -49,7 +50,7 @@ def bench_result():
 			print('[:(] no matched bench results')
 			return
 		else:
-			ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
+			ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)
 
 	ok = bench_result_update_ids_to_env(env, ids, as_baseline)
 	if not ok:

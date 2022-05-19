@@ -29,19 +29,21 @@ def bench_result():
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
+	pp = env.get_ex('bench.meta.pwd', '')
 	db = env.must_get('bench.meta.db-name')
 
 	if not has_filter and len(ids_old) == 0:
 		max_cnt = 1024
 
-	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	my_exe(host, port, user, pp, '', "CREATE DATABASE IF NOT EXISTS %s" % db, 'tab')
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
 		return
 
 	ids = []
 	if has_filter:
-		ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
+		ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)
 	ids = bench_result_merge_ids(ids_old, ids)
 	baseline_id = env.get_ex('bench.meta.result.baseline-id', '')
 
@@ -50,7 +52,7 @@ def bench_result():
 			print('[:(] no matched bench results')
 			return
 		else:
-			ids = bench_result_select(host, port, user, db, bench_id, record_ids, tags, workload, max_cnt)
-	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width, baseline_id)
+			ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)
+	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id)
 
 bench_result()

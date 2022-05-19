@@ -320,10 +320,11 @@ class RunsLines:
 		return (header_lines, tags_lines, sections, sections_lines), line_max, True
 
 class BenchResultDisplay:
-	def __init__(self, host, port, user, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt):
+	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt):
 		self.host = host
 		self.port = port
 		self.user = user
+		self.pp = pp
 		self.db = db
 		self.ids_str = ids_str
 		self.use_color = use_color
@@ -369,7 +370,14 @@ class BenchResultDisplay:
 			baseline.set_my_id(self.baseline_id)
 			ids.append(self.baseline_id)
 		if len(self.ids_str) > 0:
-			ids += self.ids_str.split(',')
+			new_ids = self.ids_str.split(',')
+			for id in new_ids:
+				try:
+					id = str(int(id))
+				except ValueError:
+					# TODO: print warning
+					continue
+				ids.append(id)
 
 		ids_dedup = []
 		ids_set = set()
@@ -406,6 +414,9 @@ class BenchResultDisplay:
 		return ids, infos, baseline
 
 	def _read_meta(self, ids):
+		metas_map = {}
+		if len(ids) == 0:
+			return metas_map
 		query = '''
 			SELECT DISTINCT
 				id,
@@ -422,13 +433,15 @@ class BenchResultDisplay:
 				finished=1
 		''' % ','.join(ids)
 		rows = self._my_exe(query)
-		metas_map = {}
 		for id, bench_id, begin, end, run_host, workload in rows:
 			assert(id not in metas_map)
 			metas_map[id] = (bench_id, begin, end, run_host, workload)
 		return metas_map
 
 	def _read_tags(self, ids):
+		tags_map = {}
+		if len(ids) == 0:
+			return tags_map
 		query = '''
 			SELECT
 				id,
@@ -441,7 +454,6 @@ class BenchResultDisplay:
 				display_order
 		''' % ','.join(ids)
 		rows = self._my_exe(query)
-		tags_map = {}
 		for id, tag in rows:
 			if id not in tags_map:
 				tags_map[id] = []
@@ -449,6 +461,9 @@ class BenchResultDisplay:
 		return tags_map
 
 	def _read_sections(self, ids):
+		runs_map = {}
+		if len(ids) == 0:
+			return runs_map
 		query = '''
 			SELECT
 				id,
@@ -480,7 +495,6 @@ class BenchResultDisplay:
 				self.kvs[-1].append((k, v, int(gig)))
 				self.kv_cnt += 1
 
-		runs_map = {}
 		for id, section, k, v, gig in rows:
 			if id not in runs_map:
 				runs_map[id] = RunSections()
@@ -488,24 +502,25 @@ class BenchResultDisplay:
 		return runs_map
 
 	def _my_exe(self, query):
-		return my_exe(self.host, self.port, self.user, self.db, query, 'tab')
+		return my_exe(self.host, self.port, self.user, self.pp, self.db, query, 'tab')
 
-def bench_result_display(host, port, user, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32):
-	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
-	BenchResultDisplay(host, port, user, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt).display()
+def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32):
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
+	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt).display()
 
 if __name__ == '__main__':
-	if len(sys.argv) != 9:
-		print('usage: display_ids.py host port user db verb colorize display-width session-id-list')
+	if len(sys.argv) != 10:
+		print('usage: display_ids.py host port user pwd db verb colorize display-width session-id-list')
 		sys.exit(1)
 
 	host = sys.argv[1]
 	port = sys.argv[2]
 	user = sys.argv[3]
-	db = sys.argv[4]
-	verb = int(sys.argv[5])
-	use_color = to_true(sys.argv[6].lower())
-	width = int(sys.argv[7])
-	ids = sys.argv[8]
+	pp = sys.argv[4]
+	db = sys.argv[5]
+	verb = int(sys.argv[6])
+	use_color = to_true(sys.argv[7].lower())
+	width = int(sys.argv[8])
+	ids = sys.argv[9]
 
-	bench_result_display(host, port, user, db, verb, ids, use_color, width)
+	bench_result_display(host, port, user, pp, db, verb, ids, use_color, width)

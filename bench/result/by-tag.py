@@ -28,14 +28,15 @@ def bench_result_by_tag():
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
+	pp = env.get_ex('bench.meta.pwd', '')
 	db = env.must_get('bench.meta.db-name')
 
-	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
 		return
 
-	ids = bench_result_select(host, port, user, db, '', '', tags, '', max_cnt)
-	bench_result_display(host, port, user, db, verb, ','.join(ids), color, width)
+	ids = bench_result_select(host, port, user, pp, db, '', '', tags, '', max_cnt)
+	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width)
 
 bench_result_by_tag()

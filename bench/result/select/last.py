@@ -19,21 +19,22 @@ def bench_result_select_last():
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
+	pp = env.get_ex('bench.meta.pwd', '')
 	db = env.must_get('bench.meta.db-name')
 
-	tables = my_exe(host, port, user, db, "SHOW TABLES", 'tab')
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
 		return
 
 	query = 'SELECT MAX(bench_id) as bench_id FROM bench_meta WHERE finished=1'
-	bench_ids = my_exe(host, port, user, db, query, 'tab')
+	bench_ids = my_exe(host, port, user, pp, db, query, 'tab')
 	if len(bench_ids) == 0:
 		print('[:(] no bench result found')
 		return
 
 	query = 'SELECT id FROM bench_meta WHERE bench_id="%s"' % bench_ids[0]
-	ids = my_exe(host, port, user, db, query, 'tab')
+	ids = my_exe(host, port, user, pp, db, query, 'tab')
 	if len(ids) == 0:
 		print('[:(] no bench result found')
 		return

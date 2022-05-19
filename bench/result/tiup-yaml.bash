@@ -6,15 +6,25 @@ env=`cat "${1}/env"`
 shift
 
 id="${1}"
+if [ -z "${id}" ]; then
+	echo "[:(] arg 'record-id' is empty"
+	exit 1
+fi
+if [ `is_number "${id}"` != 'true' ]; then
+	echo "[:(] arg 'record-id' value is '${id}', not a number"
+	exit 1
+fi
+
 to_file="${2}"
 
 host=`must_env_val "${env}" 'bench.meta.host'`
 port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
+pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 
 query="SELECT tiup_yaml FROM bench_meta WHERE id=${id}"
-text=`my_exe "${host}" "${port}" "${user}" '' "${db}" "${query}" 'tab' | { grep -v 'tiup_yaml' || test $? = 1; }`
+text=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' | { grep -v 'tiup_yaml' || test $? = 1; }`
 
 if [ -z "${text}" ]; then
 	echo "[:(] tiup yaml file not found for record '${id}'" >&2

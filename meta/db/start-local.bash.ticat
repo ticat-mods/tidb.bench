@@ -3,10 +3,11 @@ abbr = start|up|local
 
 [arg]
 port-delta|delta|port|p = +100
-version|ver|v = v5.3.0
+version|ver|v = nightly
 db-name|database|db = bench_meta
 cluster-name|cluster|name|n = bench-meta
 host = 127.0.0.1
+generate-root-password|gen-root-pwd|root-pwd|gen-pwd = true
 
 [arg2env]
 bench.meta.db-name = db-name

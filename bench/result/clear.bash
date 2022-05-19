@@ -7,10 +7,11 @@ shift
 host=`must_env_val "${env}" 'bench.meta.host'`
 port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
+pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 
-my_ensure_db "${host}" "${port}" "${user}" '' "${db}"
+my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${db}"
 
-bench_record_clear "${host}" "${port}" "${user}" "${db}"
+bench_record_clear "${host}" "${port}" "${user}" "${pp}" "${db}"
 
 echo "[:)] all clear"
