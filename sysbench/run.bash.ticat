@@ -34,6 +34,7 @@ bench.sysbench.tables = read
 bench.sysbench.table-size = read
 bench.sysbench.test-name = read
 bench.sysbench.duration = read
+bench.sysbench.db = read
 
 mysql.host = read
 mysql.port = read

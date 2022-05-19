@@ -11,11 +11,14 @@ host|h = ''
 port|p = ''
 user|u = root
 password|pwd = ''
+db-name|database|db = test
 
 [arg2env]
 bench.tpcc.threads = threads
 bench.tpcc.warehouses = warehouses
 bench.tpcc.duration = duration
+bench.tpcc.db = db-name
+
 mysql.host = host
 mysql.port = port
 mysql.user = user
@@ -25,9 +28,12 @@ mysql.pwd = password
 bench.tpcc.threads = read
 bench.tpcc.warehouses = read
 bench.tpcc.duration = read
+bench.tpcc.db = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read
+
 bench.workload = write
 bench.run.log = write
 bench.run.score = write

@@ -9,11 +9,13 @@ port|p = ''
 user|u = root
 password|pwd = ''
 analyze = true
+db-name|database|db = test
 
 [arg2env]
 bench.tpcc.load.threads = threads
 bench.tpcc.load.analyze = analyze
 bench.tpcc.warehouses = warehouses
+bench.tpcc.db = db-name
 mysql.host = host
 mysql.port = port
 mysql.user = user

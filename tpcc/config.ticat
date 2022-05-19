@@ -8,6 +8,7 @@ threads|thread|thrd|t = 1
 warehouses|warehouse|wh = 1
 duration|dur = 1m
 analyze = false
+db-name|database|db = test
 
 [arg2env]
 bench.tpcc.load.threads = load-threads
@@ -15,6 +16,7 @@ bench.tpcc.threads = threads
 bench.tpcc.warehouses = warehouses
 bench.tpcc.duration = duration
 bench.tpcc.load.analyze = analyze
+bench.tpcc.db = db-name
 
 [val2env]
 bench.workload = tpcc

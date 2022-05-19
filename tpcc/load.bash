@@ -5,6 +5,7 @@ env=`cat "${1}/env"`
 
 warehouses=`must_env_val "${env}" 'bench.tpcc.warehouses'`
 threads=`must_env_val "${env}" 'bench.tpcc.load.threads'`
+db=`must_env_val "${env}" 'bench.tpcc.db'`
 
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
@@ -17,6 +18,7 @@ tiup bench tpcc \
 	-H "${host}" \
 	-U "${user}" \
 	-p "${pp}" \
+	-D "${db}" \
 	--dropdata \
 	--warehouses "${warehouses}" --time "102400h" prepare
 
@@ -27,7 +29,6 @@ if [ "${analyze}" == 'false' ]; then
 	exit
 fi
 
-db="test"
 tables=(
 	'customer'
 	'district'
