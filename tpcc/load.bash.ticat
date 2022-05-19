@@ -16,6 +16,7 @@ bench.tpcc.load.threads = threads
 bench.tpcc.load.analyze = analyze
 bench.tpcc.warehouses = warehouses
 bench.tpcc.db = db-name
+
 mysql.host = host
 mysql.port = port
 mysql.user = user
@@ -25,6 +26,7 @@ mysql.pwd = password
 bench.tpcc.load.threads = read
 bench.tpcc.load.analyze = read
 bench.tpcc.warehouses = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read

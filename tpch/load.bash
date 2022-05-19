@@ -14,14 +14,15 @@ else
 	tiflash=" "
 fi
 
+db=`must_env_val "${env}" 'bench.tpch.db'`
+
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
-db=`must_env_val "${env}" 'mysql.db'`
 
 query="SET GLOBAL tidb_multi_statement_mode='ON'"
-MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" "${db}" -e "${query}"
+MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" '' -e "${query}"
 
 ## TODO: check tiflash node in cluster
 

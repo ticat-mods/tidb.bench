@@ -9,12 +9,12 @@ sf=`must_env_val "${env}" 'bench.tpch.scale-factor'`
 threads=`must_env_val "${env}" 'bench.tpch.threads'`
 duration=`must_env_val "${env}" 'bench.tpch.duration'`
 queries=`must_env_val "${env}" 'bench.tpch.queries'`
+db=`must_env_val "${env}" 'bench.tpch.db'`
 
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
-db=`must_env_val "${env}" 'mysql.db'`
 
 log="${session}/tpch.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"

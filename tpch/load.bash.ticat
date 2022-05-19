@@ -8,29 +8,31 @@ host|h = ''
 port|p = ''
 user|u = root
 password|pwd = ''
-db = test
 analyze = false
 with-tiflash|tiflash = false
+db-name|database|db = test
 
 [arg2env]
 bench.tpch.load.threads = threads
 bench.tpch.load.analyze = analyze
 bench.tpch.scale-factor = scale-factor
 bench.tpch.tiflash = with-tiflash
+bench.tpch.db = db-name
+
 mysql.host = host
 mysql.port = port
 mysql.user = user
 mysql.pwd = password
-mysql.db = db
 
 [env]
 bench.tpch.load.threads = read
 bench.tpch.scale-factor = read
 bench.tpch.tiflash = read
+bench.tpch.db = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read
-mysql.db = read
 
 [val2env]
 bench.workload = tpch
