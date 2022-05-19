@@ -10,6 +10,7 @@ host|h = ''
 port|p = ''
 user|u = root
 analyze = true
+db-name|database|db = test
 
 [arg2env]
 bench.sysbench.load.threads = threads
@@ -17,6 +18,7 @@ bench.sysbench.load.analyze = analyze
 bench.sysbench.tables = tables
 bench.sysbench.table-size = table-size
 bench.sysbench.test-name = test-name
+bench.sysbench.db = db-name
 mysql.host = host
 mysql.port = port
 mysql.user = user
@@ -27,6 +29,7 @@ bench.sysbench.load.analyze = read
 bench.sysbench.tables = read
 bench.sysbench.table-size = read
 bench.sysbench.test-name = read
+bench.sysbench.db = read
 mysql.host = read
 mysql.port = read
 mysql.user = read

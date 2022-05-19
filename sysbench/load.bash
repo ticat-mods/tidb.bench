@@ -7,12 +7,12 @@ threads=`must_env_val "${env}" 'bench.sysbench.load.threads'`
 tables=`must_env_val "${env}" 'bench.sysbench.tables'`
 table_size=`must_env_val "${env}" 'bench.sysbench.table-size'`
 test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
+db=`must_env_val "${env}" 'bench.sysbench.db'`
 
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
-db='test'
 
 MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "SET GLOBAL tidb_disable_txn_auto_retry = 'OFF'"
 MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "CREATE DATABASE IF NOT EXISTS ${db}"

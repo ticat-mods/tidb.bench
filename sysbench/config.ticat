@@ -9,6 +9,7 @@ tables|table|tb = 1
 table-size|size = 1000
 test-name|name = oltp_point_select
 run-duration-secs|run-duration|duration|dur|secs|sec = 60
+db-name|database|db = test
 
 [arg2env]
 bench.sysbench.load.threads = load-threads
@@ -17,6 +18,7 @@ bench.sysbench.tables = tables
 bench.sysbench.table-size = table-size
 bench.sysbench.test-name = test-name
 bench.sysbench.duration = run-duration-secs
+bench.sysbench.db = db-name
 
 [val2env]
 bench.workload = sysbench

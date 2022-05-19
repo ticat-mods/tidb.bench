@@ -13,6 +13,7 @@ host|h = ''
 port|p = ''
 user|u = root
 password|pwd = ''
+db-name|database|db = test
 
 [arg2env]
 bench.sysbench.threads = threads
@@ -20,6 +21,7 @@ bench.sysbench.tables = tables
 bench.sysbench.table-size = table-size
 bench.sysbench.test-name = test-name
 bench.sysbench.duration = duration
+bench.sysbench.db = db-name
 
 mysql.host = host
 mysql.port = port

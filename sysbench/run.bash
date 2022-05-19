@@ -10,12 +10,12 @@ duration=`must_env_val "${env}" 'bench.sysbench.duration'`
 tables=`must_env_val "${env}" 'bench.sysbench.tables'`
 table_size=`must_env_val "${env}" 'bench.sysbench.table-size'`
 test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
+db=`must_env_val "${env}" 'bench.sysbench.db'`
 
 host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
-db='test'
 
 log="${session}/sysbench.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
