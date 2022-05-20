@@ -183,7 +183,7 @@ class RunInfo:
 		indent = ' ' * indent
 		tags_lines = []
 		if len(self.tags) != 0:
-			tags_lines.append(Line('[tags]'))
+			tags_lines.append(Line('[Tags]'))
 			for tag in self.tags:
 				tags_lines.append(Line('%s%s' % (indent, tag)))
 
@@ -278,13 +278,13 @@ class RunsLines:
 		for id in ids:
 			header_lines, tags_lines, sections, sections_lines = self.runs_lines[id]
 			self._colorize_lines(header_lines, 0, 86, 214, 0)
-			self._colorize_lines(tags_lines, 27, 91, 0, 0)
+			self._colorize_lines(tags_lines, 129, 91, 0, 0)
 			for section in self.sections_all:
 				self._colorize_lines(sections_lines[section], 27, 0, 0, 130)
 			self.runs_lines[id] = (header_lines, tags_lines, sections, sections_lines)
 
 		merging.merge(ids, self.runs_lines, indent)
-		return len(ids), prefix_len - indent * 2 + 1
+		return len(ids), prefix_len - (indent * 2 + 1)
 
 	def _colorize_lines(self, lines, c1, c2, c3, c4):
 		if not self.use_color:

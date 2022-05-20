@@ -7,7 +7,7 @@ workload|wl = ''
 tags|tag|t = ''
 record-id-list|record-ids|record-id|rid|record-list|records|record|rec|r = ''
 session-id|session|sid|s = ''
-max-benchs|max-cnt|max|limit = 0
+max-benchs|max-cnt|max|limit = 64
 
 [env]
 bench.meta.host = read

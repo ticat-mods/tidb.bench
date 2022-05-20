@@ -1,5 +1,5 @@
 help = select bench result by record-id(s), will show in the coming bench.result
-abbr = by-record|record|rec
+abbr = by-record|record|rec|rid
 quiet-err = true
 
 [arg]
