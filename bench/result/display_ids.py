@@ -208,11 +208,14 @@ class RunInfo:
 
 class RunsLines:
 	def __init__(self, ids, infos, verb, baseline, use_color, indent):
-		self.ids = ids
 		self.use_color = use_color
 		self.runs_lines = {}
+		self.ids = []
 		for id in ids:
+			if id not in infos:
+				continue
 			self.runs_lines[id] = infos[id].render(verb, baseline, indent)
+			self.ids.append(id)
 
 	def _scan_lines_heights(self):
 		self.header_max = 0
@@ -386,7 +389,7 @@ class BenchResultDisplay:
 			if id not in ids_set:
 				ids_dedup.append(id)
 				ids_set.add(id)
-		ids = ids_dedup[:self.max_cnt]
+		ids = ids_dedup[len(ids_dedup)-self.max_cnt:]
 
 		metas_map = self._read_meta(ids)
 		tags_map = self._read_tags(ids)
