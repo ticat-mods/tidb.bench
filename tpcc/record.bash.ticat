@@ -18,6 +18,8 @@ bench.run.begin = may-read
 bench.run.end = may-read
 bench.run.log = may-read
 
+bench.run.id = write
+
 # use for default tags
 bench.tpcc.threads = may-read
 bench.tpcc.duration = may-read

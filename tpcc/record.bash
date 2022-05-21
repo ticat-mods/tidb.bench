@@ -13,6 +13,7 @@ db=`must_env_val "${env}" 'bench.meta.db-name'`
 summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
 id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'tpcc' "${env}"`
+echo "bench.run.id=${id}" >> "${env_file}"
 
 cat "${summary}" | { grep -v 'ERR' || test $? = 1; } | while read line; do
 	fields=(${line})

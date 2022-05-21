@@ -1,7 +1,0 @@
-help = record current bench result to meta db
-abbr = rec
-
-flow = [[bench.workload]].record
-
-[env]
-bench.workload = read

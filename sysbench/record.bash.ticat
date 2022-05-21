@@ -19,6 +19,8 @@ bench.run.end = may-read
 bench.run.log = may-read
 bench.run.score = may-read
 
+bench.run.id = write
+
 # use for default tags
 bench.sysbench.threads = may-read
 bench.sysbench.duration = may-read
