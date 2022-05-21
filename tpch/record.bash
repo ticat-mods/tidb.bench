@@ -13,6 +13,7 @@ db=`must_env_val "${env}" 'bench.meta.db-name'`
 summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
 id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'tpch' "${env}"`
+echo "bench.run.id=${id}" >> "${env_file}"
 
 lines=`tpch_result_read_from_file "${summary}" | sort -n`
 agg_action='AVG'
