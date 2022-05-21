@@ -7,5 +7,5 @@ db.rm+new
 tpcc.load
 tpcc.run
 meta.db.local
-tpcc.record
+bench.record
 db.rm

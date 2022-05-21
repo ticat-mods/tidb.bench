@@ -3,10 +3,10 @@ abbr = sb
 tag = selftest
 
 [flow/]
-depl.preset.min cluster=test-sysbench delta=+142 keep-mon=false
+depl.preset.min cluster=test-sysbench delta=+342 keep-mon=false
 db.rm+new
 sb.load
 sb.run
 meta.db.local
-sb.record
+bench.record
 db.rm

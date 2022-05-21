@@ -7,5 +7,5 @@ db.rm+new
 ycsb.load
 ycsb.run
 meta.db.local
-ycsb.record
+bench.record
 db.rm
