@@ -4,6 +4,7 @@ abbr = rec
 flow = [[bench.workload]].record
 
 [arg]
+tag|tags|t = ''
 cluster-name|cluster|name|c|C = ''
 begin = ''
 end = ''
@@ -14,6 +15,7 @@ download-bin-token = NYrOv0JuQ8iZ6cEnOTzdaTfh7ovx2Q2iwEQX
 tidb.cluster = cluster-name
 bench.run.begin = begin
 bench.run.end = end
+bench.tag = tag
 
 [env]
 bench.meta.host = read
