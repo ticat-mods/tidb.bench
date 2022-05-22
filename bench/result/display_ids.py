@@ -30,6 +30,9 @@ class Line:
 	def pad_to(self, to_width):
 		self.line = self.line + ' ' * (to_width - len(self.line))
 
+	def pad_tail(self, size):
+		self.append(size * ' ')
+
 	def append(self, s):
 		self.line += s
 		self.colorized += s
@@ -301,10 +304,24 @@ class RunsLines:
 	def _merge_aligned_and_colorize(self, merging, width, indent, min_line_max = 34):
 		ids = self.ids
 		prefix_len = 0
+		max_line_max = -1
 		for i in range(0, len(ids)):
 			id = ids[i]
 			lines = self.runs_lines[id]
 			self.runs_lines[id], line_max, ok = RunsLines._h_padding(lines, width, prefix_len, min_line_max)
+
+			# re-pad previous
+			if max_line_max < 0:
+				max_line_max = line_max
+			elif line_max > max_line_max:
+				delta = line_max - max_line_max
+				for j in range(0, i):
+					pre_id = ids[j]
+					lines = self.runs_lines[pre_id]
+					self.runs_lines[pre_id] = RunsLines._extend_tail_padding(lines, delta)
+					prefix_len += delta
+				max_line_max = line_max
+
 			if i > 0 and not ok:
 				ids = ids[:i]
 				break
@@ -326,6 +343,19 @@ class RunsLines:
 			return lines
 		for i in range(0, len(lines)):
 			lines[i].colorize(c1, c2, c3, c4)
+
+	@staticmethod
+	def _extend_tail_padding(lines, extend_size):
+		header_lines, tags_lines, sections, sections_lines = lines
+		for j in range(0, len(header_lines)):
+			header_lines[j].pad_tail(extend_size)
+		for j in range(0, len(tags_lines)):
+			tags_lines[j].pad_tail(extend_size)
+		for section in sections:
+			section_lines = sections_lines[section]
+			for j in range(0, len(section_lines)):
+				section_lines[j].pad_tail(extend_size)
+		return (header_lines, tags_lines, sections, sections_lines)
 
 	@staticmethod
 	def _h_padding(lines, width, prefix_len, min_line_max):
