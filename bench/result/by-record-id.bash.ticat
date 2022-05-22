@@ -1,5 +1,6 @@
 help = show bench result by record-id(s)
 abbr = by-record|record|rec
+quiet-err = true
 
 [arg]
 record-id-list|record-ids|record-id|rid|record-list|records|record|rec|r|id = ''

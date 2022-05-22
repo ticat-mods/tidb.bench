@@ -1,4 +1,5 @@
 help = select bench result by args, will show in the coming bench.result
+quiet-err = true
 
 [arg]
 workload|wl = ''

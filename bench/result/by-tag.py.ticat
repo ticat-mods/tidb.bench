@@ -1,5 +1,6 @@
 help = show bench result by tag(s)
 abbr = tag
+quiet-err = true
 
 [arg]
 tags|tag|t = ''

@@ -1,5 +1,6 @@
 help = show matched bench result in comparing mode
 abbr = res
+quiet-err = true
 
 [arg]
 workload|wl = ''

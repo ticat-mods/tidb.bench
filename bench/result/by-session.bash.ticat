@@ -1,5 +1,6 @@
 help = show bench result by session-id
 abbr = session|sid|s
+quiet-err = true
 
 [arg]
 session-id|session|sid|s = ''
