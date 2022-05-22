@@ -50,33 +50,33 @@ jt_title='Jitters(1=100%)'
 qps_jt=`metrics_jitter "${bt}" 'sum(rate(tidb_executor_statement_total{}[1m])) by (type)'`
 if [ ! -z "${qps_jt}" ]; then
 	qps_jt=(${qps_jt})
-	write_record "${jt_title}" 'qps.sdev' "${qps_jt[0]}" 'avg' '1' '0'
-	write_record "${jt_title}" 'qps.+max' "${qps_jt[1]}" 'max' '3' '-1'
-	write_record "${jt_title}" 'qps.-max' "${qps_jt[2]}" 'min' '1' '-1'
+	write_record "${jt_title}" 'qps.sdev' "${qps_jt[0]}" 'avg' '2' '0'
+	write_record "${jt_title}" 'qps.+max' "${qps_jt[1]}" 'max' '4' '-1'
+	write_record "${jt_title}" 'qps.-max' "${qps_jt[2]}" 'min' '2' '-1'
 fi
 
 lat95_jt=`metrics_jitter "${bt}" 'histogram_quantile(0.95, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`
 if [ ! -z "${lat95_jt}" ]; then
 	lat95_jt=(${lat95_jt})
-	write_record "${jt_title}" 'p95.sdev' "${lat95_jt[0]}" 'avg' '2' '0'
-	write_record "${jt_title}" 'p95.+max' "${lat95_jt[1]}" 'max' '4' '-1'
-	write_record "${jt_title}" 'p95.-max' "${lat95_jt[2]}" 'min' '2' '-1'
+	write_record "${jt_title}" 'p95.sdev' "${lat95_jt[0]}" 'avg' '3' '0'
+	write_record "${jt_title}" 'p95.+max' "${lat95_jt[1]}" 'max' '5' '-1'
+	write_record "${jt_title}" 'p95.-max' "${lat95_jt[2]}" 'min' '3' '1'
 fi
 
 lat99_jt=`metrics_jitter "${bt}" 'histogram_quantile(0.99, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`
 if [ ! -z "${lat99_jt}" ]; then
 	lat99_jt=(${lat99_jt})
-	write_record "${jt_title}" 'p99.sdev' "${lat99_jt[0]}" 'avg' '1' '0'
-	write_record "${jt_title}" 'p99.+max' "${lat99_jt[1]}" 'max' '3' '-1'
-	write_record "${jt_title}" 'p99.-max' "${lat99_jt[2]}" 'min' '1' '-1'
+	write_record "${jt_title}" 'p99.sdev' "${lat99_jt[0]}" 'avg' '2' '0'
+	write_record "${jt_title}" 'p99.+max' "${lat99_jt[1]}" 'max' '4' '-1'
+	write_record "${jt_title}" 'p99.-max' "${lat99_jt[2]}" 'min' '2' '1'
 fi
 
 lat999_jt=`metrics_jitter "${bt}" 'histogram_quantile(0.999, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`
 if [ ! -z "${lat999_jt}" ]; then
 	lat999_jt=(${lat999_jt})
-	write_record "${jt_title}" 'p999.sdev' "${lat999_jt[0]}" 'avg' '2' '0'
-	write_record "${jt_title}" 'p999.+max' "${lat999_jt[1]}" 'max' '4' '-1'
-	write_record "${jt_title}" 'p999.-max' "${lat999_jt[2]}" 'min' '2' '1'
+	write_record "${jt_title}" 'p999.sdev' "${lat999_jt[0]}" 'avg' '3' '0'
+	write_record "${jt_title}" 'p999.+max' "${lat999_jt[1]}" 'max' '5' '-1'
+	write_record "${jt_title}" 'p999.-max' "${lat999_jt[2]}" 'min' '3' '1'
 fi
 
 res_title='ResourceUsage'
@@ -84,15 +84,15 @@ res_title='ResourceUsage'
 tidb_cpu_agg=`metrics_aggregate "${bt}" 'irate(process_cpu_seconds_total{job="tidb"}[30s])'`
 if [ ! -z "${tidb_cpu_agg}" ]; then
 	tidb_cpu_agg=(${tidb_cpu_agg})
-	write_record "${res_title}" 'tidb.cpu.avg.cores' "${tidb_cpu_agg[0]}" 'avg' '1' '0'
-	write_record "${res_title}" 'tidb.cpu.max.cores' "${tidb_cpu_agg[1]}" 'max' '2' '0'
+	write_record "${res_title}" 'tidb.cpu.avg.cores' "${tidb_cpu_agg[0]}" 'avg' '2' '0'
+	write_record "${res_title}" 'tidb.cpu.max.cores' "${tidb_cpu_agg[1]}" 'max' '3' '0'
 fi
 
 tidb_mem_agg=`metrics_aggregate "${bt}" 'process_resident_memory_bytes{job="tidb"}'`
 if [ ! -z "${tidb_mem_agg}" ]; then
 	tidb_mem_agg=(${tidb_mem_agg})
-	write_record "${res_title}" 'tidb.mem.avg.bytes' "${tidb_mem_agg[0]}" 'avg' '1' '0'
-	write_record "${res_title}" 'tidb.mem.max.bytes' "${tidb_mem_agg[1]}" 'max' '2' '0'
+	write_record "${res_title}" 'tidb.mem.avg.bytes' "${tidb_mem_agg[0]}" 'avg' '2' '0'
+	write_record "${res_title}" 'tidb.mem.max.bytes' "${tidb_mem_agg[1]}" 'max' '3' '0'
 fi
 
 # TODO: unused yet

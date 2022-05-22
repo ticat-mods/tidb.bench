@@ -136,25 +136,52 @@ class Baseline:
 		kvs = self.sections[section]
 		if k not in kvs:
 			return '', False, -1
+
 		baseline_v, gig = kvs[k]
 		if gig < 0:
 			return '', False, -1
+
 		v = float(v)
 		if str(baseline_v) == str(v):
 			return '', False, -1
+
 		if baseline_v == 0:
-			return '+inf%', True, 0
-		else:
-			percent = abs(abs(baseline_v - v) * 100 / baseline_v)
-			if percent >= 100:
-				percent = "%.0f" % percent
+			if v > 0:
+				return '+inf%', True, gig
 			else:
-				percent = "%.2f" % percent
+				better = -1
+				if gig == 0:
+					better = 1
+				elif gig == 1:
+					better = 0
+				return '+inf%', True, better
+
+		# not the same direction
+		if (baseline_v > 0 and v < 0) or (baseline_v < 0 and v > 0):
+			return '>!<', True, -1
+
+		percent = abs(abs(baseline_v - v) * 100 / baseline_v)
+		if percent >= 100:
+			percent = "%.0f" % percent
+		else:
+			percent = "%.2f" % percent
 		if percent == '0.00':
 			return '', False, -1
-		sym = '-'
-		if v > baseline_v:
+
+		if v >= 0:
+			if baseline_v > 0:
+				sym = '-'
+				if v > baseline_v:
+					sym = '+'
+			else:
+				sym = '+'
+				if v > baseline_v:
+					sym = '-'
+		elif v < 0:
 			sym = '+'
+			if v > baseline_v:
+				sym = '-'
+
 		better = (gig == 1 and v > baseline_v) or (gig == 0 and v < baseline_v)
 		return sym + percent + '%', True, better
 
@@ -206,8 +233,8 @@ class RunInfo:
 			for k, v, gig in pairs:
 				line = '%s%s: %s' % (indent, k, v)
 				sym = ''
-				cmp_str, has_cmp, better = baseline.cmp(self.id, section, k, v)
-				if has_cmp:
+				cmp_str, has_cmp_str, better = baseline.cmp(self.id, section, k, v)
+				if has_cmp_str:
 					line += ' ' + cmp_str
 					sym = cmp_str[0]
 				section_lines.append(Line(line, gig, better, sym))
