@@ -1,13 +1,12 @@
-help = record current bench result to meta db
-abbr = rec
-
-flow = [[bench.workload]].record
+help = record current bench jitters and resouce-usages to meta db
+abbr = jitters|jit|j
 
 [arg]
 tag|tags|t = ''
 cluster-name|cluster|name|c|C = ''
 begin = ''
 end = ''
+workload|wl = ''
 bench-toolset-repo-addr|bt-addr|addr = 'https://github.com/innerr/bench-toolset'
 download-bin-token = NYrOv0JuQ8iZ6cEnOTzdaTfh7ovx2Q2iwEQX
 
@@ -16,6 +15,7 @@ tidb.cluster = cluster-name
 bench.run.begin = begin
 bench.run.end = end
 bench.tag = tag
+bench.workload = workload
 
 [env]
 bench.meta.host = read
@@ -23,9 +23,9 @@ bench.meta.port = read
 bench.meta.user = read
 bench.meta.db-name = read
 
+bench.workload = read
 bench.run.begin = read
 bench.run.end = read
-bench.run.id = read
 
 bench.scan.tidb.cpu.usage.avg = write
 bench.scan.tidb.cpu.usage.max = write
@@ -42,4 +42,4 @@ bench.scan.qps.jt.sd = write
 bench.scan.qps.jt.neg.max = write
 
 [dep]
-tiup = to display tidb cluster info
+tiup = to fetch metrics address from tidb cluster

@@ -140,8 +140,16 @@ class Baseline:
 		if gig < 0:
 			return '', False, -1
 		v = float(v)
-		percent = abs(baseline_v - v) * 100 / baseline_v
-		percent = "%.2f" % percent
+		if str(baseline_v) == str(v):
+			return '', False, -1
+		if baseline_v == 0:
+			return '+inf%', True, 0
+		else:
+			percent = abs(abs(baseline_v - v) * 100 / baseline_v)
+			if percent >= 100:
+				percent = "%.0f" % percent
+			else:
+				percent = "%.2f" % percent
 		if percent == '0.00':
 			return '', False, -1
 		sym = '-'

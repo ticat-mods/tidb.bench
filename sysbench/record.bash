@@ -12,8 +12,12 @@ pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
-id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'sysbench' "${env}"`
-echo "bench.run.id=${id}" >> "${env_file}"
+id=`env_val "${env}" 'bench.run.id'`
+if [ -z "${id}" ]; then
+	id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'sysbench' "${env}"`
+	echo "bench.run.id=${id}" >> "${env_file}"
+fi
+
 test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
 
 fields=(`cat "${summary}"`)

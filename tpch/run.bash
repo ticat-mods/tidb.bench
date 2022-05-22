@@ -34,5 +34,4 @@ tiup bench tpch \
 score=`parse_tpch_score "${log}"`
 parse_tpch_detail "${log}" | tee "${log}.summary"
 
-echo "bench.workload=tpch" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
