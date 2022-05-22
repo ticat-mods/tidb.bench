@@ -43,4 +43,5 @@ sysbench \
 score=`parse_sysbench_events "${log}"`
 parse_sysbench_detail "${log}" | sed 's/ /,/g' | tee "${log}.summary"
 
+echo "bench.run.id=--" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"

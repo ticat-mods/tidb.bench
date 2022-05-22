@@ -33,4 +33,5 @@ summary=`parse_tpmc_summary "${log}"`
 echo
 echo "${summary}" | tee "${log}.summary"
 
+echo "bench.run.id=--" >> "${session}/env"
 echo "bench.run.score=${score}" >> "${session}/env"
