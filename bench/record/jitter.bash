@@ -47,7 +47,7 @@ function write_record()
 
 jt_title='Jitters(1=100%)'
 
-qps_jt=`metrics_jitter "${bt}" 'sum(rate(tidb_executor_statement_total{}[1m])) by (type)'`
+qps_jt=`metrics_jitter "${bt}" 'sum(rate(tidb_executor_statement_total{}[1m]))'`
 if [ ! -z "${qps_jt}" ]; then
 	qps_jt=(${qps_jt})
 	write_record "${jt_title}" 'qps.sdev' "${qps_jt[0]}" 'avg' '2' '0'
