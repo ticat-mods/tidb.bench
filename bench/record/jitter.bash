@@ -32,18 +32,6 @@ fi
 
 bt=`download_or_build_bin "${env}" "${bt_repo_addr}" 'bin/bench-toolset' 'make' "${bt_download_token}"`
 
-qps_jt=(`metrics_jitter "${bt}" 'sum(rate(tidb_executor_statement_total{}[1m])) by (type)'`)
-
-lat95_jt=(`metrics_jitter "${bt}" 'histogram_quantile(0.95, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`)
-lat99_jt=(`metrics_jitter "${bt}" 'histogram_quantile(0.99, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`)
-lat999_jt=(`metrics_jitter "${bt}" 'histogram_quantile(0.999, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`)
-
-tidb_cpu_agg=(`metrics_aggregate "${bt}" 'irate(process_cpu_seconds_total{job="tidb"}[30s])'`)
-tidb_mem_agg=(`metrics_aggregate "${bt}" 'process_resident_memory_bytes{job="tidb"}'`)
-
-# TODO: unused yet
-tidb_max_procs=(`metrics_aggregate "${bt}" 'tidb_server_maxprocs{job="tidb"}'`)
-
 function write_record()
 {
 	local section="${1}"
@@ -59,28 +47,55 @@ function write_record()
 
 jt_title='Jitters(1=100%)'
 
-write_record "${jt_title}" 'qps.sdev' "${qps_jt[0]}" 'avg' '1' '0'
-write_record "${jt_title}" 'qps.+max' "${qps_jt[1]}" 'max' '3' '-1'
-write_record "${jt_title}" 'qps.-max' "${qps_jt[2]}" 'min' '1' '1'
+qps_jt=`metrics_jitter "${bt}" 'sum(rate(tidb_executor_statement_total{}[1m])) by (type)'`
+if [ ! -z "${qps_jt}" ]; then
+	qps_jt=(${qps_jt})
+	write_record "${jt_title}" 'qps.sdev' "${qps_jt[0]}" 'avg' '1' '0'
+	write_record "${jt_title}" 'qps.+max' "${qps_jt[1]}" 'max' '3' '-1'
+	write_record "${jt_title}" 'qps.-max' "${qps_jt[2]}" 'min' '1' '-1'
+fi
 
-write_record "${jt_title}" 'p95.sdev' "${lat95_jt[0]}" 'avg' '2' '0'
-write_record "${jt_title}" 'p95.+max' "${lat95_jt[1]}" 'max' '4' '-1'
-write_record "${jt_title}" 'p95.-max' "${lat95_jt[2]}" 'min' '2' '1'
+lat95_jt=`metrics_jitter "${bt}" 'histogram_quantile(0.95, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`
+if [ ! -z "${lat95_jt}" ]; then
+	lat95_jt=(${lat95_jt})
+	write_record "${jt_title}" 'p95.sdev' "${lat95_jt[0]}" 'avg' '2' '0'
+	write_record "${jt_title}" 'p95.+max' "${lat95_jt[1]}" 'max' '4' '-1'
+	write_record "${jt_title}" 'p95.-max' "${lat95_jt[2]}" 'min' '2' '-1'
+fi
 
-write_record "${jt_title}" 'p99.sdev' "${lat99_jt[0]}" 'avg' '1' '0'
-write_record "${jt_title}" 'p99.+max' "${lat99_jt[1]}" 'max' '3' '-1'
-write_record "${jt_title}" 'p99.-max' "${lat99_jt[2]}" 'min' '1' '1'
+lat99_jt=`metrics_jitter "${bt}" 'histogram_quantile(0.99, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`
+if [ ! -z "${lat99_jt}" ]; then
+	lat99_jt=(${lat99_jt})
+	write_record "${jt_title}" 'p99.sdev' "${lat99_jt[0]}" 'avg' '1' '0'
+	write_record "${jt_title}" 'p99.+max' "${lat99_jt[1]}" 'max' '3' '-1'
+	write_record "${jt_title}" 'p99.-max' "${lat99_jt[2]}" 'min' '1' '-1'
+fi
 
-write_record "${jt_title}" 'p999.sdev' "${lat999_jt[0]}" 'avg' '2' '0'
-write_record "${jt_title}" 'p999.+max' "${lat999_jt[1]}" 'max' '4' '-1'
-write_record "${jt_title}" 'p999.-max' "${lat999_jt[2]}" 'min' '2' '1'
+lat999_jt=`metrics_jitter "${bt}" 'histogram_quantile(0.999, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`
+if [ ! -z "${lat999_jt}" ]; then
+	lat999_jt=(${lat999_jt})
+	write_record "${jt_title}" 'p999.sdev' "${lat999_jt[0]}" 'avg' '2' '0'
+	write_record "${jt_title}" 'p999.+max' "${lat999_jt[1]}" 'max' '4' '-1'
+	write_record "${jt_title}" 'p999.-max' "${lat999_jt[2]}" 'min' '2' '1'
+fi
 
 res_title='ResourceUsage'
 
-write_record "${res_title}" 'tidb.cpu.avg.cores' "${tidb_cpu_agg[0]}" 'avg' '1' '0'
-write_record "${res_title}" 'tidb.cpu.max.cores' "${tidb_cpu_agg[1]}" 'max' '2' '0'
+tidb_cpu_agg=`metrics_aggregate "${bt}" 'irate(process_cpu_seconds_total{job="tidb"}[30s])'`
+if [ ! -z "${tidb_cpu_agg}" ]; then
+	tidb_cpu_agg=(${tidb_cpu_agg})
+	write_record "${res_title}" 'tidb.cpu.avg.cores' "${tidb_cpu_agg[0]}" 'avg' '1' '0'
+	write_record "${res_title}" 'tidb.cpu.max.cores' "${tidb_cpu_agg[1]}" 'max' '2' '0'
+fi
 
-write_record "${res_title}" 'tidb.mem.avg.bytes' "${tidb_mem_agg[0]}" 'avg' '1' '0'
-write_record "${res_title}" 'tidb.mem.max.bytes' "${tidb_mem_agg[1]}" 'max' '2' '0'
+tidb_mem_agg=`metrics_aggregate "${bt}" 'process_resident_memory_bytes{job="tidb"}'`
+if [ ! -z "${tidb_mem_agg}" ]; then
+	tidb_mem_agg=(${tidb_mem_agg})
+	write_record "${res_title}" 'tidb.mem.avg.bytes' "${tidb_mem_agg[0]}" 'avg' '1' '0'
+	write_record "${res_title}" 'tidb.mem.max.bytes' "${tidb_mem_agg[1]}" 'max' '2' '0'
+fi
+
+# TODO: unused yet
+tidb_max_procs=(`metrics_aggregate "${bt}" 'tidb_server_maxprocs{job="tidb"}'`)
 
 echo "[:)] bench jitters and resouce-usages are recorded"
