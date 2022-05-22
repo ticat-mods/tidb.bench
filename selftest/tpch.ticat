@@ -2,10 +2,10 @@ help = test TPCH toolbox
 tag = selftest
 
 [flow/]
-depl.preset.min.tiflash cluster=test-tpch delta=+244 keep-mon=false
+depl.preset.min.tiflash cluster=test-tpch delta=+244
 db.rm+new
 tpch.load
 tpch.run
 meta.db.local
 bench.record
-db.rm
+db.rm keep-mon=false

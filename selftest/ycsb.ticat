@@ -2,10 +2,10 @@ help = test YCSB toolbox
 tag = selftest
 
 [flow/]
-depl.preset.min cluster=test-ycsb delta=+192 keep-mon=false
+depl.preset.min cluster=test-ycsb delta=+192
 db.rm+new
 ycsb.load
 ycsb.run
 meta.db.local
 bench.record
-db.rm
+db.rm keep-mon=false

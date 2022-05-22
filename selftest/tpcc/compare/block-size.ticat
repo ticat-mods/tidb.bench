@@ -5,13 +5,13 @@ tag = selftest
 [flow/]
 meta.db.start-local
 
-depl.preset.min cluster=test-tpcc-bs-4k-64k delta=+352 keep-mon=false : db.rm+new : tpcc.load
+depl.preset.min cluster=test-tpcc-bs-4k-64k delta=+352 : db.rm+new : tpcc.load
 tpcc.run t=4 : bench.record bs64k
-db.rm
+db.rm keep-mon=false
 
 depl.set.kv.conf rocksdb.defaultcf.block-size 4K
-depl.preset.min cluster=test-tpcc-bs-4k-64k delta=+352 keep-mon=false : db.rm+new : tpcc.load
+depl.preset.min cluster=test-tpcc-bs-4k-64k delta=+352 : db.rm+new : tpcc.load
 tpcc.run t=4 : bench.record bs4k
-db.rm
+db.rm keep-mon=false
 
 bench.result.last
