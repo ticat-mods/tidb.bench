@@ -6,7 +6,7 @@ set -euo pipefail
 session="${1}"
 env_file="${session}/env"
 env=`cat "${env_file}"`
-shift 4
+shift 6
 
 bt_repo_addr="${1}"
 bt_download_token="${2}"
