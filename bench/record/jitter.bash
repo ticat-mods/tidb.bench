@@ -32,15 +32,11 @@ fi
 
 bt=`download_or_build_bin "${env}" "${bt_repo_addr}" 'bin/bench-toolset' 'make' "${bt_download_token}"`
 
+qps_jt=(`metrics_jitter "${bt}" 'sum(rate(tidb_executor_statement_total{}[1m])) by (type)'`)
+
 lat95_jt=(`metrics_jitter "${bt}" 'histogram_quantile(0.95, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`)
 lat99_jt=(`metrics_jitter "${bt}" 'histogram_quantile(0.99, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`)
 lat999_jt=(`metrics_jitter "${bt}" 'histogram_quantile(0.999, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`)
-
-qps_jt=(`metrics_jitter "${bt}" 'sum(rate(tidb_executor_statement_total{}[1m])) by (type)'`)
-
-if [ "${qps_jt[0]}" == 'NaN' ]; then
-    qps_jt=('0' '0' '0')
-fi
 
 tidb_cpu_agg=(`metrics_aggregate "${bt}" 'irate(process_cpu_seconds_total{job="tidb"}[30s])'`)
 tidb_mem_agg=(`metrics_aggregate "${bt}" 'process_resident_memory_bytes{job="tidb"}'`)

@@ -1,6 +1,7 @@
 
 help = record current bench result to meta db
 abbr = rec
+trivial = 3
 
 flow = bench.record.jitter : [[bench.workload]].record
 
