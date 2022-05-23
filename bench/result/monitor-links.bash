@@ -25,7 +25,7 @@ query="SELECT monitor, UNIX_TIMESTAMP(run_id) AS begin, UNIX_TIMESTAMP(end_ts) A
 info=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' | { grep -v 'monitor' || test $? = 1; }`
 if [ -z "${info}" ]; then
 	echo "[:(] info not found for record '${id}'" >&2
-	exit
+	exit 1
 fi
 
 addr=`echo "${info}" | awk '{print $1}'`
@@ -37,7 +37,7 @@ time_range="?from=${begin}000&to=${end}000"
 echo "Overview:      http://${addr}/d/eDbRZpnWk/${time_range}"
 echo
 echo "PD:            http://${addr}/d/Q6RuHYIWk/${time_range}"
-echo "TiDB Summary:  http://${addr}/d/PK15Klu7k/${time_range}"
+echo "TiDB Summary:  (dynamic address)"
 echo "TiKV Summary:  http://${addr}/d/X7VQmEzZk/${time_range}"
 echo
 echo "Backup Import: http://${addr}/d/AzvioWLWz/${time_range}"
