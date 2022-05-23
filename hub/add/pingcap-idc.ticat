@@ -1,0 +1,4 @@
+help = fetch pingcap idc commands from intranet git repo
+abbr = pingcap|pc|idc
+
+flow = hub.add http://git.pingcap.net/ticat-mods/idc

@@ -1,0 +1,8 @@
+help = show all infos related to a bench record id: configs, dashboard, grafana links
+trivial = 3
+quiet-error = true
+
+flow = display.quiet : bench.result.yaml [[record-id]] : echo "***" : bench.result.monitor [[record-id]] : bench.result.dashboard [[record-id]]
+
+[arg]
+record-id|record|rid|id|records|rec|r = ''

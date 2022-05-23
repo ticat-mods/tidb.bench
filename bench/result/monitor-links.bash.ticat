@@ -1,0 +1,12 @@
+help = show grafana links related to a bench record id
+abbr = monitor-link|monitor|mon|grafana
+quiet-error = true
+
+[arg]
+record-id|record|rid|id|records|rec|r = ''
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read

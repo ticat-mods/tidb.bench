@@ -1,3 +1,5 @@
+. "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/tiup.helper/tiup.bash"
+
 function bench_record_prepare()
 {
 	local host="${1}"
@@ -50,6 +52,8 @@ function bench_record_prepare()
 		run_host VARCHAR(128),                                        \
 		workload VARCHAR(128),                                        \
 		tiup_yaml TEXT,                                               \
+		dashboard VARCHAR(256),                                       \
+		monitor VARCHAR(256),                                         \
 		PRIMARY KEY (id),                                             \
 		INDEX (                                                       \
 			bench_id,                                                 \
@@ -75,6 +79,29 @@ function bench_record_clear()
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "DROP TABLE IF EXISTS bench_data"
 }
 
+function normalize_host_addr()
+{
+	local addr="${1}"
+	if [ -z "${addr}" ]; then
+		return
+	fi
+
+	local addr="${addr#'https://'}"
+	local addr="${addr#'http://'}"
+
+	local trimmed="${addr#'127.0.0.1'}"
+	local trimmed="${trimmed#'localhost'}"
+
+	if [ "${trimmed}" != "${addr}" ]; then
+		local guess=`guess_ip`
+		if [ ! -z "${guess}" ]; then
+			local addr="${guess}${trimmed}"
+		fi
+	fi
+
+	echo "${addr}"
+}
+
 function bench_record_write_start()
 {
 	local host="${1}"
@@ -96,6 +123,13 @@ function bench_record_write_start()
 		local tiup_yaml=`cat "${tiup_yaml_path}" | base64 -w 0`
 	fi
 
+	local name=`must_env_val "${env}" 'tidb.cluster'`
+	local dashboard=`cluster_dashboard "${name}"`
+	local monitor=`cluster_grafana "${name}"`
+
+	local dashboard=`normalize_host_addr "${dashboard}"`
+	local monitor=`normalize_host_addr "${monitor}"`
+
 	bench_record_prepare "${host}" "${port}" "${user}" "${pp}" "${db}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
@@ -106,7 +140,9 @@ function bench_record_write_start()
 			end_ts,                                                   \
 			workload,                                                 \
 			run_host,                                                 \
-			tiup_yaml                                                 \
+			tiup_yaml,                                                \
+			dashboard,                                                \
+			monitor                                                   \
 		) VALUES (                                                    \
 			0,                                                        \
 			\"${bench_id}\",                                          \
@@ -114,7 +150,9 @@ function bench_record_write_start()
 			FROM_UNIXTIME(${end_ts}),                                 \
 			\"${workload}\",                                          \
 			\"${ip}\",                                                \
-			\"${tiup_yaml}\"                                          \
+			\"${tiup_yaml}\",                                         \
+			\"${dashboard}\",                                         \
+			\"${monitor}\"                                            \
 		);                                                            \
 		SELECT last_insert_id() FROM bench_meta LIMIT 1               \
 		" 'tab' | tail -n 1
