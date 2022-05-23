@@ -308,6 +308,8 @@ class RunsLines:
 		for i in range(0, len(ids)):
 			id = ids[i]
 			lines = self.runs_lines[id]
+			if max_line_max > 0 and max_line_max > min_line_max:
+				min_line_max = max_line_max
 			self.runs_lines[id], line_max, ok = RunsLines._h_padding(lines, width, prefix_len, min_line_max)
 
 			# re-pad previous

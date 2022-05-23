@@ -52,7 +52,7 @@ if [ ! -z "${qps_jt}" ]; then
 	qps_jt=(${qps_jt})
 	write_record "${jt_title}" 'qps.sdev' "${qps_jt[0]}" 'avg' '2' '0'
 	write_record "${jt_title}" 'qps.+max' "${qps_jt[1]}" 'max' '4' '-1'
-	write_record "${jt_title}" 'qps.-max' "${qps_jt[2]}" 'min' '2' '-1'
+	write_record "${jt_title}" 'qps.-max' "${qps_jt[2]}" 'min' '2' '1'
 fi
 
 lat95_jt=`metrics_jitter "${bt}" 'histogram_quantile(0.95, sum(rate(tidb_server_handle_query_duration_seconds_bucket{}[1m])) by (le, instance))'`

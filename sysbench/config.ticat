@@ -6,8 +6,8 @@ tag = config
 load-threads|load-thread|lt = 1
 threads|thread|t = 1
 tables|table|tb = 1
-table-size|size = 1000
-test-name|name = oltp_point_select
+table-size|size|ts = 1000
+test-name|test|name = oltp_point_select
 run-duration-secs|run-duration|duration|dur|secs|sec = 60
 db-name|database|db = test
 
