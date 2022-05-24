@@ -234,6 +234,11 @@ class RunInfo:
 			section_lines = []
 			section_lines.append(Line('[%s]' % section))
 			for k, v, gig in pairs:
+				v = float(v)
+				if v >= 100 or v <= -100:
+					v = str(int(v))
+				else:
+					v = str(v)
 				line = '%s%s: %s' % (indent, k, v)
 				sym = ''
 				cmp_str, has_cmp_str, better = baseline.cmp(self.id, section, k, v)

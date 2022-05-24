@@ -88,11 +88,21 @@ if [ ! -z "${tidb_cpu_agg}" ]; then
 	write_record "${res_title}" 'tidb.cpu.max.cores' "${tidb_cpu_agg[1]}" 'max' '3' '0'
 fi
 
+function to_mb()
+{
+	local v="${1}"
+	local v=`echo "${v}" | awk '{printf("%f",$0)}'`
+	local v="${v%.*}"
+	local v=$((v/1024/1024))
+	local v="${v%.*}"
+	echo "${v}"
+}
+
 tidb_mem_agg=`metrics_aggregate "${bt}" 'process_resident_memory_bytes{job="tidb"}'`
 if [ ! -z "${tidb_mem_agg}" ]; then
 	tidb_mem_agg=(${tidb_mem_agg})
-	write_record "${res_title}" 'tidb.mem.avg.bytes' "${tidb_mem_agg[0]}" 'avg' '2' '0'
-	write_record "${res_title}" 'tidb.mem.max.bytes' "${tidb_mem_agg[1]}" 'max' '3' '0'
+	write_record "${res_title}" 'tidb.mem.avg.mb' `to_mb "${tidb_mem_agg[0]}"` 'avg' '2' '0'
+	write_record "${res_title}" 'tidb.mem.max.mb' `to_mb "${tidb_mem_agg[1]}"` 'max' '3' '0'
 fi
 
 # TODO: unused yet
