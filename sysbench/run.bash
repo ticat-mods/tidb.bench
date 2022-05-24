@@ -20,6 +20,8 @@ pp=`env_val "${env}" 'mysql.pwd'`
 log="${session}/sysbench.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
 
+check_or_install sysbench
+
 extra_opts=""
 if [[ ! `sysbench --version | awk '{print $2}'` < '1.1.0' ]]; then
     extra_opts="--thread-init-timeout=1800"
