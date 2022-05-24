@@ -25,7 +25,7 @@ query="SELECT monitor, UNIX_TIMESTAMP(run_id) AS begin, UNIX_TIMESTAMP(end_ts) A
 info=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' | { grep -v 'monitor' || test $? = 1; }`
 if [ -z "${info}" ]; then
 	echo "[:(] info not found for record '${id}'" >&2
-	exit
+	exit 1
 fi
 
 addr=`echo "${info}" | awk '{print $1}'`
@@ -37,11 +37,16 @@ time_range="?from=${begin}000&to=${end}000"
 echo "Overview:      http://${addr}/d/eDbRZpnWk/${time_range}"
 echo
 echo "PD:            http://${addr}/d/Q6RuHYIWk/${time_range}"
-echo "TiDB Summary:  http://${addr}/d/yT8wS_Xnk/${time_range}"
-echo "TiKV Details:  http://${addr}/d/RDVQiEzZz/${time_range}"
+echo "TiDB Summary:  (dynamic address)"
+echo "TiKV Summary:  http://${addr}/d/X7VQmEzZk/${time_range}"
 echo
-echo "TiKV FastTune: http://${addr}/d/TiKVFastTune/${time_range}"
+echo "Backup Import: http://${addr}/d/AzvioWLWz/${time_range}"
 echo "Node Export:   http://${addr}/d/000000001/${time_range}"
 echo
 echo "TiDB:          http://${addr}/d/000000011/${time_range}"
 echo "TiDB Runtime:  http://${addr}/d/000000013/${time_range}"
+echo "TiKV Details:  http://${addr}/d/RDVQiEzZz/${time_range}"
+echo
+echo "Perf Write:    http://${addr}/d/Fcw5wqcWk/${time_range}"
+echo "Trouble Shoot: http://${addr}/d/Lg4wiEkZz/${time_range}"
+echo "TiKV FastTune: http://${addr}/d/TiKVFastTune/${time_range}"

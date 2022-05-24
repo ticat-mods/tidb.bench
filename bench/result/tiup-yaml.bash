@@ -28,7 +28,7 @@ text=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' | { 
 
 if [ -z "${text}" ]; then
 	echo "[:(] tiup yaml file not found for record '${id}'" >&2
-	exit
+	exit 1
 fi
 
 text=`echo "${text}" | base64 --d`
@@ -39,7 +39,7 @@ else
 	c="${to_file:0:1}"
 	if [ "${c}" != '/' ] && [ "${c}" != '\' ]; then
 		echo "[:(] arg 'to-file' should be abs path" >&2
-		exit
+		exit 1
 	else
 		echo "${text}" > "${to_file}"
 	fi
