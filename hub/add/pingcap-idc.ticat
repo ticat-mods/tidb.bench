@@ -1,4 +1,5 @@
 help = fetch pingcap idc commands from intranet git service
 abbr = pingcap|pc|idc
+trivial = 9
 
-flow = hub.add http://git.pingcap.net/ticat-mods/idc : install.cmd mysql : install.cmd sshpass
+flow = hub.add http://git.pingcap.net/ticat-mods/idc
