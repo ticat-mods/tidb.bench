@@ -6,13 +6,18 @@ set -euo pipefail
 session="${1}"
 env_file="${session}/env"
 env=`cat "${env_file}"`
-shift 6
+shift 7
 
 bt_repo_addr="${1}"
 bt_download_token="${2}"
 
-name=`must_env_val "${env}" 'tidb.cluster'`
-url='http://'`must_prometheus_addr "${name}"`
+prom=`env_val "${env}" 'bench.prometheus'`
+if [ -z "${prom}" ]; then
+    name=`must_env_val "${env}" 'tidb.cluster'`
+    url='http://'`must_prometheus_addr "${name}"`
+else
+    url="${prom}"
+fi
 
 host=`must_env_val "${env}" 'bench.meta.host'`
 port=`must_env_val "${env}" 'bench.meta.port'`
