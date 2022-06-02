@@ -1,0 +1,11 @@
+help = set tag(s) for bench.record or [workload].record, use ',' to seperate tags
+abbr = set-tag|tags|tag
+
+[arg]
+tag|tags|t = ''
+
+[arg2env]
+bench.tag = tag
+
+[env]
+bench.tag = read
