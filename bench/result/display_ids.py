@@ -7,8 +7,31 @@ import sys
 sys.path.append('../../helper/python.helper')
 
 from my import my_exe
+from strs import to_false
 from strs import to_true
 from strs import colorize
+
+def render_float_val(v):
+	if v == 0:
+		return '0'
+
+	v = float(v)
+	c = v
+	n = 0
+	while not (c >= 100 or c <= -100):
+		c *= 10
+		n += 1
+
+	s = '%.*f' % (n, v)
+	i = s.find('.')
+	if i > 0:
+		head = s[:i]
+		tail = s[i+1:].rstrip('0')
+		if len(tail) == 0:
+			s = head
+		else:
+			s = head + '.' + tail
+	return s
 
 class Line:
 	def __init__(self, line, gig = -1, better = -1, sym = ''):
@@ -210,13 +233,18 @@ class RunInfo:
 
 		header_lines = []
 		header_lines.append(Line(id_line))
-		header_lines.append(Line('workload:  %s' % workload))
-		header_lines.append(Line('begin:     %s' % begin))
+		if len(workload) != 0:
+			header_lines.append(Line('workload:  %s' % workload))
+		if len(begin) != 0:
+			header_lines.append(Line('begin:     %s' % begin))
 		if verb > 1:
-			header_lines.append(Line('end:       %s' % end))
+			if len(end) != 0:
+				header_lines.append(Line('end:       %s' % end))
 		if verb > 4:
-			header_lines.append(Line('run-host:  %s ' % run_host))
-			header_lines.append(Line('session:   %s ' % bench_id))
+			if len(run_host) != 0:
+				header_lines.append(Line('run-host:  %s ' % run_host))
+			if len(bench_id) != 0:
+				header_lines.append(Line('session:   %s ' % bench_id))
 
 		indent = ' ' * indent
 		tags_lines = []
@@ -234,11 +262,7 @@ class RunInfo:
 			section_lines = []
 			section_lines.append(Line('[%s]' % section))
 			for k, v, gig in pairs:
-				v = float(v)
-				if v >= 100 or v <= -100:
-					v = str(int(v))
-				else:
-					v = str(v)
+				v = render_float_val(v)
 				line = '%s%s: %s' % (indent, k, v)
 				sym = ''
 				cmp_str, has_cmp_str, better = baseline.cmp(self.id, section, k, v)
@@ -394,8 +418,150 @@ class RunsLines:
 
 		return (header_lines, tags_lines, sections, sections_lines), line_max, True
 
+def tags_uniq_id(workload, tags):
+    return workload + ':' + ','.join(copy.deepcopy(tags))
+
+# TODO: aggregate(use the agg method in the record) by run_host before grouping
+def group_infos_by_tags(infos):
+	same_tags_infos = {}
+	tags_lists = {}
+	workloads = {}
+	for id in infos.keys():
+		info = infos[id]
+		_, _, _, _, workload = info.meta
+		tags_id = tags_uniq_id(workload, info.tags)
+		if tags_id not in same_tags_infos:
+			same_tags_infos[tags_id] = []
+		same_tags_infos[tags_id].append(info)
+		tags_lists[tags_id] = copy.deepcopy(info.tags)
+		workloads[tags_id] = workload
+	tags_ids = []
+	for key in same_tags_infos.keys():
+		tags_ids.append(key)
+	tags_ids.sort()
+	return tags_ids, tags_lists, workloads, same_tags_infos
+
+def data_transformer_agg(infos, agg_class):
+	class SectionKvs:
+		def __init__(self, section):
+			self.section = section
+			self.keys = []
+			self.gigs = []
+			self.vals = {}
+		def on_kvs(self, kvs):
+			for k, v, gig in kvs:
+				if k not in self.keys:
+					self.keys.append(k)
+					self.gigs.append(gig)
+					self.vals[k] = agg_class()
+				self.vals[k].on_val(float(v))
+		def final(self):
+			kvs = []
+			for i in range(0, len(self.keys)):
+				key = self.keys[i]
+				kvs.append((key, self.vals[key].final(), self.gigs[i]))
+			return kvs
+
+	tags_ids, tags_lists, workloads, same_tags_infos = group_infos_by_tags(infos)
+	new_ids = []
+	new_infos = {}
+	baseline = Baseline()
+
+	for i in range(0, len(tags_ids)):
+		tags_id = tags_ids[i]
+		infos = same_tags_infos[tags_id]
+		if len(infos) == 0:
+			continue
+		workload = workloads[tags_id]
+		new_id = 'v' + str(i)
+		new_meta = ('', '', '', '', workload)
+		new_tags = tags_lists[tags_id]
+
+		new_sections = []
+		new_sections_kvs = {}
+		for info in infos:
+			for j in range(0, len(info.sections)):
+				section = info.sections[j]
+				kvs = info.kvs[j]
+				if section not in new_sections:
+					new_sections_kvs[section] = SectionKvs(section)
+					new_sections.append(section)
+				new_sections_kvs[section].on_kvs(kvs)
+		if len(new_sections) == 0:
+			continue
+		new_kvs = []
+		for section in new_sections_kvs.keys():
+			new_section_kvs = new_sections_kvs[section]
+			new_kvs.append(new_section_kvs.final())
+
+		agg_kvs = [(agg_class.name() + '.count', str(len(infos)), -1)]
+		new_kvs.insert(0, agg_kvs)
+		new_sections.insert(0, 'AggregateInfo')
+
+		info = RunInfo(new_id, new_meta, new_tags, new_sections, new_kvs)
+		new_infos[new_id] = info
+		new_ids.append(new_id)
+
+	if len(new_infos) != 0:
+		baseline.set_my_id(new_ids[0])
+		for id in new_infos.keys():
+			info = new_infos[id]
+			baseline.add(info.id, info.sections, info.kvs)
+
+	return new_ids, new_infos, baseline
+
+def data_transformer_agg_avg(ids, infos, baseline):
+	class Avg:
+		@staticmethod
+		def name():
+			return 'avg'
+		def __init__(self):
+			self.cnt = 0
+			self.sum = 0.0
+		def on_val(self, val):
+			self.cnt += 1
+			self.sum += val
+		def final(self):
+			return self.cnt != 0 and self.sum / self.cnt or 0.0
+	return data_transformer_agg(infos, Avg)
+
+def data_transformer_agg_natural(ids, infos, baseline):
+	raise Exception('TODO: impl')
+
+def data_transformer_none(ids, infos, baseline):
+	return ids, infos, baseline
+
+class DataTransformers:
+	@staticmethod
+	def agg_names():
+		return ['', 'avg', 'natural']
+
+	@staticmethod
+	def formal_names():
+		return ['none', 'agg.avg', 'agg.natural']
+
+	@staticmethod
+	def normalize_name(name):
+		if len(name) == 0 or to_false(name):
+			name = 'none'
+		elif to_true(name):
+			name = 'agg.avg'
+		elif name == 'average' or name == 'avg':
+			name = 'agg.avg'
+		elif name == 'nature':
+			name = 'agg.natural'
+		return name, name in DataTransformers.formal_names()
+
+	@staticmethod
+	def from_name(name):
+		return {
+			'none': data_transformer_none,
+			'agg.avg': data_transformer_agg_avg,
+			'agg.natural': data_transformer_agg_natural,
+		}[name]
+
 class BenchResultDisplay:
-	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt):
+	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer_name):
 		self.host = host
 		self.port = port
 		self.user = user
@@ -405,6 +571,7 @@ class BenchResultDisplay:
 		self.use_color = use_color
 		self.width = width
 		self.max_cnt = max_cnt
+		self.data_transformer = DataTransformers.from_name(data_transformer_name)
 
 		self.verb = int(verb)
 		if self.verb <= 0:
@@ -415,8 +582,9 @@ class BenchResultDisplay:
 		if len(baseline_id) > 0:
 			self.first_as_baseline = False
 
-	def display(self):
+	def display(self, h_sep = '='):
 		ids, infos, baseline = self._fetch_result()
+		ids, infos, baseline = self.data_transformer(ids, infos, baseline)
 		runs_lines = RunsLines(ids, infos, self.verb, baseline, self.use_color, 4)
 		runs_lines.v_align()
 		while True:
@@ -425,8 +593,7 @@ class BenchResultDisplay:
 				break
 			BenchResultDisplay._display_one(merged.header_lines, merged.tags_lines, runs_lines.sections_all, merged.sections_lines)
 			if remain > 0:
-				#print('-' * self.width)
-				print('=' * line_max)
+				print(h_sep * line_max)
 
 	@staticmethod
 	def _display_one(header_lines, tags_lines, sections, sections_lines):
@@ -559,7 +726,9 @@ class BenchResultDisplay:
 
 		class RunSections:
 			def __init__(self):
+				# [section-0, section-1, ...]
 				self.sections = []
+				# [[kvs-0], [kvs-1], ...]
 				self.kvs = []
 				self.kv_cnt = 0
 
@@ -579,9 +748,9 @@ class BenchResultDisplay:
 	def _my_exe(self, query):
 		return my_exe(self.host, self.port, self.user, self.pp, self.db, query, 'tab')
 
-def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32):
+def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32, data_transformer = 'none'):
 	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
-	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt).display()
+	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer).display()
 
 if __name__ == '__main__':
 	if len(sys.argv) != 10:

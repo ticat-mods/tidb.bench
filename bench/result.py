@@ -10,6 +10,7 @@ from my import my_exe
 from select_ids import bench_result_select
 from select_ids import bench_result_merge_ids
 from display_ids import bench_result_display
+from display_ids import DataTransformers
 
 def bench_result():
 	workload = sys.argv[2]
@@ -19,6 +20,12 @@ def bench_result():
 	bench_id = sys.argv[6]
 	max_cnt = int(sys.argv[7])
 	has_filter = len(bench_id) != 0 or len(record_ids) != 0 or len(tags) != 0 or len(workload) != 0
+
+	agg_method = sys.argv[8]
+	data_transformer, ok = DataTransformers.normalize_name(agg_method)
+	if not ok:
+		print('[:(] value of \'aggregate-by-tag\' is \'%s\', not in %s' % (agg_method, str(DatTransformers.names())))
+		sys.exit(1)
 
 	env = Env()
 
@@ -39,7 +46,7 @@ def bench_result():
 	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
-		return
+		sys.exit(1)
 
 	ids = []
 	if has_filter:
@@ -50,9 +57,9 @@ def bench_result():
 	if len(baseline_id) == 0 and len(ids) == 0:
 		if has_filter:
 			print('[:(] no matched bench results')
-			return
+			sys.exit(1)
 		else:
 			ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)
-	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id)
+	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id, data_transformer = data_transformer)
 
 bench_result()
