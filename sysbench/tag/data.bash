@@ -11,4 +11,4 @@ tables=`must_env_val "${env}" 'bench.sysbench.tables'`
 table_size=`must_env_val "${env}" 'bench.sysbench.table-size'`
 
 tag="${test_name}-t${tables}-s${table_size}"
-echo "workload.tag.data=${tag}" >> "${env_file}"
+echo "tidb.data.tag=${tag}" >> "${env_file}"

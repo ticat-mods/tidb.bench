@@ -1,4 +1,4 @@
 help = gen a tag base on workload data
 
 [val2env]
-workload.tag.data = dummy-workload-data
+tidb.data.tag = dummy-workload-data

@@ -1,4 +1,5 @@
 help = generate a fixed tag
 
 [val2env]
-workload.tag.data = ycsb
+# TODO: read data size from env
+tidb.data.tag = ycsb

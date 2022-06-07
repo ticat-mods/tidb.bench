@@ -2,6 +2,6 @@ help = generate tag by scale factor
 
 [env]
 bench.tpch.scale-factor = read
-bench.tpch.tiflash = tread
+bench.tpch.tiflash = read
 
-workload.tag.data = write
+tidb.data.tag = write

@@ -15,4 +15,4 @@ else
 fi
 
 tag="sf${sf}${tiflash}"
-echo "workload.tag.data=${tag}" >> "${env_file}"
+echo "tidb.data.tag=${tag}" >> "${env_file}"
