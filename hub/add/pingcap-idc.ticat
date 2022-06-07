@@ -2,4 +2,4 @@ help = fetch pingcap idc commands from intranet git service
 abbr = pingcap|pc|idc
 trivial = 9
 
-flow = hub.add http://git.pingcap.net/ticat-mods/idc
+flow = hub.add http://git.pingcap.net\\:8088/ticat-mods/idc
