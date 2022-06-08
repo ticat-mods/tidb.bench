@@ -93,6 +93,13 @@ if [ ! -z "${tidb_cpu_agg}" ]; then
 	write_record "${res_title}" 'tidb.cpu.max.cores' "${tidb_cpu_agg[1]}" 'max' '3' '0'
 fi
 
+tikv_cpu_agg=`metrics_aggregate "${bt}" 'irate(process_cpu_seconds_total{job="tikv"}[30s])'`
+if [ ! -z "${tikv_cpu_agg}" ]; then
+	tikv_cpu_agg=(${tikv_cpu_agg})
+	write_record "${res_title}" 'tikv.cpu.avg.cores' "${tikv_cpu_agg[0]}" 'avg' '2' '0'
+	write_record "${res_title}" 'tikv.cpu.max.cores' "${tikv_cpu_agg[1]}" 'max' '3' '0'
+fi
+
 function to_mb()
 {
 	local v="${1}"
@@ -108,6 +115,13 @@ if [ ! -z "${tidb_mem_agg}" ]; then
 	tidb_mem_agg=(${tidb_mem_agg})
 	write_record "${res_title}" 'tidb.mem.avg.mb' `to_mb "${tidb_mem_agg[0]}"` 'avg' '2' '0'
 	write_record "${res_title}" 'tidb.mem.max.mb' `to_mb "${tidb_mem_agg[1]}"` 'max' '3' '0'
+fi
+
+tikv_mem_agg=`metrics_aggregate "${bt}" 'process_resident_memory_bytes{job="tikv"}'`
+if [ ! -z "${tikv_mem_agg}" ]; then
+	tikv_mem_agg=(${tikv_mem_agg})
+	write_record "${res_title}" 'tikv.mem.avg.mb' `to_mb "${tikv_mem_agg[0]}"` 'avg' '2' '0'
+	write_record "${res_title}" 'tikv.mem.max.mb' `to_mb "${tikv_mem_agg[1]}"` 'max' '3' '0'
 fi
 
 # TODO: unused yet

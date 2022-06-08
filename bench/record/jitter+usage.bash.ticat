@@ -1,5 +1,5 @@
 help = record current bench jitters and resouce-usages to meta db
-abbr = jitters|jit|j
+abbr = jitters|jit|usage|usg|j+u|j
 
 [arg]
 tag|tags|t = ''
