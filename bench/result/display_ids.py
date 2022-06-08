@@ -490,7 +490,7 @@ def data_transformer_agg(infos, agg_class):
 		if len(new_sections) == 0:
 			continue
 		new_kvs = []
-		for section in new_sections_kvs.keys():
+		for section in new_sections:
 			new_section_kvs = new_sections_kvs[section]
 			new_kvs.append(new_section_kvs.final())
 
