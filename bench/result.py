@@ -27,6 +27,8 @@ def bench_result():
 		print('[:(] value of \'aggregate-by-tag\' is \'%s\', not in %s' % (agg_method, str(DatTransformers.names())))
 		sys.exit(1)
 
+	order_list = sys.argv[9].split(',')
+
 	env = Env()
 
 	color = env.must_get('display.color') == 'true'
@@ -60,6 +62,6 @@ def bench_result():
 			sys.exit(1)
 		else:
 			ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)
-	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id, data_transformer = data_transformer)
+	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id, data_transformer = data_transformer, order_list = order_list)
 
 bench_result()

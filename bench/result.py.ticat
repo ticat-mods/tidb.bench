@@ -10,6 +10,7 @@ record-id-list|record-ids|record-id|rid|record-list|records|record|rec|r = ''
 session-id|session|sid|s = ''
 max-records|max-cnt|max|limit = 0
 aggregate-by-tag|aggregate|agg-by-tag|agg = ''
+record-id-order-list|order-list|order = ''
 
 [env]
 bench.meta.host = read

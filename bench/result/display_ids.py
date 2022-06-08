@@ -216,6 +216,17 @@ class Baseline:
 			return False
 		return len(self.seen_ids) > 1
 
+	@staticmethod
+	def select_first_as_baseline(ids, infos):
+		baseline = Baseline()
+		if len(infos) == 0 or len(ids) == 0:
+			return baseline
+		baseline.set_my_id(ids[0])
+		for id in infos:
+			info = infos[id]
+			baseline.add(info.id, info.sections, info.kvs)
+		return baseline
+
 class RunInfo:
 	def __init__(self, id, meta, tags, sections, kvs):
 		self.id = id
@@ -465,7 +476,6 @@ def data_transformer_agg(infos, agg_class):
 	tags_ids, tags_lists, workloads, same_tags_infos = group_infos_by_tags(infos)
 	new_ids = []
 	new_infos = {}
-	baseline = Baseline()
 
 	for i in range(0, len(tags_ids)):
 		tags_id = tags_ids[i]
@@ -502,12 +512,7 @@ def data_transformer_agg(infos, agg_class):
 		new_infos[new_id] = info
 		new_ids.append(new_id)
 
-	if len(new_infos) != 0:
-		baseline.set_my_id(new_ids[0])
-		for id in new_infos.keys():
-			info = new_infos[id]
-			baseline.add(info.id, info.sections, info.kvs)
-
+	baseline = Baseline.select_first_as_baseline(new_ids, new_infos)
 	return new_ids, new_infos, baseline
 
 def data_transformer_agg_avg(ids, infos, baseline):
@@ -561,7 +566,7 @@ class DataTransformers:
 		}[name]
 
 class BenchResultDisplay:
-	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer_name):
+	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer_name, order_list):
 		self.host = host
 		self.port = port
 		self.user = user
@@ -572,6 +577,7 @@ class BenchResultDisplay:
 		self.width = width
 		self.max_cnt = max_cnt
 		self.data_transformer = DataTransformers.from_name(data_transformer_name)
+		self.order_list = order_list
 
 		self.verb = int(verb)
 		if self.verb <= 0:
@@ -585,6 +591,7 @@ class BenchResultDisplay:
 	def display(self, h_sep = '='):
 		ids, infos, baseline = self._fetch_result()
 		ids, infos, baseline = self.data_transformer(ids, infos, baseline)
+		ids, infos, baseline = self.reorder_by_id_list(ids, infos, baseline)
 		runs_lines = RunsLines(ids, infos, self.verb, baseline, self.use_color, 4)
 		runs_lines.v_align()
 		while True:
@@ -594,6 +601,19 @@ class BenchResultDisplay:
 			BenchResultDisplay._display_one(merged.header_lines, merged.tags_lines, runs_lines.sections_all, merged.sections_lines)
 			if remain > 0:
 				print(h_sep * line_max)
+
+	def reorder_by_id_list(self, ids, infos, baseline):
+		if len(self.order_list) == 0 or len(ids) == 0:
+			return ids, infos, baseline
+		new_ids = []
+		for id in self.order_list:
+			if id not in infos:
+				continue
+			new_ids.append(id)
+			ids.remove(id)
+		if len(new_ids) != 0 and new_ids[0] != baseline.my_id:
+			baseline = Baseline.select_first_as_baseline(self.order_list, infos)
+		return new_ids + ids, infos, baseline
 
 	@staticmethod
 	def _display_one(header_lines, tags_lines, sections, sections_lines):
@@ -748,9 +768,9 @@ class BenchResultDisplay:
 	def _my_exe(self, query):
 		return my_exe(self.host, self.port, self.user, self.pp, self.db, query, 'tab')
 
-def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32, data_transformer = 'none'):
+def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32, data_transformer = 'none', order_list = ''):
 	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
-	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer).display()
+	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer, order_list).display()
 
 if __name__ == '__main__':
 	if len(sys.argv) != 10:
