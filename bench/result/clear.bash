@@ -14,4 +14,7 @@ my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${db}"
 
 bench_record_clear "${host}" "${port}" "${user}" "${pp}" "${db}"
 
+# recreate tables
+bench_record_prepare "${host}" "${port}" "${user}" "${pp}" "${db}"
+
 echo "[:)] all clear"
