@@ -4,6 +4,7 @@ quiet-error = true
 
 [arg]
 record-id|record|rid|id|records|rec|r = ''
+host-or-ip|host|ip|h = ''
 
 [env]
 bench.meta.host = read

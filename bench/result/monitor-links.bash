@@ -28,16 +28,23 @@ if [ -z "${info}" ]; then
 	exit 1
 fi
 
-addr=`echo "${info}" | awk '{print $1}'`
-begin=`echo "${info}" | awk '{print $2}'`
-end=`echo "${info}" | awk '{print $3}'`
+addr="${2}"
+if [ -z "${addr}" ]; then
+	addr=`echo "${info}" | awk -F "\t" '{print $1}'`
+fi
+if [ -z "${addr}" ]; then
+	addr='[HOST]'
+fi
+
+begin=`echo "${info}" | awk -F "\t" '{print $2}'`
+end=`echo "${info}" | awk -F "\t" '{print $3}'`
 
 time_range="?from=${begin}000&to=${end}000"
 
 echo "Overview:      http://${addr}/d/eDbRZpnWk/${time_range}"
 echo
 echo "PD:            http://${addr}/d/Q6RuHYIWk/${time_range}"
-echo "TiDB Summary:  (dynamic address)"
+echo "TiDB Summary:  http://${addr}/d/[DYNAMIC_ID]/${time_range}"
 echo "TiKV Summary:  http://${addr}/d/X7VQmEzZk/${time_range}"
 echo
 echo "Backup Import: http://${addr}/d/AzvioWLWz/${time_range}"
