@@ -1,4 +1,4 @@
-help = generate tag by scale factor
+help = generate a tag `tidb.data.tag` to env by scale factor
 
 [env]
 bench.tpch.scale-factor = read

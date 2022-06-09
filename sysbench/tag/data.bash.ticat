@@ -1,4 +1,4 @@
-help = generate tag by data scale
+help = generate a tag `tidb.data.tag` to env by table number and table size
 
 [env]
 bench.sysbench.test-name|name = read

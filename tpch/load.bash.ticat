@@ -1,4 +1,4 @@
-help = prepare TPCH data
+help = prepare TPCH data to mysql/TiDB
 abbr = ld|l
 
 [arg]

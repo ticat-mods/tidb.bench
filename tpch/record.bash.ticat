@@ -1,4 +1,4 @@
-help = record detail info of one run of a workload bench
+help = record detail info of `tpch.run` to meta db
 
 [arg]
 tag|tags|t = ''

@@ -1,4 +1,4 @@
-help = generate a fixed tag
+help = generate a fixed tag (TODO: generate the tag by data scale)
 
 [val2env]
 # TODO: read data size from env

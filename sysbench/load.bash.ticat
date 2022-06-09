@@ -1,4 +1,4 @@
-help = prepare SysBench data
+help = prepare SysBench data to mysql/TiDB
 abbr = ld|l
 
 [arg]

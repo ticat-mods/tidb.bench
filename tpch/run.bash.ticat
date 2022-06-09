@@ -1,4 +1,4 @@
-help = run TPCH benchmark
+help = run TPCH benchmark on mysql/TiDB
 
 begin-ts-key = bench.run.begin
 end-ts-key = bench.run.end

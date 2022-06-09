@@ -1,4 +1,4 @@
-help = run YCSB benchmark
+help = run YCSB benchmark on TiDB
 
 begin-ts-key = bench.run.begin
 end-ts-key = bench.run.end

@@ -1,4 +1,4 @@
-help = prepare YCSB data
+help = prepare YCSB data to TiDB
 abbr = ld|l
 
 [arg]
