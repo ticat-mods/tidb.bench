@@ -244,14 +244,22 @@ function bench_record_write_tags_from_env()
 	local env="${7}"
 
 	local tags=`env_val "${env}" 'bench.tag'`
-	if [ -z "${tags}" ]; then
-		return
+	if [ ! -z "${tags}" ]; then
+		local tags=`list_to_array "${tags}"`
+		for tag in ${tags[@]}; do
+			bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${tag}"
+		done
 	fi
 
-	local tags=`list_to_array "${tags}"`
-	for tag in ${tags[@]}; do
-		bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${tag}"
-	done
+	local tags_lines=`env_prefix_vals "${env}" 'bench.tag.'`
+	if [ ! -z "${tags_lines}" ]; then
+		echo "${tags_lines}" | while read line; do
+			local tags=`list_to_array "${line}"`
+			for tag in ${tags[@]}; do
+				bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${tag}"
+			done
+		done
+	fi
 }
 
 function bench_record_list()
