@@ -1,0 +1,25 @@
+help = move meta data in the same dbms: from `db-name-src` to `db-name-dest`
+abbr = move-to|move|mv
+
+[arg]
+host|h = 127.0.0.1
+port|p = 4100
+user|u = root
+password|pwd = ''
+db-name-src|src = bench_meta
+db-name-dest|dest = ''
+
+[arg2env]
+bench.meta.host = host
+bench.meta.port = port
+bench.meta.user = user
+bench.meta.pwd = password
+bench.meta.db-name = db-name-dest
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.user = read
+
+[dep]
+mysql = as client

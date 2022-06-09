@@ -1,4 +1,4 @@
-help = set tag(s) for bench.record or [workload].record, use ',' to seperate tags
+help = set tag(s) for `bench.record` or `[workload].record`, use ',' to seperate tags
 abbr = set-tag|tags|tag
 
 [arg]
