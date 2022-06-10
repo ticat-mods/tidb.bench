@@ -251,7 +251,7 @@ function bench_record_write_tags_from_env()
 		done
 	fi
 
-	local tags_lines=`env_prefix_vals "${env}" 'bench.tag.'`
+	local tags_lines=`env_prefix_vals "${env}" 'bench.tag\.'`
 	if [ ! -z "${tags_lines}" ]; then
 		echo "${tags_lines}" | while read line; do
 			local tags=`list_to_array "${line}"`

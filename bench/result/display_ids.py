@@ -773,8 +773,6 @@ def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, wid
 	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer, order_list).display()
 
 if __name__ == '__main__':
-	sys.stderr.write('XX'+ids+'\n')
-
 	if len(sys.argv) != 10:
 		print('usage: display_ids.py host port user pwd db verb colorize display-width session-id-list')
 		sys.exit(1)
