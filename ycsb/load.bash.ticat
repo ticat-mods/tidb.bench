@@ -9,13 +9,13 @@ conn-count|cc = 128
 
 read-all-fields|raf = true
 read-modify-write-proportion|rmwp = 0
-read-proportion|rp = 0
+read-proportion|rp = 0.95
 request-distribution|rd = uniform
 insert-proportion|ip = 0
 isolation|iso = 0
 scan-proportion|sp = 0
 scan-length-distribution|sld = uniform
-update-proportion|up = 0
+update-proportion|up = 0.05
 
 host|h = ''
 port|p = ''
