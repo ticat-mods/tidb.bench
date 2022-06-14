@@ -12,10 +12,10 @@ from strs import to_true
 from strs import colorize
 
 def render_float_val(v):
+	v = float(v)
 	if v == 0:
 		return '0'
 
-	v = float(v)
 	c = v
 	n = 0
 	while not (c >= 100 or c <= -100):
