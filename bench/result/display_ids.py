@@ -648,7 +648,10 @@ class BenchResultDisplay:
 			if id not in ids_set:
 				ids_dedup.append(id)
 				ids_set.add(id)
-		ids = ids_dedup[len(ids_dedup)-self.max_cnt:]
+		if len(ids_dedup) <= self.max_cnt:
+			ids = ids_dedup
+		else:
+			ids = ids_dedup[len(ids_dedup)-self.max_cnt:]
 
 		metas_map = self._read_meta(ids)
 		tags_map = self._read_tags(ids)
