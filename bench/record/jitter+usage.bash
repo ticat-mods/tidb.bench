@@ -100,6 +100,13 @@ if [ ! -z "${tikv_cpu_agg}" ]; then
 	write_record "${res_title}" 'tikv.cpu.max.cores' "${tikv_cpu_agg[1]}" 'max' '3' '0'
 fi
 
+pd_cpu_agg=`metrics_aggregate "${bt}" 'irate(process_cpu_seconds_total{job=~".*pd.*"}[30s])'`
+if [ ! -z "${pd_cpu_agg}" ]; then
+	pd_cpu_agg=(${pd_cpu_agg})
+	write_record "${res_title}" 'pd.cpu.avg.cores' "${pd_cpu_agg[0]}" 'avg' '2' '0'
+	write_record "${res_title}" 'pd.cpu.max.cores' "${pd_cpu_agg[1]}" 'max' '3' '0'
+fi
+
 function to_mb()
 {
 	local v="${1}"
