@@ -5,11 +5,8 @@ set -euo pipefail
 env_file="${1}/env"
 env=`cat "${env_file}"`
 
-test_name=`must_env_val "${env}" 'bench.sysbench.test-name'`
-test_name=`sysbench_short_name "${test_name}"`
-
 tables=`must_env_val "${env}" 'bench.sysbench.tables'`
 table_size=`must_env_val "${env}" 'bench.sysbench.table-size'`
 
-tag="${test_name}-t${tables}-s${table_size}"
+tag="tb${tables}-ts${table_size}"
 echo "tidb.data.tag=${tag}" >> "${env_file}"
