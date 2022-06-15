@@ -1,0 +1,53 @@
+### file: sysbench.config.tiflow
+###
+help = config SysBench workload
+abbr = sysbench|sysben|sb.conf
+tag = config
+
+[arg]
+load-threads|load-thread|lt = ''
+threads|thread|t = ''
+tables|table|tb = ''
+table-size|size|ts = ''
+test-name|test|name = ''
+run-duration-secs|run-duration|duration|dur|secs|sec = ''
+db-name|database|db = ''
+
+[arg2env]
+bench.sysbench.load.threads = load-threads
+bench.sysbench.threads = threads
+bench.sysbench.tables = tables
+bench.sysbench.table-size = table-size
+bench.sysbench.test-name = test-name
+bench.sysbench.duration = run-duration-secs
+bench.sysbench.db = db-name
+
+[val2env]
+bench.workload = sysbench
+
+
+### file: sysbench.config.min.tiflow
+###
+help = set minimal SysBench config to env
+tag = config
+
+[arg]
+load-threads|load-thread|lt = 1
+threads|thread|t = 1
+tables|table|tb = 1
+table-size|size|ts = 1000
+test-name|test|name = oltp_point_select
+run-duration-secs|run-duration|duration|dur|secs|sec = 60
+db-name|database|db = test
+
+[arg2env]
+bench.sysbench.load.threads = load-threads
+bench.sysbench.threads = threads
+bench.sysbench.tables = tables
+bench.sysbench.table-size = table-size
+bench.sysbench.test-name = test-name
+bench.sysbench.duration = run-duration-secs
+bench.sysbench.db = db-name
+
+[val2env]
+bench.workload = sysbench

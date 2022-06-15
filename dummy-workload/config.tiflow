@@ -1,0 +1,31 @@
+### file: dummy-workload.config.tiflow
+###
+help = config dumb workload
+abbr = dummy-workload.conf
+
+[arg]
+scale|s = ''
+threads|thread|thrd|thd|t = ''
+
+[arg2env]
+bench.dummy-workload.scale = scale
+bench.dummy-workload.threads = threads
+
+[val2env]
+bench.workload = dummy-workload
+
+
+### file: dummy-workload.config.min.tiflow
+###
+help = config dumb workload
+
+[arg]
+scale|s = 123456
+threads|thread|thrd|thd|t = 1
+
+[arg2env]
+bench.dummy-workload.scale = scale
+bench.dummy-workload.threads = threads
+
+[val2env]
+bench.workload = dummy-workload
