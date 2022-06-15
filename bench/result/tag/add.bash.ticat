@@ -2,7 +2,7 @@ help = add tag or tag list to a bench record or records
 
 [arg]
 record-id-list|record-ids|record-id|rid|record-list|records|rec|r = ''
-tags = ''
+tags|tag|t = ''
 
 [env]
 bench.meta.host = read
