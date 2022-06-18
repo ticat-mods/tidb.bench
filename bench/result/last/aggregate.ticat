@@ -1,0 +1,4 @@
+help = display bench result of the last session in agg(avg) mode
+abbr = agg
+
+flow = bench.result.select.last : bench.result agg=avg
