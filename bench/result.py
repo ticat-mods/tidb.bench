@@ -24,7 +24,7 @@ def bench_result():
 	agg_method = sys.argv[8]
 	data_transformer, ok = DataTransformers.normalize_name(agg_method)
 	if not ok:
-		print('[:(] value of \'aggregate-by-tag\' is \'%s\', not in %s' % (agg_method, str(DatTransformers.names())))
+		print('[:(] value of \'aggregate-by-tag\' is \'%s\', not in %s' % (agg_method, str(DataTransformers.names())))
 		sys.exit(1)
 
 	order_list = sys.argv[9].split(',')
