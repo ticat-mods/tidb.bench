@@ -5,8 +5,8 @@ here=`cd $(dirname ${BASH_SOURCE[0]}) && pwd`
 env=`cat "${1}/env"`
 shift
 
-ids="${1}"
-tags="${2}"
+tags="${1}"
+ids=`must_env_val "${env}" 'bench.meta.result.ids'`
 
 host=`must_env_val "${env}" 'bench.meta.host'`
 port=`must_env_val "${env}" 'bench.meta.port'`

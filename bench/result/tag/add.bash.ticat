@@ -1,11 +1,15 @@
 help = add tag or tag list to a bench record or records
 
 [arg]
-record-id-list|record-ids|record-id|rid|record-list|records|rec|r = ''
 tags|tag|t = ''
+record-id-list|record-ids|record-id|rid|record-list|records|rec|r = ''
+
+[arg2env]
+bench.meta.result.ids = record-id-list
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
+bench.result.ids = read
