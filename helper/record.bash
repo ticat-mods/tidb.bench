@@ -283,6 +283,18 @@ function bench_record_list()
 	"
 }
 
+function bench_record_show_tags()
+{
+	local host="${1}"
+	local port="${2}"
+	local user="${3}"
+	local pp="${4}"
+	local db="${5}"
+
+	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}"              \
+		"SELECT DISTINCT tag FROM bench_tags" 'tab'
+}
+
 function bench_record_add_tags()
 {
 	local host="${1}"
