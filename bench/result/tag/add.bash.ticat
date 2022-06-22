@@ -12,4 +12,5 @@ bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
-bench.result.ids = read
+
+bench.meta.result.ids = read
