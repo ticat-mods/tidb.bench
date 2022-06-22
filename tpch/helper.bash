@@ -7,11 +7,20 @@ function parse_tpch_score()
 
 function parse_tpch_detail()
 {
-	local log="${1}"
-	local col=`cat "${log}" | { grep 'Summary' || test $? = 1; } | \
-		awk '{print $2}' | sed ':a;N;$!ba;s/:/,/g' | sed ':a;N;$!ba;s/\n//g'`
-	local val=`cat "${log}" | { grep 'Summary' || test $? = 1; } | \
-		awk '{print $3}' | sed ':a;N;$!ba;s/s/,/g' | sed ':a;N;$!ba;s/\n//g'`
+	local log=`cat "${1}" | { grep 'Summary' || test $? = 1; }`
+
+	# There are bugs in the below `local col=` lines when log line is 1, here is a workaround
+	if [ `echo "${log}" | wc -l` == 1 ]; then
+		local col=`echo "${log}" | awk '{print $2}'`
+		local col="${col%:},"
+		local val=`echo "${log}" | awk '{print $3}'`
+		local val="${val%s},"
+		echo "${col} ${val}"
+		return
+	fi
+
+	local col=`echo "${log}" | awk '{print $2}' | sed ':a;N;$!ba;s/:/,/g' | sed ':a;N;$!ba;s/\n//g'`
+	local val=`echo "${log}" | awk '{print $3}' | sed ':a;N;$!ba;s/s/,/g' | sed ':a;N;$!ba;s/\n//g'`
 	echo "${col} ${val}"
 }
 
