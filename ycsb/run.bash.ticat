@@ -4,7 +4,7 @@ begin-ts-key = bench.run.begin
 end-ts-key = bench.run.end
 
 [arg]
-ycsb-threads|ycsb-t|threads|thread|thrd|thd|t = 1
+ycsb-threads|ycsb-t|threads|thread|thd|t = 1
 ycsb-count|ycsb-cnt|count|cnt = 100000
 ycsb-batch-size|ycsb-bs|batch-size|bs = 128
 ycsb-conn-count|ycsb-cc|conn-count|cc = 128

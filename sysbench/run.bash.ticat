@@ -5,7 +5,7 @@ end-ts-key = bench.run.end
 
 [arg]
 sysbench-test-name|sb-test|test|name|sbtn|tn = oltp_point_select
-sysbench-threads|sb-thread|thread|sbt|t = 1
+sysbench-threads|sb-thread|sbt|thread|thd|t = 1
 sysbench-tables|sb-tb|tables|table|tb = 1
 sysbench-table-size|sb-table-size|sb-ts|sbts|ts = 1000
 sysbench-duration-secs|sb-dur|sb-secs|sb-sec|sbsec|duration|dur|secs|sec = 60

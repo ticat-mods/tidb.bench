@@ -6,7 +6,7 @@ tag = config
 
 [arg]
 ycsb-load-threads|ycsb-lt|load-thread|l-t|lt = ''
-ycsb-threads|ycsb-t|threads|thread|thrd|thd|t = ''
+ycsb-threads|ycsb-t|threads|thread|thd|t = ''
 ycsb-count|ycsb-cnt|count|cnt = ''
 ycsb-batch-size|ycsb-bs|batch-size|bs = ''
 ycsb-conn-count|ycsb-cc|conn-count|cc = ''
@@ -53,7 +53,7 @@ tag = config
 
 [arg]
 ycsb-load-threads|ycsb-lt|load-thread|l-t|lt = 1
-ycsb-threads|ycsb-t|threads|thread|thrd|thd|t = 1
+ycsb-threads|ycsb-t|threads|thread|thd|t = 1
 ycsb-count|ycsb-cnt|count|cnt = 100000
 ycsb-batch-size|ycsb-bs|batch-size|bs = 128
 ycsb-conn-count|ycsb-cc|conn-count|cc = 128

@@ -6,7 +6,7 @@ tag = config
 
 [arg]
 tpcc-load-threads|tpcc-lt|load-threads|load-thread|l-t|lt = ''
-tpcc-threads|tpcc-t|threads|thread|thrd|t = ''
+tpcc-threads|tpcc-t|threads|thread|thd|t = ''
 tpcc-warehouses|tpcc-wh|warehouses|warehouse|wh = ''
 tpcc-duration|tpcc-dur|duration|dur = ''
 tpcc-load-analyze|load-analyze|analyze = ''
@@ -30,7 +30,7 @@ tag = config
 
 [arg]
 tpcc-load-threads|tpcc-lt|load-threads|load-thread|l-t|lt = 1
-tpcc-threads|tpcc-t|threads|thread|thrd|t = 1
+tpcc-threads|tpcc-t|threads|thread|thd|t = 1
 tpcc-warehouses|tpcc-wh|warehouses|warehouse|wh = 1
 tpcc-duration|tpcc-dur|duration|dur = 1m
 tpcc-load-analyze|load-analyze|analyze = false

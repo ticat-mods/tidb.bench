@@ -6,7 +6,7 @@ end-ts-key = bench.run.end
 [arg]
 tpch-scale-factor|tpch-scale|tpch-sf|scale-factor|scale|sf = 1
 tpch-queries|tpch-q|queries|query|q = q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,q21,q22
-tpch-threads|tpch-t|threads|thread|t = 1
+tpch-threads|tpch-t|threads|thread|thd|t = 1
 tpch-duration|tpch-dur|duration|dur = 1m
 mysql-host|host|h = ''
 mysql-port|port|p = ''

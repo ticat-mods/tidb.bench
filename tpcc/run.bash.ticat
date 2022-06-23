@@ -5,7 +5,7 @@ end-ts-key = bench.run.end
 
 [arg]
 tpcc-warehouses|tpcc-wh|warehouses|warehouse|wh = 1
-tpcc-threads|tpcc-t|threads|thread|thrd|t = 1
+tpcc-threads|tpcc-t|threads|thread|thd|t = 1
 tpcc-duration|tpcc-dur|duration|dur = 1m
 mysql-host|host|h = ''
 mysql-port|port|p = ''
