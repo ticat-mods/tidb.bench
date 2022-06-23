@@ -8,9 +8,9 @@ shift
 
 port="${1}"
 ver="${2}"
-db="${3}"
+db=`must_env_val "${env}" 'bench.meta.db-name'`
 cluster="${4}"
-host="${5}"
+host=`must_env_val "${env}" 'bench.meta.host'`
 gen_pwd=`to_true "${6}"`
 if [ "${gen_pwd}" == 'true' ]; then
 	init=' --init'

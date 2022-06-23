@@ -2,19 +2,18 @@ help = move meta data in the same dbms: from `db-name-src` to `db-name-dest`
 abbr = move-to|move|mv
 
 [arg]
-host|h = 127.0.0.1
-port|p = 4100
-user|u = root
-password|pwd = ''
-db-name-src|src = bench_meta
-db-name-dest|dest = ''
+meta-db-host|host|h = 127.0.0.1
+meta-db-port|port|p = 4100
+meta-db-user|user|u = root
+meta-db-password|password|pwd = ''
+meta-db-db-name|db-name|db = bench_meta
+move-to-dest-db-name|dest-db-name|dest = ''
 
 [arg2env]
-bench.meta.host = host
-bench.meta.port = port
-bench.meta.user = user
-bench.meta.pwd = password
-bench.meta.db-name = db-name-dest
+meta-db-host|host|h = 127.0.0.1
+meta-db-port|port|p = 4100
+meta-db-user|user|u = root
+meta-db-password|password|pwd = ''
 
 [env]
 bench.meta.host = read

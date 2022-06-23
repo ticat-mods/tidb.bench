@@ -4,12 +4,12 @@ help = config dumb workload
 abbr = dummy-workload.conf
 
 [arg]
-scale|s = ''
-threads|thread|thrd|thd|t = ''
+dummy-workload-scale|scale|s = ''
+dummy-workload-threads|threads|thread|thrd|thd|t = ''
 
 [arg2env]
-bench.dummy-workload.scale = scale
-bench.dummy-workload.threads = threads
+bench.dummy-workload.scale = dummy-workload-scale
+bench.dummy-workload.threads = dummy-workload-threads
 
 [val2env]
 bench.workload = dummy-workload
@@ -20,12 +20,12 @@ bench.workload = dummy-workload
 help = config dumb workload
 
 [arg]
-scale|s = 123456
-threads|thread|thrd|thd|t = 1
+dummy-workload-scale|scale|s = 123456
+dummy-workload-threads|threads|thread|thrd|thd|t = 1
 
 [arg2env]
-bench.dummy-workload.scale = scale
-bench.dummy-workload.threads = threads
+bench.dummy-workload.scale = dummy-workload-scale
+bench.dummy-workload.threads = dummy-workload-threads
 
 [val2env]
 bench.workload = dummy-workload

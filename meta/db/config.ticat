@@ -3,15 +3,15 @@ tag = config
 abbr = conf
 
 [arg]
-host|h = 127.0.0.1
-port|p = 4100
-user|u = root
-password|pwd = ''
-db-name|database|db = bench_meta
+meta-db-host|host|h = 127.0.0.1
+meta-db-port|port|p = 4100
+meta-db-user|user|u = root
+meta-db-password|password|pwd = ''
+meta-db-db-name|db-name|db = bench_meta
 
 [arg2env]
-bench.meta.host = host
-bench.meta.port = port
-bench.meta.user = user
-bench.meta.pwd = password
-bench.meta.db-name = db-name
+bench.meta.host = meta-db-host
+bench.meta.port = meta-db-port
+bench.meta.user = meta-db-user
+bench.meta.pwd = meta-db-password
+bench.meta.db-name = meta-db-db-name
