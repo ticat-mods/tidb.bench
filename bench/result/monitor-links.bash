@@ -5,11 +5,7 @@ here=`cd $(dirname ${BASH_SOURCE[0]}) && pwd`
 env=`cat "${1}/env"`
 shift
 
-id="${1}"
-if [ -z "${id}" ]; then
-	echo "[:(] arg 'record-id' is empty"
-	exit 1
-fi
+id=`must_env_val "${env}" 'bench.result.filter.record-id'`
 if [ `is_number "${id}"` != 'true' ]; then
 	echo "[:(] arg 'record-id' value is '${id}', not a number"
 	exit 1

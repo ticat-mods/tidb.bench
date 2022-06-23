@@ -2,16 +2,16 @@ help = clear all bench results
 abbr = clean|clr
 
 [arg]
-host|h = 127.0.0.1
-port|p = 4100
-user|u = root
-db-name|database|db = bench_meta
+mysql-host|host|h = 127.0.0.1
+mysql-port|port|p = 4100
+mysql-user|user|u = root
+mysql-db-name|db-name|db = bench_meta
 
 [arg2env]
-bench.meta.host = host
-bench.meta.port = port
-bench.meta.user = user
-bench.meta.db-name = db-name
+bench.meta.host = mysql-host
+bench.meta.port = mysql-port
+bench.meta.user = mysql-user
+bench.meta.db-name = mysql-db-name
 
 [env]
 bench.meta.host = read

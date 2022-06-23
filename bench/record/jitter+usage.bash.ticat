@@ -2,22 +2,22 @@ help = record current bench jitters and resouce-usages to meta db
 abbr = jitters|jit|usage|usg|j+u|j
 
 [arg]
-tag|tags|t = ''
+bench-record-tag|tags|t = ''
 cluster-name|cluster|name|c|C = ''
-prometheus|prom = ''
-begin = ''
-end = ''
+tidb-cluster-prometheus|prometheus|prom = ''
+bench-record-begin = ''
+bench-record-end = ''
 workload|wl = ''
 bench-toolset-repo-addr|bt-addr|addr = 'https://github.com/innerr/bench-toolset'
 download-bin-token = NYrOv0JuQ8iZ6cEnOTzdaTfh7ovx2Q2iwEQX
 
 [arg2env]
+bench.tag = bench-record-tag
 tidb.cluster = cluster-name
-bench.run.begin = begin
-bench.run.end = end
-bench.tag = tag
+bench.prometheus = tidb-cluster-prometheus
+bench.run.begin = bench-record-begin
+bench.run.end = bench-record-end
 bench.workload = workload
-bench.prometheus = prometheus
 
 [env]
 bench.meta.host = read

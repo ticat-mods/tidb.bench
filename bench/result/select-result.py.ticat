@@ -1,23 +1,29 @@
-help = find and show bench results
-abbr = find|search|ls
+help = select bench result by args, will show in the coming bench.result
+abbr = select|sel
 quiet-err = true
 
 [arg]
 bench-result-workload|result-workload|workload|wl = ''
 bench-result-tag|result-tags|result-tag|tags|tag = ''
+bench-result-verb-lvl|res-verb|verb = 1
 bench-result-record-id-list|record-ids|record-id|rid|ids = ''
 bench-result-session-id|session-id|session|sid = ''
 max-records|max-record|max|limit = 0
+select-as-baseline|as-baseline|baseline = false
 
 [arg2env]
 bench.result.filter.workload = bench-result-workload
 bench.result.filter.tag = bench-result-tag
 bench.result.filter.record-ids = bench-result-record-id-list
 bench.result.filter.session = bench-result-session-id
+
+bench.result.display.verb = bench-result-verb-lvl
 bench.result.display.max = max-records
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
-bench.meta.user = read
 bench.meta.db-name = read
+bench.meta.user = read
+
+bench.meta.result.ids = write

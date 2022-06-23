@@ -13,23 +13,23 @@ from display_ids import bench_result_display
 from display_ids import DataTransformers
 
 def bench_result():
-	workload = sys.argv[2]
-	tags = sys.argv[3]
-	verb = int(sys.argv[4])
-	record_ids = sys.argv[5]
-	bench_id = sys.argv[6]
-	max_cnt = int(sys.argv[7])
+	env = Env()
+
+	workload = env.get_ex('bench.result.filter.workload', '')
+	tags = env.get_ex('bench.result.filter.tag', '')
+	verb = int(env.must_get('bench.result.display.verb'))
+	record_ids = env.get_ex('bench.result.filter.record-ids', '')
+	bench_id = env.get_ex('bench.result.filter.session', '')
+	max_cnt = int(env.must_get('bench.result.display.max'))
 	has_filter = len(bench_id) != 0 or len(record_ids) != 0 or len(tags) != 0 or len(workload) != 0
 
-	agg_method = sys.argv[8]
+	agg_method = env.get_ex('bench.result.display.agg', '')
 	data_transformer, ok = DataTransformers.normalize_name(agg_method)
 	if not ok:
 		print('[:(] value of \'aggregate-by-tag\' is \'%s\', not in %s' % (agg_method, str(DataTransformers.names())))
 		sys.exit(1)
 
-	order_list = sys.argv[9].split(',')
-
-	env = Env()
+	order_list = env.get_ex('bench.result.display.order-list', '').split(',')
 
 	color = env.must_get('display.color') == 'true'
 	width = int(env.must_get('display.width.max'))

@@ -5,7 +5,7 @@ here=`cd $(dirname ${BASH_SOURCE[0]}) && pwd`
 env=`cat "${1}/env"`
 shift
 
-verb="${1}"
+verb=`must_env_val "${env}" 'bench.result.display.verb'`
 
 host=`must_env_val "${env}" 'bench.meta.host'`
 port=`must_env_val "${env}" 'bench.meta.port'`

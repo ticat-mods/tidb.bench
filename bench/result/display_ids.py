@@ -628,9 +628,6 @@ class BenchResultDisplay:
 	def _fetch_result(self):
 		ids = []
 		baseline = Baseline()
-		if len(self.baseline_id) > 0:
-			baseline.set_my_id(self.baseline_id)
-			ids.append(self.baseline_id)
 		if len(self.ids_str) > 0:
 			new_ids = self.ids_str.split(',')
 			for id in new_ids:
@@ -640,6 +637,10 @@ class BenchResultDisplay:
 					# TODO: print warning
 					continue
 				ids.append(id)
+		if len(self.baseline_id) > 0:
+			baseline.set_my_id(self.baseline_id)
+			if self.baseline_id not in ids:
+				ids.append(self.baseline_id)
 
 		ids_dedup = []
 		ids_set = set()

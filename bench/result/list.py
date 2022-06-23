@@ -2,7 +2,6 @@
 
 import sys
 sys.path.append('../../helper/python.helper')
-sys.path.append('./select')
 
 from ticat import Env
 from my import my_exe

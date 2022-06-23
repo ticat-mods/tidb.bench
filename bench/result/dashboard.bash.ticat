@@ -3,10 +3,14 @@ abbr = board
 quiet-error = true
 
 [arg]
-record-id|record|rid|id|records|rec|r = ''
+bench-result-record-id|record-id|rid|id = ''
+
+[arg2env]
+bench.result.filter.record-id = bench-result-record-id
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
+bench.result.filter.record-id = read

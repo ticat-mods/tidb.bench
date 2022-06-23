@@ -3,8 +3,11 @@ abbr = monitor-link|monitor|mon|grafana
 quiet-error = true
 
 [arg]
-record-id|record|rid|id|records|rec|r = ''
+bench-result-record-id|record-id|rid|id = ''
 host-or-ip|host|ip|h = ''
+
+[arg2env]
+bench.result.filter.record-id = bench-result-record-id
 
 [env]
 bench.meta.host = read

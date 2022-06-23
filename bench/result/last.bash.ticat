@@ -2,10 +2,14 @@ help = show last bench result
 abbr = l
 
 [arg]
-verb = 1
+bench-result-verb-lvl|res-verb|verb = 1
+
+[arg2env]
+bench.result.display.verb = bench-result-verb-lvl
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
+bench.result.display.verb = read
