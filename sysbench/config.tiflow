@@ -35,7 +35,7 @@ tag = config
 
 [arg]
 sysbench-load-threads|sb-load-thread|load-thread|sb-lt|sblt|lt = 1
-sysbench-load-analyze|sb-analyze|analyze = true
+sysbench-load-analyze|sb-analyze|analyze = false
 sysbench-threads|sb-thread|thread|sbt|t = 1
 sysbench-tables|sb-tb|tables|table|tb = 1
 sysbench-table-size|sb-table-size|sb-ts|sbts|ts = 1000

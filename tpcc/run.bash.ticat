@@ -4,25 +4,25 @@ begin-ts-key = bench.run.begin
 end-ts-key = bench.run.end
 
 [arg]
-warehouses|warehouse|wh = ''
-threads|thread|thrd|thd|t = 1
-duration|dur|d = 1m
-host|h = ''
-port|p = ''
-user|u = root
-password|pwd = ''
-db-name|database|db = test
+tpcc-warehouses|tpcc-wh|warehouses|warehouse|wh = 1
+tpcc-threads|tpcc-t|threads|thread|thrd|t = 1
+tpcc-duration|tpcc-dur|duration|dur = 1m
+mysql-host|host|h = ''
+mysql-port|port|p = ''
+mysql-user|user|u = root
+mysql-password|password|pwd = ''
+tpcc-db-name|tpcc-db|db-name|db = test
 
 [arg2env]
-bench.tpcc.threads = threads
-bench.tpcc.warehouses = warehouses
-bench.tpcc.duration = duration
-bench.tpcc.db = db-name
+bench.tpcc.threads = tpcc-threads
+bench.tpcc.warehouses = tpcc-warehouses
+bench.tpcc.duration = tpcc-duration
+bench.tpcc.db = tpcc-db-name
 
-mysql.host = host
-mysql.port = port
-mysql.user = user
-mysql.pwd = password
+mysql.host = mysql-host
+mysql.port = mysql-port
+mysql.user = mysql-user
+mysql.pwd = mysql-password
 
 [env]
 bench.tpcc.threads = read

@@ -9,10 +9,10 @@ sysbench-threads|sb-thread|thread|sbt|t = 1
 sysbench-tables|sb-tb|tables|table|tb = 1
 sysbench-table-size|sb-table-size|sb-ts|sbts|ts = 1000
 sysbench-duration-secs|sb-dur|sb-secs|sb-sec|sbsec|duration|dur|secs|sec = 60
-host|h = ''
-port|p = ''
-user|u = root
-password|pwd = ''
+mysql-host|host|h = ''
+mysql-port|port|p = ''
+mysql-user|user|u = root
+mysql-password|password|pwd = ''
 sysbench-db-name|sb-db-name|sb-db|sbdb|db = test
 
 [arg2env]
@@ -23,10 +23,10 @@ bench.sysbench.table-size = sysbench-table-size
 bench.sysbench.duration = sysbench-duration-secs
 bench.sysbench.db = sysbench-db-name
 
-mysql.host = host
-mysql.port = port
-mysql.user = user
-mysql.pwd = password
+mysql.host = mysql-host
+mysql.port = mysql-port
+mysql.user = mysql-user
+mysql.pwd = mysql-password
 
 [env]
 bench.sysbench.threads = read

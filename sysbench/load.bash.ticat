@@ -9,7 +9,8 @@ sysbench-test-name|sb-test|test|name|sbtn|tn = oltp_point_select
 mysql-host|host|h = ''
 mysql-port|port|p = ''
 mysql-user|user|u = root
-sysbench-load-analyze|sb-analyze|analyze = true
+mysql-password|password|pwd = ''
+sysbench-load-analyze|sb-analyze|analyze = false
 sysbench-db-name|sb-db-name|sb-db|sbdb|db = test
 
 [arg2env]
@@ -19,9 +20,11 @@ bench.sysbench.tables = sysbench-tables
 bench.sysbench.table-size = sysbench-table-size
 bench.sysbench.test-name = sysbench-test-name
 bench.sysbench.db = sysbench-db-name
+
 mysql.host = mysql-host
 mysql.port = mysql-port
 mysql.user = mysql-user
+mysql.pwd = mysql-password
 
 [env]
 bench.sysbench.load.threads = read
@@ -30,6 +33,7 @@ bench.sysbench.tables = read
 bench.sysbench.table-size = read
 bench.sysbench.test-name = read
 bench.sysbench.db = read
+
 mysql.host = read
 mysql.port = read
 mysql.user = read

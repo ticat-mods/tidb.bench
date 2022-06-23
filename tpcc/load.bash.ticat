@@ -2,25 +2,25 @@ help = prepare TPCC data to mysql/TiDB
 abbr = ld|l
 
 [arg]
-warehouses|warehouse|wh = 1
-threads|thread|thrd|thd|t = 1
-host|h = ''
-port|p = ''
-user|u = root
-password|pwd = ''
-analyze = true
-db-name|database|db = test
+tpcc-warehouses|tpcc-wh|warehouses|warehouse|wh = 1
+tpcc-load-threads|tpcc-lt|threads|thread|t = 1
+mysql-host|host|h = ''
+mysql-port|port|p = ''
+mysql-user|user|u = root
+mysql-password|password|pwd = ''
+tpcc-load-analyze|load-analyze|analyze = false
+tpcc-db-name|tpcc-db|db-name|db = test
 
 [arg2env]
-bench.tpcc.load.threads = threads
-bench.tpcc.load.analyze = analyze
-bench.tpcc.warehouses = warehouses
-bench.tpcc.db = db-name
+bench.tpcc.load.threads = tpcc-load-threads
+bench.tpcc.load.analyze = tpcc-load-analyze
+bench.tpcc.warehouses = tpcc-warehouses
+bench.tpcc.db = tpcc-db-name
 
-mysql.host = host
-mysql.port = port
-mysql.user = user
-mysql.pwd = password
+mysql.host = mysql-host
+mysql.port = mysql-port
+mysql.user = mysql-user
+mysql.pwd = mysql-password
 
 [env]
 bench.tpcc.load.threads = read
