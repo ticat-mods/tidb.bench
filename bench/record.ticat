@@ -7,14 +7,14 @@ flow = bench.record.jitter+usage : [[bench.workload]].record
 
 [arg]
 bench-record-tag|tags|tag = ''
-cluster-name|cluster|name|n = ''
+cluster-name|cluster = ''
 workload|wl = ''
-bench-begin-ts = ''
-bench-end-ts = ''
+bench-record-begin|record-begin|begin = ''
+bench-record-end|record-end|end = ''
 
 [arg2env]
 bench.tag.by-record = bench-record-tag
 tidb.cluster = cluster-name
 bench.workload = workload
-bench.run.begin = bench-begin-ts
-bench.run.end = bench-end-ts
+bench.run.begin = bench-record-begin
+bench.run.end = bench-record-end

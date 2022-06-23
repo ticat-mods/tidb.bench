@@ -5,40 +5,40 @@ abbr = ycsb.conf
 tag = config
 
 [arg]
-load-threads|load-thread|l-t|lt = ''
-threads|thread|thrd|thd|t = ''
-count|c = ''
-batch-size|bs = ''
-conn-count|cc = ''
+ycsb-load-threads|ycsb-lt|load-thread|l-t|lt = ''
+ycsb-threads|ycsb-t|threads|thread|thrd|thd|t = ''
+ycsb-count|ycsb-cnt|count|cnt = ''
+ycsb-batch-size|ycsb-bs|batch-size|bs = ''
+ycsb-conn-count|ycsb-cc|conn-count|cc = ''
 
-read-all-fields|raf = ''
-read-modify-write-proportion|rmwp = ''
-read-proportion|rp = ''
-request-distribution|rd = ''
-insert-proportion|ip = ''
-isolation|iso = ''
-scan-proportion|sp = ''
-scan-length-distribution|sld = ''
-update-proportion|up = ''
+ycsb-read-all-fields|ycsb-raf|raf = ''
+ycsb-read-modify-write-proportion|ycsb-rmwp|rmwp = ''
+ycsb-read-proportion|ycsb-rp|rp = ''
+ycsb-request-distribution|ycsb-rd|rd = ''
+ycsb-insert-proportion|ycsb-ip|ip = ''
+ycsb-isolation|ycsb-iso|iso = ''
+ycsb-scan-proportion|ycsb-sp|sp = ''
+ycsb-scan-length-distribution|ycsb-sld|sld = ''
+ycsb-update-proportion|ycsb-up|up = ''
 
-cluster-name|cluster|name|n = ''
+cluster-name|cluster = ''
 
 [arg2env]
-bench.ycsb.load.threads = load-threads
-bench.ycsb.threads = threads
-bench.ycsb.count = count
-bench.ycsb.batch-size = batch-size
-bench.ycsb.conn-count = conn-count
+bench.ycsb.load.threads = ycsb-load-threads
+bench.ycsb.threads = ycsb-threads
+bench.ycsb.count = ycsb-count
+bench.ycsb.batch-size = ycsb-batch-size
+bench.ycsb.conn-count = ycsb-conn-count
 
-bench.ycsb.read-all-fields = read-all-fields
-bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
-bench.ycsb.read-proportion = read-proportion
-bench.ycsb.request-distribution = request-distribution
-bench.ycsb.insert-proportion = insert-proportion
-bench.ycsb.isolation = isolation
-bench.ycsb.scan-proportion = scan-proportion
-bench.ycsb.scan-length-distribution = scan-length-distribution
-bench.ycsb.update-proportion = update-proportion
+bench.ycsb.read-all-fields = ycsb-read-all-fields
+bench.ycsb.read-modify-write-proportion = ycsb-read-modify-write-proportion
+bench.ycsb.read-proportion = ycsb-read-proportion
+bench.ycsb.request-distribution = ycsb-request-distribution
+bench.ycsb.insert-proportion = ycsb-insert-proportion
+bench.ycsb.isolation = ycsb-isolation
+bench.ycsb.scan-proportion = ycsb-scan-proportion
+bench.ycsb.scan-length-distribution = ycsb-scan-length-distribution
+bench.ycsb.update-proportion = ycsb-update-proportion
 
 tidb.cluster = cluster-name
 
@@ -52,40 +52,40 @@ help = set minimal YCSB config to env
 tag = config
 
 [arg]
-load-threads|load-thread|l-t|lt = 1
-threads|thread|thrd|thd|t = 1
-count|c = 100000
-batch-size|bs = 128
-conn-count|cc = 128
+ycsb-load-threads|ycsb-lt|load-thread|l-t|lt = 1
+ycsb-threads|ycsb-t|threads|thread|thrd|thd|t = 1
+ycsb-count|ycsb-cnt|count|cnt = 100000
+ycsb-batch-size|ycsb-bs|batch-size|bs = 128
+ycsb-conn-count|ycsb-cc|conn-count|cc = 128
 
-read-all-fields|raf = true
-read-modify-write-proportion|rmwp = 0
-read-proportion|rp = 0.95
-request-distribution|rd = uniform
-insert-proportion|ip = 0
-isolation|iso = 0
-scan-proportion|sp = 0
-scan-length-distribution|sld = uniform
-update-proportion|up = 0.05
+ycsb-read-all-fields|ycsb-raf|raf = true
+ycsb-read-modify-write-proportion|ycsb-rmwp|rmwp = 0
+ycsb-read-proportion|ycsb-rp|rp = 0.95
+ycsb-request-distribution|ycsb-rd|rd = uniform
+ycsb-insert-proportion|ycsb-ip|ip = 0
+ycsb-isolation|ycsb-iso|iso = 0
+ycsb-scan-proportion|ycsb-sp|sp = 0
+ycsb-scan-length-distribution|ycsb-sld|sld = uniform
+ycsb-update-proportion|ycsb-up|up = 0.05
 
-cluster-name|cluster|name|n = ''
+cluster-name|cluster = ''
 
 [arg2env]
-bench.ycsb.load.threads = load-threads
-bench.ycsb.threads = threads
-bench.ycsb.count = count
-bench.ycsb.batch-size = batch-size
-bench.ycsb.conn-count = conn-count
+bench.ycsb.load.threads = ycsb-load-threads
+bench.ycsb.threads = ycsb-threads
+bench.ycsb.count = ycsb-count
+bench.ycsb.batch-size = ycsb-batch-size
+bench.ycsb.conn-count = ycsb-conn-count
 
-bench.ycsb.read-all-fields = read-all-fields
-bench.ycsb.read-modify-write-proportion = read-modify-write-proportion
-bench.ycsb.read-proportion = read-proportion
-bench.ycsb.request-distribution = request-distribution
-bench.ycsb.insert-proportion = insert-proportion
-bench.ycsb.isolation = isolation
-bench.ycsb.scan-proportion = scan-proportion
-bench.ycsb.scan-length-distribution = scan-length-distribution
-bench.ycsb.update-proportion = update-proportion
+bench.ycsb.read-all-fields = ycsb-read-all-fields
+bench.ycsb.read-modify-write-proportion = ycsb-read-modify-write-proportion
+bench.ycsb.read-proportion = ycsb-read-proportion
+bench.ycsb.request-distribution = ycsb-request-distribution
+bench.ycsb.insert-proportion = ycsb-insert-proportion
+bench.ycsb.isolation = ycsb-isolation
+bench.ycsb.scan-proportion = ycsb-scan-proportion
+bench.ycsb.scan-length-distribution = ycsb-scan-length-distribution
+bench.ycsb.update-proportion = ycsb-update-proportion
 
 tidb.cluster = cluster-name
 
