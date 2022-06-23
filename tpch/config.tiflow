@@ -5,22 +5,24 @@ abbr = tpch.conf
 tag = config
 
 [arg]
-load-threads|load-thread|l-t|lt = ''
-threads|thread|t = ''
-scale-factor|scale|sf = ''
-queries|query|q|Q = ''
-duration|dur = ''
-with-tiflash|tiflash = ''
-db-name|database|db = ''
+tpch-load-threads|tpch-lt|load-threads|load-thread|l-t|lt = ''
+tpch-threads|tpch-t|threads|thread|t = ''
+tpch-scale-factor|tpch-scale|tpch-sf|scale-factor|scale|sf = ''
+tpch-queries|tpch-q|queries|query|q = ''
+tpch-duration|tpch-dur|duration|dur = ''
+tpch-load-with-tiflash|with-tiflash|tiflash = ''
+tpch-load-analyze|load-analyze|analyze = ''
+tpch-db-name|tpch-db|db-name|db = ''
 
 [arg2env]
-bench.tpch.load.threads = load-threads
-bench.tpch.threads = threads
-bench.tpch.scale-factor = scale-factor
-bench.tpch.duration = duration
-bench.tpch.queries = queries
-bench.tpch.tiflash = with-tiflash
-bench.tpch.db = db-name
+bench.tpch.load.threads = tpch-load-threads
+bench.tpch.threads = tpch-threads
+bench.tpch.scale-factor = tpch-scale-factor
+bench.tpch.duration = tpch-duration
+bench.tpch.queries = tpch-queries
+bench.tpch.tiflash = tpch-load-with-tiflash
+bench.tpch.load.analyze = tpch-load-analyze
+bench.tpch.db = tpch-db-name
 
 [val2env]
 bench.workload = tpch
@@ -32,22 +34,24 @@ help = set minimal TPCH config to env
 tag = config
 
 [arg]
-load-threads|load-thread|l-t|lt = 1
-threads|thread|t = 1
-scale-factor|scale|sf = 1
-queries|query|q|Q = q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,q21,q22
-duration|dur = 1m
-with-tiflash|tiflash = true
-db-name|database|db = test
+tpch-load-threads|tpch-lt|load-threads|load-thread|l-t|lt = 1
+tpch-threads|tpch-t|threads|thread|t = 1
+tpch-scale-factor|tpch-scale|tpch-sf|scale-factor|scale|sf = 1
+tpch-queries|tpch-q|queries|query|q = q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,q21,q22
+tpch-duration|tpch-dur|duration|dur = 1m
+tpch-load-with-tiflash|with-tiflash|tiflash = true
+tpch-load-analyze|load-analyze|analyze = false
+tpch-db-name|tpch-db|db-name|db = test
 
 [arg2env]
-bench.tpch.load.threads = load-threads
-bench.tpch.threads = threads
-bench.tpch.scale-factor = scale-factor
-bench.tpch.duration = duration
-bench.tpch.queries = queries
-bench.tpch.tiflash = with-tiflash
-bench.tpch.db = db-name
+bench.tpch.load.threads = tpch-load-threads
+bench.tpch.threads = tpch-threads
+bench.tpch.scale-factor = tpch-scale-factor
+bench.tpch.duration = tpch-duration
+bench.tpch.queries = tpch-queries
+bench.tpch.tiflash = tpch-load-with-tiflash
+bench.tpch.load.analyze = tpch-load-analyze
+bench.tpch.db = tpch-db-name
 
 [val2env]
 bench.workload = tpch

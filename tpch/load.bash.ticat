@@ -2,27 +2,27 @@ help = prepare TPCH data to mysql/TiDB
 abbr = ld|l
 
 [arg]
-scale-factor|sf = 1
-threads|thread|thrd|thd|t = 1
-host|h = ''
-port|p = ''
-user|u = root
-password|pwd = ''
-analyze = false
-with-tiflash|tiflash = false
-db-name|database|db = test
+tpch-scale-factor|tpch-scale|tpch-sf|scale-factor|scale|sf = 1
+tpch-load-threads|tpch-lt|load-threads|load-thread|l-t|lt = 1
+mysql-host|host|h = ''
+mysql-port|port|p = ''
+mysql-user|user|u = root
+mysql-password|password|pwd = ''
+tpch-load-analyze|load-analyze|analyze = false
+tpch-load-with-tiflash|with-tiflash|tiflash = true
+tpch-db-name|tpch-db|db-name|db = test
 
 [arg2env]
-bench.tpch.load.threads = threads
-bench.tpch.load.analyze = analyze
-bench.tpch.scale-factor = scale-factor
-bench.tpch.tiflash = with-tiflash
-bench.tpch.db = db-name
+bench.tpch.load.threads = tpch-load-threads
+bench.tpch.load.analyze = tpch-load-analyze
+bench.tpch.scale-factor = tpch-scale-factor
+bench.tpch.tiflash = tpch-load-with-tiflash
+bench.tpch.db = tpch-db-name
 
-mysql.host = host
-mysql.port = port
-mysql.user = user
-mysql.pwd = password
+mysql.host = mysql-host
+mysql.port = mysql-port
+mysql.user = mysql-user
+mysql.pwd = mysql-password
 
 [env]
 bench.tpch.load.threads = read
