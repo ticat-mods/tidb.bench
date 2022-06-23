@@ -4,15 +4,13 @@ help = record detail info of `tpch.run` to meta db
 tag|tags|t = ''
 
 [arg2env]
-bench.tag = tag
+bench.tag.by-tpch-record = tag
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
-
-bench.tag = may-read
 
 bench.run.begin = may-read
 bench.run.end = may-read

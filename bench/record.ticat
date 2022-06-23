@@ -13,7 +13,7 @@ bench-begin-ts = ''
 bench-end-ts = ''
 
 [arg2env]
-bench.tag = bench-record-tag
+bench.tag.by-record = bench-record-tag
 tidb.cluster = cluster-name
 bench.workload = workload
 bench.run.begin = bench-begin-ts

@@ -1,18 +1,16 @@
 help = record detail info of `sysbench.run` to meta db
 
 [arg]
-tag|tags|t = ''
+sysbench-record-tag|tags|tag = ''
 
 [arg2env]
-bench.tag = tag
+bench.tag.by-sysbench-record = sysbench-record-tag
 
 [env]
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.db-name = read
 bench.meta.user = read
-
-bench.tag = may-read
 
 bench.run.begin = may-read
 bench.run.end = may-read

@@ -2,26 +2,26 @@ help = prepare SysBench data to mysql/TiDB
 abbr = ld|l
 
 [arg]
-threads|thread|thrd|thd|t = 1
-tables|table|tb = 1
-table-size|size = 1000
-test-name|name = oltp_point_select
-host|h = ''
-port|p = ''
-user|u = root
-analyze = true
-db-name|database|db = test
+sysbench-load-threads|sb-load-thread|load-thread|sb-lt|sblt|lt = 1
+sysbench-tables|sb-tb|tables|table|tb = 1
+sysbench-table-size|sb-table-size|sb-ts|sbts|ts = 1000
+sysbench-test-name|sb-test|test|name|sbtn|tn = oltp_point_select
+mysql-host|host|h = ''
+mysql-port|port|p = ''
+mysql-user|user|u = root
+sysbench-load-analyze|sb-analyze|analyze = true
+sysbench-db-name|sb-db-name|sb-db|sbdb|db = test
 
 [arg2env]
-bench.sysbench.load.threads = threads
-bench.sysbench.load.analyze = analyze
-bench.sysbench.tables = tables
-bench.sysbench.table-size = table-size
-bench.sysbench.test-name = test-name
-bench.sysbench.db = db-name
-mysql.host = host
-mysql.port = port
-mysql.user = user
+bench.sysbench.load.threads = sysbench-load-threads
+bench.sysbench.load.analyze = sysbench-load-analyze
+bench.sysbench.tables = sysbench-tables
+bench.sysbench.table-size = sysbench-table-size
+bench.sysbench.test-name = sysbench-test-name
+bench.sysbench.db = sysbench-db-name
+mysql.host = mysql-host
+mysql.port = mysql-port
+mysql.user = mysql-user
 
 [env]
 bench.sysbench.load.threads = read

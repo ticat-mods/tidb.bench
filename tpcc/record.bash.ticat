@@ -4,7 +4,7 @@ help = record detail info of `tpcc.run` to meta db
 tag|tags|t = ''
 
 [arg2env]
-bench.tag = tag
+bench.tag.by-tpcc-record = tag
 
 [env]
 bench.meta.host = read

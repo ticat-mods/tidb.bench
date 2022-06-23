@@ -5,22 +5,24 @@ abbr = sysbench|sysben|sb.conf
 tag = config
 
 [arg]
-load-threads|load-thread|lt = ''
-threads|thread|t = ''
-tables|table|tb = ''
-table-size|size|ts = ''
-test-name|test|name = ''
-run-duration-secs|run-duration|duration|dur|secs|sec = ''
-db-name|database|db = ''
+sysbench-load-threads|sb-load-thread|load-thread|sb-lt|sblt|lt = ''
+sysbench-load-analyze|sb-analyze|analyze = ''
+sysbench-threads|sb-thread|thread|sbt|t = ''
+sysbench-tables|sb-tb|tables|table|tb = ''
+sysbench-table-size|sb-table-size|sb-ts|sbts|ts = ''
+sysbench-test-name|sb-test|test|name|sbtn|tn = ''
+sysbench-duration-secs|sb-dur|sb-secs|sb-sec|sbsec|duration|dur|secs|sec = ''
+sysbench-db-name|sb-db-name|sb-db|sbdb|db = ''
 
 [arg2env]
-bench.sysbench.load.threads = load-threads
-bench.sysbench.threads = threads
-bench.sysbench.tables = tables
-bench.sysbench.table-size = table-size
-bench.sysbench.test-name = test-name
-bench.sysbench.duration = run-duration-secs
-bench.sysbench.db = db-name
+bench.sysbench.load.threads = sysbench-load-threads
+bench.sysbench.load.analyze = sysbench-load-analyze
+bench.sysbench.threads = sysbench-threads
+bench.sysbench.tables = sysbench-tables
+bench.sysbench.table-size = sysbench-table-size
+bench.sysbench.test-name = sysbench-test-name
+bench.sysbench.duration = sysbench-duration-secs
+bench.sysbench.db = sysbench-db-name
 
 [val2env]
 bench.workload = sysbench
@@ -32,22 +34,24 @@ help = set minimal SysBench config to env
 tag = config
 
 [arg]
-load-threads|load-thread|lt = 1
-threads|thread|t = 1
-tables|table|tb = 1
-table-size|size|ts = 1000
-test-name|test|name = oltp_point_select
-run-duration-secs|run-duration|duration|dur|secs|sec = 60
-db-name|database|db = test
+sysbench-load-threads|sb-load-thread|load-thread|sb-lt|sblt|lt = 1
+sysbench-load-analyze|sb-analyze|analyze = true
+sysbench-threads|sb-thread|thread|sbt|t = 1
+sysbench-tables|sb-tb|tables|table|tb = 1
+sysbench-table-size|sb-table-size|sb-ts|sbts|ts = 1000
+sysbench-test-name|sb-test|test|name|sbtn|tn = oltp_point_select
+sysbench-duration-secs|sb-dur|sb-secs|sb-sec|sbsec|duration|dur|secs|sec = 60
+sysbench-db-name|sb-db-name|sb-db|sbdb|db = test
 
 [arg2env]
-bench.sysbench.load.threads = load-threads
-bench.sysbench.threads = threads
-bench.sysbench.tables = tables
-bench.sysbench.table-size = table-size
-bench.sysbench.test-name = test-name
-bench.sysbench.duration = run-duration-secs
-bench.sysbench.db = db-name
+bench.sysbench.load.threads = sysbench-load-threads
+bench.sysbench.load.analyze = sysbench-load-analyze
+bench.sysbench.threads = sysbench-threads
+bench.sysbench.tables = sysbench-tables
+bench.sysbench.table-size = sysbench-table-size
+bench.sysbench.test-name = sysbench-test-name
+bench.sysbench.duration = sysbench-duration-secs
+bench.sysbench.db = sysbench-db-name
 
 [val2env]
 bench.workload = sysbench

@@ -4,24 +4,24 @@ begin-ts-key = bench.run.begin
 end-ts-key = bench.run.end
 
 [arg]
-test-name|name = oltp_point_select
-threads|thread|thrd|t = 1
-tables|table|tb = ''
-table-size|size = ''
-duration|dur|secs|sec = 60
+sysbench-test-name|sb-test|test|name|sbtn|tn = oltp_point_select
+sysbench-threads|sb-thread|thread|sbt|t = 1
+sysbench-tables|sb-tb|tables|table|tb = 1
+sysbench-table-size|sb-table-size|sb-ts|sbts|ts = 1000
+sysbench-duration-secs|sb-dur|sb-secs|sb-sec|sbsec|duration|dur|secs|sec = 60
 host|h = ''
 port|p = ''
 user|u = root
 password|pwd = ''
-db-name|database|db = test
+sysbench-db-name|sb-db-name|sb-db|sbdb|db = test
 
 [arg2env]
-bench.sysbench.threads = threads
-bench.sysbench.tables = tables
-bench.sysbench.table-size = table-size
-bench.sysbench.test-name = test-name
-bench.sysbench.duration = duration
-bench.sysbench.db = db-name
+bench.sysbench.test-name = sysbench-test-name
+bench.sysbench.threads = sysbench-threads
+bench.sysbench.tables = sysbench-tables
+bench.sysbench.table-size = sysbench-table-size
+bench.sysbench.duration = sysbench-duration-secs
+bench.sysbench.db = sysbench-db-name
 
 mysql.host = host
 mysql.port = port
