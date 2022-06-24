@@ -6,4 +6,8 @@ env_file="${1}/env"
 shift
 
 tags="${1}"
+if [ -z "${tags}" ]; then
+	echo "[:-] arg 'tags' is empty, skipped" >&2
+	exit
+fi
 echo "bench.tag.random.${RANDOM}=${tags}" | tee -a "${env_file}"

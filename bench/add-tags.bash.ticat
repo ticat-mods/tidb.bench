@@ -1,5 +1,5 @@
-help = set tag(s) for `bench.record` or `[workload].record`, use ',' to seperate tags
-abbr = set-tag|tags|tag
+help = add tag(s) for `bench.record`, use ',' to seperate tags
+abbr = add-tag|tags|tag
 
 [arg]
 tags|tag = ''
