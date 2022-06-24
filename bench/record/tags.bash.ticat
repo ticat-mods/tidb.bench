@@ -12,7 +12,8 @@ bench.meta.port = read
 bench.meta.user = read
 bench.meta.db-name = read
 bench.workload = read
-bench.tag = read
+
+bench.tag = may-read
 
 [dep]
 mysql = as client, to write record data
