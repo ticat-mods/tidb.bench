@@ -1,0 +1,5 @@
+help = selftest of `bench.record*`
+abbr = selftest.ben.rec
+tag = selftest
+args.auto = dur
+flow = deploy.preset.min cluster=st-p2345 port=+2345 : db.rm+new : dummy-workload.run : bench.record : db.rm

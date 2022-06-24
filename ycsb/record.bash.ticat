@@ -1,10 +1,10 @@
 help = record detail info of `ycsb.run` to meta db
 
 [arg]
-ycsb-record-tag|tags|tag = ''
+bench-record-tag|tags|tag = ''
 
 [arg2env]
-bench.tag.by-ycsb-record = ycsb-record-tag
+bench.tag = bench-record-tag
 
 [env]
 bench.meta.host = read

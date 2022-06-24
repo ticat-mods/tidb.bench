@@ -1,20 +1,5 @@
-
 help = record current bench result to meta db
 abbr = rec
 trivial = 3
 
-flow = bench.record.jitter+usage : [[bench.workload]].record
-
-[arg]
-bench-record-tag|tags|tag = ''
-cluster-name|cluster = ''
-workload|wl = ''
-bench-record-begin|record-begin|begin = ''
-bench-record-end|record-end|end = ''
-
-[arg2env]
-bench.tag.by-record = bench-record-tag
-tidb.cluster = cluster-name
-bench.workload = workload
-bench.run.begin = bench-record-begin
-bench.run.end = bench-record-end
+flow = bench.record.conf : env.rm bench.run.id : bench.record.jitter : bench.record.usage : [[bench.workload]].record : bench.record.tags

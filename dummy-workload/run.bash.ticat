@@ -1,18 +1,27 @@
 help = prepare data
 
+begin-ts-key = bench.run.begin
+end-ts-key = bench.run.end
+
 [arg]
 dummy-workload-scale|scale|s = 123456
 dummy-workload-threads|threads|thread|thd|t = 1
+dummy-workload-run-secs|duration|dur = 30
 
 [arg2env]
 bench.dummy-workload.scale = dummy-workload-scale
 bench.dummy-workload.threads = dummy-workload-threads
+bench.dummy-workload.duration = dummy-workload-run-secs
 
 [env]
 bench.dummy-workload.scale = read
 bench.dummy-workload.threads = read
+bench.dummy-workload.duration = read
 bench.run.log = write
 bench.run.score = write
+
+[val2env]
+bench.workload = dummy-workload
 
 [dep]
 python = pretend this workload is written by python

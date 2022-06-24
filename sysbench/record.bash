@@ -48,6 +48,5 @@ if [ ! -z "${table_size}" ]; then
 	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "table-size-${table_size}"
 fi
 bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${test_name}"
-bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${env}"
 
 bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}"

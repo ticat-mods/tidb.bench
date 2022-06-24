@@ -1,10 +1,10 @@
 help = record detail info of `tpch.run` to meta db
 
 [arg]
-tpch-record-tag|tags|tag = ''
+bench-record-tag|tags|tag = ''
 
 [arg2env]
-bench.tag.by-tpch-record = tpch-record-tag
+bench.tag = bench-record-tag
 
 [env]
 bench.meta.host = read

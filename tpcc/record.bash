@@ -44,6 +44,5 @@ warehouses=`env_val "${env}" 'bench.tpcc.warehouses'`
 if [ ! -z "${warehouses}" ]; then
 	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "warehouses-${warehouses}"
 fi
-bench_record_write_tags_from_env "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${env}"
 
 bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}"
