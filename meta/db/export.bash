@@ -1,4 +1,3 @@
-
 set -euo pipefail
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../../helper/helper.bash"
 
@@ -12,10 +11,10 @@ pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
 
 file="${1}"
-if [ -z "${file}" ] || [ "${file:0:1}" != '/' ]; then
-	work_dir=`must_env_val "${env}" 'sys.paths.work-dir'`
-	file="${work_dir}/meta-db-${host}-${port}-${db}-${RANDOM}.sql"
+if [ -z "${file}" ]; then
+	file="meta-db-${host}-${port}-${db}-${RANDOM}.sql"
 fi
+file=`get_path_under_pwd "${env}" "${file}"`
 
 if [ ! -z "${pp}" ]; then
 	pp=" -p ${pp}"
@@ -30,4 +29,4 @@ done
 
 mysqldump"${pp}" -h "${host}" -P "${port}" -u "${user}" "${db}" > "${file}"
 
-echo "[:)] exported to '${file}'"
+echo "[:)] dumped to '${file}'"

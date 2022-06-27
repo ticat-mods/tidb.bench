@@ -1,5 +1,5 @@
-help = use mysqldump to export current meta db to a file
-abbr = dump|exp
+help = restore data backup by mysqldump
+abbr = restore|imp
 interact = true
 quiet-error = true
 
