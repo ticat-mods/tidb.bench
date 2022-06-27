@@ -1,8 +1,8 @@
-help = move meta data in the same dbms: from `db-name-src` to `db-name-dest`
-abbr = move-to|move|mv
+help = use mysqldump to export current meta db to a file
+abbr = dump|exp
 
 [arg]
-move-to-dest-db-name|dest-db-name|dest|to = ''
+file-path|file|path = ''
 meta-db-host|host|h = 127.0.0.1
 meta-db-port|port|p = 4100
 meta-db-user|user|u = root
@@ -23,4 +23,4 @@ bench.meta.user = read
 bench.meta.db-name = read
 
 [dep]
-mysql = as client
+mysqldump = to dump data

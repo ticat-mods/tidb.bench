@@ -8,10 +8,9 @@ host=`must_env_val "${env}" 'bench.meta.host'`
 port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
-shift 4
 
-src="${1}"
-dest="${2}"
+src=`must_env_val "${env}" 'bench.meta.db-name'`
+dest="${1}"
 
 my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${src}"
 my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${dest}"

@@ -1,6 +1,7 @@
 help = show matched bench result in comparing mode. aggregate: '' or avg
 abbr = res
 quiet-err = true
+hide-in-last = true
 
 [arg]
 bench-result-workload|result-workload|workload|wl = ''

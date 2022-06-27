@@ -2,4 +2,6 @@ help = record current bench result to meta db
 abbr = rec
 trivial = 3
 
+args.auto = tags
+
 flow = bench.record.conf : env.rm bench.run.id : bench.record.jitter : bench.record.usage : [[bench.workload]].record : bench.record.tags

@@ -60,12 +60,12 @@ def bench_result():
 	if len(baseline_id) == 0 and len(ids) == 0:
 		if has_filter:
 			print('[:(] no matched bench results')
-			sys.exit(1)
+			return
 		else:
 			ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)
 			if len(ids) == 0:
 				print('[:(] no bench results')
-				sys.exit(1)
+				return
 
 	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id, data_transformer = data_transformer, order_list = order_list)
 
