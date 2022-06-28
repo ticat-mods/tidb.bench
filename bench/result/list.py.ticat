@@ -1,13 +1,15 @@
 help = find and show bench results
 abbr = find|search|ls
+
 quiet-err = true
+no-log = true
 
 [arg]
 bench-result-workload|result-workload|workload|wl = ''
 bench-result-tag|result-tags|result-tag|tags|tag = ''
 bench-result-record-id-list|record-ids|record-id|rid|ids = ''
 bench-result-session-id|session-id|session|sid = ''
-max-records|max-record|max|limit = 0
+max-records|max-record|max|limit = 245
 
 [arg2env]
 bench.result.filter.workload = bench-result-workload

@@ -8,7 +8,7 @@ bench-result-tag|result-tags|result-tag|tags|tag = ''
 bench-result-verb-lvl|res-verb|verb = 1
 bench-result-record-id-list|record-ids|record-id|rid|ids = ''
 bench-result-session-id|session-id|session|sid = ''
-max-records|max-record|max|limit = 0
+max-records|max-record|max|limit = 245
 select-as-baseline|as-baseline|baseline = false
 
 [arg2env]

@@ -35,6 +35,11 @@ def bench_result():
 	width = int(env.must_get('display.width.max'))
 	ids_old = env.get_ex('bench.meta.result.ids', '')
 
+	# Mix-use is convenient but confusing, disable it
+	if len(ids_old) != 0 and has_filter:
+		print('[:(] after `bench.result.select.*`, `bench.result` can not have filters, exit')
+		sys.exit(1)
+
 	host = env.must_get('bench.meta.host')
 	port = env.must_get('bench.meta.port')
 	user = env.must_get('bench.meta.user')
