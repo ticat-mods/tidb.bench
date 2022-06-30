@@ -12,6 +12,8 @@ from strs import to_true
 from strs import colorize
 
 def render_float_val(v):
+	if isinstance(v, str):
+		return v
 	v = float(v)
 	if v == 0:
 		return '0'
@@ -152,7 +154,11 @@ class Baseline:
 			for k, v, gig in kvs[i]:
 				if section not in self.sections:
 					self.sections[section] = {}
-				self.sections[section][k] = (float(v), gig)
+				try:
+					fv = float(v)
+				except:
+					fv = v
+				self.sections[section][k] = (fv, gig)
 
 	def cmp(self, id, section, k, v):
 		if self.uninited() or id == self.my_id:
@@ -333,15 +339,18 @@ class RunsLines:
 				sections_lines[section] = section_lines
 			self.runs_lines[id] = (header_lines, tags_lines, self.sections_all, sections_lines)
 
-	def pop_h_merged(self, width, gap):
+	def pop_h_merged(self, width, gap, line_min):
 		if len(self.ids) == 0:
-			return None, 0, 0
+			return None, 0, 0, 0
 		merging = BenchResultMerging()
-		merged_cnt, line_max = self._merge_aligned_and_colorize(merging, width, gap)
-		self.ids = self.ids[merged_cnt:]
-		return merging, len(self.ids), line_max
 
-	def _merge_aligned_and_colorize(self, merging, width, indent, min_line_max = 34):
+		# Minior Bug: can't cross-page to re-padding the previous short outputs
+		merged_cnt, line_max, line_min = self._merge_aligned_and_colorize(merging, width, gap, line_min)
+
+		self.ids = self.ids[merged_cnt:]
+		return merging, len(self.ids), line_max, line_min
+
+	def _merge_aligned_and_colorize(self, merging, width, indent, min_line_max):
 		ids = self.ids
 		prefix_len = 0
 		max_line_max = -1
@@ -378,7 +387,7 @@ class RunsLines:
 			self.runs_lines[id] = (header_lines, tags_lines, sections, sections_lines)
 
 		merging.merge(ids, self.runs_lines, indent)
-		return len(ids), prefix_len - (indent * 2 + 1)
+		return len(ids), prefix_len - (indent * 2 + 1), min_line_max
 
 	def _colorize_lines(self, lines, c1, c2, c3, c4):
 		if not self.use_color:
@@ -505,6 +514,13 @@ def data_transformer_agg(infos, agg_class):
 			new_kvs.append(new_section_kvs.final())
 
 		agg_kvs = [(agg_class.name() + '.count', str(len(infos)), -1)]
+		agg_ids = []
+
+        # Debug only
+		#for it in infos:
+		#	agg_ids.append(it.id)
+		#agg_kvs += [(agg_class.name() + '.ids', ','.join(agg_ids), -1)]
+
 		new_kvs.insert(0, agg_kvs)
 		new_sections.insert(0, 'AggregateInfo')
 
@@ -594,8 +610,9 @@ class BenchResultDisplay:
 		ids, infos, baseline = self.reorder_by_id_list(ids, infos, baseline)
 		runs_lines = RunsLines(ids, infos, self.verb, baseline, self.use_color, 4)
 		runs_lines.v_align()
+		line_min = 34
 		while True:
-			merged, remain, line_max = runs_lines.pop_h_merged(self.width, 3)
+			merged, remain, line_max, line_min = runs_lines.pop_h_merged(self.width, 3, line_min)
 			if merged == None:
 				break
 			BenchResultDisplay._display_one(merged.header_lines, merged.tags_lines, runs_lines.sections_all, merged.sections_lines)
