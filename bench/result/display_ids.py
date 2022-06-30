@@ -666,7 +666,7 @@ class BenchResultDisplay:
 			if id not in ids_set:
 				ids_dedup.append(id)
 				ids_set.add(id)
-		if len(ids_dedup) <= self.max_cnt:
+		if len(ids_dedup) <= self.max_cnt or self.max_cnt <= 0:
 			ids = ids_dedup
 		else:
 			ids = ids_dedup[len(ids_dedup)-self.max_cnt:]

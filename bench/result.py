@@ -73,6 +73,6 @@ def bench_result():
 				print('[:(] no bench results')
 				return
 
-	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id, data_transformer = data_transformer, order_list = order_list)
+	bench_result_display(host, port, user, pp, db, verb, ','.join(ids), color, width, baseline_id, max_cnt=0, data_transformer = data_transformer, order_list = order_list)
 
 bench_result()
