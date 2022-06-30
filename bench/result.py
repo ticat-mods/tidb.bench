@@ -55,6 +55,7 @@ def bench_result():
 		print('[:(] bench_meta table not found')
 		sys.exit(1)
 
+	# This was disabled
 	ids = []
 	if has_filter:
 		ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt)

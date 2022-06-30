@@ -1,4 +1,4 @@
-help = select last bench result, will show in the coming bench.result
+help = select last bench result, will show in the coming `bench.result.show`
 abbr = l
 quiet-err = true
 

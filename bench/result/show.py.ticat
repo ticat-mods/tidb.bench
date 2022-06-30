@@ -1,0 +1,24 @@
+help = show matched bench result in comparing mode. aggregate: '' or avg
+abbr = display|disp
+
+quiet-err = true
+hide-in-last = true
+
+[arg]
+bench-result-verb-lvl|res-verb|verb = 1
+aggregate-by-tag|aggregate|agg-by-tag|agg = ''
+record-id-order-list|order-list|order = ''
+
+[arg2env]
+bench.result.display.verb = bench-result-verb-lvl
+bench.result.display.agg = aggregate-by-tag
+bench.result.display.order-list = record-id-order-list
+
+[env]
+bench.meta.host = read
+bench.meta.port = read
+bench.meta.db-name = read
+bench.meta.user = read
+
+bench.meta.result.ids = read
+bench.meta.result.baseline-id = may-read

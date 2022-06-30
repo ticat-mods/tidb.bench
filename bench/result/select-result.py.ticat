@@ -1,4 +1,4 @@
-help = select bench result by args, will show in the coming bench.result
+help = select bench result by args, will show in the coming `bench.result.show`
 abbr = select|sel
 quiet-err = true
 
