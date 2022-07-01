@@ -461,7 +461,7 @@ def group_infos_by_tags(infos):
 	tags_ids.sort()
 	return tags_ids, tags_lists, workloads, same_tags_infos
 
-def data_transformer_agg(infos, agg_class):
+def data_transformer_agg(infos, agg_class, agg_entry_max_cnt):
 	class SectionKvs:
 		def __init__(self, section):
 			self.section = section
@@ -491,6 +491,8 @@ def data_transformer_agg(infos, agg_class):
 		infos = same_tags_infos[tags_id]
 		if len(infos) == 0:
 			continue
+		if agg_entry_max_cnt > 0:
+			infos = infos[-agg_entry_max_cnt:]
 		workload = workloads[tags_id]
 		new_id = 'v' + str(i)
 		new_meta = ('', '', '', '', workload)
@@ -517,9 +519,10 @@ def data_transformer_agg(infos, agg_class):
 		agg_ids = []
 
         # Debug only
-		#for it in infos:
-		#	agg_ids.append(it.id)
-		#agg_kvs += [(agg_class.name() + '.ids', ','.join(agg_ids), -1)]
+		if agg_entry_max_cnt >= 0:
+			for it in infos:
+				agg_ids.append(it.id)
+			agg_kvs += [(agg_class.name() + '.ids', ','.join(agg_ids), -1)]
 
 		new_kvs.insert(0, agg_kvs)
 		new_sections.insert(0, 'AggregateInfo')
@@ -531,7 +534,7 @@ def data_transformer_agg(infos, agg_class):
 	baseline = Baseline.select_first_as_baseline(new_ids, new_infos)
 	return new_ids, new_infos, baseline
 
-def data_transformer_agg_avg(ids, infos, baseline):
+def data_transformer_agg_avg(ids, infos, baseline, agg_entry_max_cnt):
 	class Avg:
 		@staticmethod
 		def name():
@@ -544,12 +547,12 @@ def data_transformer_agg_avg(ids, infos, baseline):
 			self.sum += val
 		def final(self):
 			return self.cnt != 0 and self.sum / self.cnt or 0.0
-	return data_transformer_agg(infos, Avg)
+	return data_transformer_agg(infos, Avg, agg_entry_max_cnt)
 
-def data_transformer_agg_natural(ids, infos, baseline):
+def data_transformer_agg_natural(ids, infos, baseline, agg_entry_max_cnt):
 	raise Exception('TODO: impl')
 
-def data_transformer_none(ids, infos, baseline):
+def data_transformer_none(ids, infos, baseline, agg_entry_max_cnt):
 	return ids, infos, baseline
 
 class DataTransformers:
@@ -582,7 +585,7 @@ class DataTransformers:
 		}[name]
 
 class BenchResultDisplay:
-	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer_name, order_list):
+	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer_name, agg_entry_max_cnt, order_list):
 		self.host = host
 		self.port = port
 		self.user = user
@@ -593,6 +596,7 @@ class BenchResultDisplay:
 		self.width = width
 		self.max_cnt = max_cnt
 		self.data_transformer = DataTransformers.from_name(data_transformer_name)
+		self.agg_entry_max_cnt = agg_entry_max_cnt
 		self.order_list = order_list
 
 		self.verb = int(verb)
@@ -606,7 +610,7 @@ class BenchResultDisplay:
 
 	def display(self, h_sep = '='):
 		ids, infos, baseline = self._fetch_result()
-		ids, infos, baseline = self.data_transformer(ids, infos, baseline)
+		ids, infos, baseline = self.data_transformer(ids, infos, baseline, self.agg_entry_max_cnt)
 		ids, infos, baseline = self.reorder_by_id_list(ids, infos, baseline)
 		runs_lines = RunsLines(ids, infos, self.verb, baseline, self.use_color, 4)
 		runs_lines.v_align()
@@ -789,9 +793,9 @@ class BenchResultDisplay:
 	def _my_exe(self, query):
 		return my_exe(self.host, self.port, self.user, self.pp, self.db, query, 'tab')
 
-def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32, data_transformer = 'none', order_list = ''):
+def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32, data_transformer = 'none', agg_entry_max_cnt = -1, order_list = ''):
 	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
-	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer, order_list).display()
+	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer, agg_entry_max_cnt, order_list).display()
 
 if __name__ == '__main__':
 	if len(sys.argv) != 10:

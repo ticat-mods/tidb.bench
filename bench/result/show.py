@@ -17,6 +17,8 @@ def bench_result():
 
 	verb = int(env.must_get('bench.result.display.verb'))
 
+	agg_entry_max = int(env.get_ex('bench.result.display.agg.entry-max', '-1'))
+
 	agg_method = env.get_ex('bench.result.display.agg', '')
 	data_transformer, ok = DataTransformers.normalize_name(agg_method)
 	if not ok:
@@ -47,6 +49,6 @@ def bench_result():
 		print('[:(] no matched bench results')
 		return
 
-	bench_result_display(host, port, user, pp, db, verb, ids, color, width, baseline_id, max_cnt = 0, data_transformer = data_transformer, order_list = order_list)
+	bench_result_display(host, port, user, pp, db, verb, ids, color, width, baseline_id, max_cnt = 0, data_transformer = data_transformer, agg_entry_max_cnt = agg_entry_max, order_list = order_list)
 
 bench_result()
