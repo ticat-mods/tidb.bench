@@ -24,7 +24,7 @@ mysql-port|port|p = ''
 mysql-user|user|u = root
 mysql-password|password|pwd = ''
 
-cluster-name|cluster = ''
+tidb-pd-addr|pd-addr|pd = ''
 
 [arg2env]
 bench.ycsb.threads = ycsb-threads
@@ -47,7 +47,7 @@ mysql.port = mysql-port
 mysql.user = mysql-user
 mysql.pwd = mysql-password
 
-tidb.cluster = cluster-name
+tidb.pd = tidb-pd-addr
 
 [env]
 bench.ycsb.threads = read
@@ -68,7 +68,7 @@ bench.ycsb.update-proportion = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
-tidb.cluster = read
+tidb.pd = read
 
 bench.run.score = write
 bench.run.log = write

@@ -2,6 +2,8 @@ help = record current bench resouce-usages to meta db
 abbr = usage|usg
 
 [env]
+tidb.prometheus = read
+
 bench.meta.host = read
 bench.meta.port = read
 bench.meta.user = read
@@ -12,5 +14,4 @@ bench.run.begin = read
 bench.run.end = read
 
 [dep]
-tiup = to fetch metrics address from tidb cluster
 mysql = as client, to write record data

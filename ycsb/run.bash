@@ -26,8 +26,7 @@ port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
 
-cluster=`must_env_val "${env}" 'tidb.cluster'`
-pd=`must_pd_addr "${cluster}"`
+pd=`must_env_val "${env}" 'tidb.pd'`
 
 log="${session}/ycsb.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"

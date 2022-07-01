@@ -3,8 +3,7 @@ abbr = conf
 tag = config
 
 [arg]
-cluster-name|cluster = ''
-tidb-cluster-prometheus|prometheus|prom = ''
+tidb-prometheus|prometheus|prom = ''
 bench-record-begin|record-begin|begin = ''
 bench-record-end|record-end|end = ''
 workload|wl = ''
@@ -12,8 +11,8 @@ bench-toolset-repo-addr|bt-addr|addr = 'https://github.com/innerr/bench-toolset'
 sys-download-bin-token = NYrOv0JuQ8iZ6cEnOTzdaTfh7ovx2Q2iwEQX
 
 [arg2env]
-tidb.cluster = cluster-name
-bench.prometheus = tidb-cluster-prometheus
+tidb.prometheus = tidb-prometheus
+
 bench.run.begin = bench-record-begin
 bench.run.end = bench-record-end
 bench.workload = workload

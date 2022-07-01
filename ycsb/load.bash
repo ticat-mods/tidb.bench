@@ -24,8 +24,7 @@ host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 
-cluster=`must_env_val "${env}" 'tidb.cluster'`
-pd=`must_pd_addr "${cluster}"`
+pd=`must_env_val "${env}" 'tidb.pd'`
 
 tiup bench ycsb prepare \
 	--pd "${pd}" \

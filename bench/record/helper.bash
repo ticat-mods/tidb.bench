@@ -1,19 +1,6 @@
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../../helper/helper.bash"
 . "`cd $(dirname ${BASH_SOURCE[0]}) && pwd`/../../helper/bench-toolset.bash"
 
-function get_prom_addr()
-{
-	local env="${1}"
-	local prom=`env_val "${env}" 'bench.prometheus'`
-	if [ -z "${prom}" ]; then
-		local name=`must_env_val "${env}" 'tidb.cluster'`
-		local url='http://'`must_prometheus_addr "${name}"`
-	else
-		local url="${prom}"
-	fi
-	echo "${url}"
-}
-
 function to_mb()
 {
 	local v="${1}"
@@ -70,7 +57,7 @@ function bt_prepare()
 	begin=`must_env_val "${env}" 'bench.run.begin'`'000'
 	end=`must_env_val "${env}" 'bench.run.end'`'000'
 
-	metrics_url=`get_prom_addr "${env}"`
+	metrics_url=`must_env_val "${env}" 'tidb.prometheus'`
 }
 # read vars: bt_bin, begin, end, metrics_url
 function bt_jitter()
