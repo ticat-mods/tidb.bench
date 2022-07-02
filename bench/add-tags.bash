@@ -10,4 +10,10 @@ if [ -z "${tags}" ]; then
 	echo "[:-] arg 'tags' is empty, skipped" >&2
 	exit
 fi
-echo "bench.tag.random.${RANDOM}=${tags}" | tee -a "${env_file}"
+
+group="${2}"
+if [ -z "${group}" ]; then
+	group="random.${RANDOM}"
+fi
+
+echo "bench.tag.${group}=${tags}" | tee -a "${env_file}"

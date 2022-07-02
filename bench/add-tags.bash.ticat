@@ -3,3 +3,4 @@ abbr = add-tag|tags|tag
 
 [arg]
 tags|tag = ''
+tag-group|group|g = ''
