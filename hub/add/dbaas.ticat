@@ -1,0 +1,5 @@
+help = fetch pingcap idc commands from intranet git service
+abbr = dbaas|tidbcloud|tidb-cloud|tidbc|dbcloud|db-cloud|dbc
+trivial = 9
+
+flow = hub.add git@github.com\\:ticat-mods/tidb.cloud.dev
