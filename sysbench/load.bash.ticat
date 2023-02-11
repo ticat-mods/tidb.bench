@@ -2,7 +2,7 @@ help = prepare SysBench data to mysql/TiDB
 abbr = ld|l
 
 [arg]
-sysbench-load-threads|sb-load-thread|load-thread|sb-lt|sblt|lt = 1
+sysbench-load-threads|sb-load-thread|load-thread|sb-lt|sblt|lt|threads|thread|t = 1
 sysbench-tables|sb-tb|tables|table|tb = 1
 sysbench-table-size|sb-table-size|sb-ts|sbts|ts = 1000
 sysbench-test-name|sb-test|test|name|sbtn|tn = oltp_point_select
