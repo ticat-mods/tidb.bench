@@ -23,6 +23,9 @@ agg_action='AVG'
 verb_level=1
 greater_is_good=0
 echo "${lines}" | while read line; do
+	if [ "${#line}" == '0' ]; then
+		continue
+	fi
 	kv=(${line})
 	bench_record_write "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "benchmark(s)" "${kv[0]}" "${kv[1]}" \
 		"${agg_action}" "${verb_level}" "${greater_is_good}"

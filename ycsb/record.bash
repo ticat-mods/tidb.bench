@@ -21,6 +21,9 @@ fi
 summary=`ycsb_result_to_lines "${summary}" | sort -k 1,2`
 
 echo "${summary}" | while read line; do
+	if [ -z "${line}" ]; then
+		continue
+	fi
 	fields=(${line})
 	section="${fields[0]}"
 	key="${fields[1]}"

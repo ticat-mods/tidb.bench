@@ -55,17 +55,15 @@ function setup_env()
 
 exist=`cluster_exist "${cluster}"`
 if [ "${exist}" != 'false' ]; then
-	echo "[:)] cluster name '${cluster}' exists, skipped"
-	setup_env "${cluster}"
-	exit
+	echo "[:)] cluster name '${cluster}' exists, skipped deployment" >&2
+else
+	echo -e "deploy.host.tikv=${host}\ndeploy.host.pd=${host}\ndeploy.host.tidb=${host}\ndeploy.port.delta=${port}" | \
+		PYTHONPATH='../../helper/python.helper' "${py}" '../../helper/tiup.helper/topology.py' | tee "${yaml}"
+	echo
+	echo "${yaml}"
+
+	tiup cluster${plain} deploy "${cluster}" "${ver}" "${yaml}" --yes
 fi
-
-echo -e "deploy.host.tikv=${host}\ndeploy.host.pd=${host}\ndeploy.host.tidb=${host}\ndeploy.port.delta=${port}" | \
-	PYTHONPATH='../../helper/python.helper' "${py}" '../../helper/tiup.helper/topology.py' | tee "${yaml}"
-echo
-echo "${yaml}"
-
-tiup cluster${plain} deploy "${cluster}" "${ver}" "${yaml}" --yes
 
 log="${session}/meta-tiup-cluster-start-log.${RANDOM}"
 tiup cluster${plain} start "${cluster}"${init} | tee "${log}"
