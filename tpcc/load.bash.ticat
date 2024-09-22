@@ -8,6 +8,7 @@ mysql-host|host|h = ''
 mysql-port|port|p = ''
 mysql-user|user|u = root
 mysql-password|password|pwd = ''
+mysql-driver|driver = mysql
 tpcc-load-analyze|load-analyze|analyze = false
 tpcc-db-name|tpcc-db|db-name|db = test
 
@@ -21,6 +22,7 @@ mysql.host = mysql-host
 mysql.port = mysql-port
 mysql.user = mysql-user
 mysql.pwd = mysql-password
+mysql.driver = mysql-driver
 
 [env]
 bench.tpcc.load.threads = read
@@ -30,10 +32,12 @@ bench.tpcc.warehouses = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
+mysql.driver = read
 
 [val2env]
 bench.workload = tpcc
 
 [dep]
-tiup = to use tiup bench TPCC
+#tiup = to use tiup bench TPCC
+go-tpc = to use to bench tpcc
 mysql = to execute analyze queries

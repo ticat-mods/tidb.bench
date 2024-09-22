@@ -11,6 +11,7 @@ mysql-host|host|h = ''
 mysql-port|port|p = ''
 mysql-user|user|u = root
 mysql-password|password|pwd = ''
+mysql-driver|driver = mysql
 tpcc-db-name|tpcc-db|db-name|db = test
 
 [arg2env]
@@ -23,6 +24,7 @@ mysql.host = mysql-host
 mysql.port = mysql-port
 mysql.user = mysql-user
 mysql.pwd = mysql-password
+mysql.driver = mysql-driver
 
 [env]
 bench.tpcc.threads = read
@@ -33,6 +35,7 @@ bench.tpcc.db = read
 mysql.host = read
 mysql.port = read
 mysql.user = read
+mysql.driver = read
 
 bench.workload = write
 bench.run.log = write
@@ -42,4 +45,5 @@ bench.run.score = write
 bench.workload = tpcc
 
 [dep]
-tiup = to use tiup bench tpcc
+#tiup = to use tiup bench tpcc
+go-tpc = to use to bench tpcc

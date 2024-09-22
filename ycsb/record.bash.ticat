@@ -19,6 +19,9 @@ bench.ycsb.batch-size = may-read
 bench.ycsb.conn-count = may-read
 bench.ycsb.scan-length-distribution = may-read
 
+# use for get monitor and dashboard address if the cluster was created by tiup
+tidb.cluster = may-read
+
 [dep]
 ifconfig = to fetch client ip for recording
 base64 = to encode topology file to text

@@ -123,12 +123,15 @@ function bench_record_write_start()
 		local tiup_yaml=`cat "${tiup_yaml_path}" | base64 -w 0`
 	fi
 
-	local name=`must_env_val "${env}" 'tidb.cluster'`
-	local dashboard=`cluster_dashboard "${name}"`
-	local monitor=`cluster_grafana "${name}"`
-
-	local dashboard=`normalize_host_addr "${dashboard}"`
-	local monitor=`normalize_host_addr "${monitor}"`
+	local dashboard='-'
+	local monitor='-'
+	local name=`env_val "${env}" 'tidb.cluster'`
+	if [ ! -z "${name}" ]; then
+		local dashboard=`cluster_dashboard "${name}"`
+		local monitor=`cluster_grafana "${name}"`
+		local dashboard=`normalize_host_addr "${dashboard}"`
+		local monitor=`normalize_host_addr "${monitor}"`
+	fi
 
 	bench_record_prepare "${host}" "${port}" "${user}" "${pp}" "${db}"
 

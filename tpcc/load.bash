@@ -12,7 +12,8 @@ port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
 
-tiup bench tpcc \
+#tiup bench tpcc \
+go-tpc tpcc prepare \
 	-T "${threads}" \
 	-P "${port}" \
 	-H "${host}" \
@@ -20,7 +21,8 @@ tiup bench tpcc \
 	-p "${pp}" \
 	-D "${db}" \
 	--dropdata \
-	--warehouses "${warehouses}" --time "102400h" prepare
+	--warehouses "${warehouses}" --time "102400h"
+#	--warehouses "${warehouses}" --time "102400h" prepare
 
 analyze=`must_env_val "${env}" 'bench.tpcc.load.analyze'`
 analyze=`to_false "${analyze}"`
