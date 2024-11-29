@@ -13,6 +13,7 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 
-bench_record_add_tags "${host}" "${port}" "${user}" "${pp}" "${db}" "${ids}" "${tags}"
+bench_record_add_tags "${host}" "${port}" "${user}" "${pp}" "${db}" "${ids}" "${tags}" "${ca}"
 echo "[:)] done"

@@ -10,6 +10,7 @@ meta-db-port|port|p = 4100
 meta-db-user|user|u = root
 meta-db-password|password|pwd = ''
 meta-db-db-name|db-name|db = bench_meta
+meta-db-ca|ca = ''
 
 [arg2env]
 bench.meta.host = meta-db-host
@@ -17,6 +18,7 @@ bench.meta.port = meta-db-port
 bench.meta.user = meta-db-user
 bench.meta.pwd = meta-db-password
 bench.meta.db-name = meta-db-db-name
+bench.meta.ca = meta-db-ca
 
 [env]
 bench.meta.host = read

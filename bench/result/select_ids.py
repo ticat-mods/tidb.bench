@@ -5,7 +5,7 @@ sys.path.append('../../helper/python.helper')
 
 from my import my_exe
 
-def bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt):
+def bench_result_select(host, port, user, pp, db, ca, bench_id, record_ids, tags, workload, max_cnt):
 	def query_by_tags(tags):
 		assert(len(tags) > 0)
 		for i in range(1, len(tags)):
@@ -55,7 +55,7 @@ def bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, wo
 	if has_where:
 		where = ' WHERE ' + where
 	query = 'SELECT id FROM bench_meta' + where
-	ids = my_exe(host, port, user, pp, db, query, 'tab')
+	ids = my_exe(host, port, user, pp, db, query, 'tab', ca)
 	ids.sort(key = lambda x: int(x))
 	return ids
 

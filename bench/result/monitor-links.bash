@@ -16,9 +16,10 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 
 query="SELECT monitor, UNIX_TIMESTAMP(run_id) AS begin, UNIX_TIMESTAMP(end_ts) AS end FROM bench_meta WHERE id=${id}"
-info=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' | { grep -v 'monitor' || test $? = 1; }`
+info=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' "${ca}" | { grep -v 'monitor' || test $? = 1; }`
 if [ -z "${info}" ]; then
 	echo "[:(] info not found for record '${id}'" >&2
 	exit 1

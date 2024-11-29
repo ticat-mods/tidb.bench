@@ -9,7 +9,12 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 
-my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${db}"
+my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${db}" "${ca}"
 
-MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" --comments ${db}
+if [ ! -z "${ca}" ]; then
+	local ca=" --ssl-ca=${ca}"
+fi
+
+MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}"${ca} --comments ${db}

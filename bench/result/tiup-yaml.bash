@@ -18,9 +18,10 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 
 query="SELECT tiup_yaml FROM bench_meta WHERE id=${id}"
-text=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' | { grep -v 'tiup_yaml' || test $? = 1; }`
+text=`my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" 'tab' "${ca}" | { grep -v 'tiup_yaml' || test $? = 1; }`
 
 if [ -z "${text}" ]; then
 	echo "[:(] tiup yaml file not found for record '${id}'" >&2

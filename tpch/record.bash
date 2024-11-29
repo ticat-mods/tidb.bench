@@ -10,11 +10,12 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
 id=`env_val "${env}" 'bench.run.id'`
 if [ -z "${id}" ]; then
-	id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'tpch' "${env}"`
+	id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'tpch' "${env}" "${ca}"`
 	echo "bench.run.id=${id}" >> "${env_file}"
 fi
 
@@ -33,22 +34,22 @@ done
 
 threads=`env_val "${env}" 'bench.tpch.threads'`
 if [ ! -z "${threads}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "threads-${threads}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "threads-${threads}" "${ca}"
 fi
 duration=`env_val "${env}" 'bench.tpch.duration'`
 if [ ! -z "${duration}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "duration-${duration}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "duration-${duration}" "${ca}"
 fi
 sf=`env_val "${env}" 'bench.tpch.scale-factor'`
 if [ ! -z "${sf}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "scale-factor-${sf}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "scale-factor-${sf}" "${ca}"
 fi
 tiflash=`env_val "${env}" 'bench.tpch.tiflash'`
 if [ ! -z "${tiflash}" ]; then
 	tiflash=`to_true "${tiflash}"`
 	if [ "${tiflash}" == 'true' ]; then
-		bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" 'with-tiflash'
+		bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" 'with-tiflash' "${ca}"
 	fi
 fi
 
-bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}"
+bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${ca}"

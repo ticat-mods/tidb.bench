@@ -26,16 +26,17 @@ def bench_result_list():
 	user = env.must_get('bench.meta.user')
 	pp = env.get_ex('bench.meta.pwd', '')
 	db = env.must_get('bench.meta.db-name')
+	ca = env.get_ex('bench.meta.ca', '')
 
-	my_exe(host, port, user, pp, '', "CREATE DATABASE IF NOT EXISTS %s" % db, 'tab')
-	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
+	my_exe(host, port, user, pp, '', "CREATE DATABASE IF NOT EXISTS %s" % db, 'tab', ca)
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab', ca)
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
 		return
 
 	ids = []
 	if has_filter:
-		ids = bench_result_select(host, port, user, pp, db, bench_id, record_ids, tags, workload, max_cnt = -1)
+		ids = bench_result_select(host, port, user, pp, db, ca, bench_id, record_ids, tags, workload, max_cnt = -1)
 	where = ''
 	if len(ids) != 0:
 		where = 'WHERE id in(%s)' % ','.join(ids)
@@ -58,7 +59,7 @@ def bench_result_list():
 		ORDER BY begin DESC
 		%s
 	''' % (where, limit_str)
-	rows = my_exe(host, port, user, pp, db, query, 'tab')
+	rows = my_exe(host, port, user, pp, db, query, 'tab', ca)
 	if len(rows) <= 0:
 		print('[:(] no matched result found')
 		return
@@ -137,7 +138,7 @@ def bench_result_list():
 		ORDER BY
 			t.display_order
 		''' % record_ids_str
-	tags = my_exe(host, port, user, pp, db, query, 'tab')
+	tags = my_exe(host, port, user, pp, db, query, 'tab', ca)
 	for bench_id, record_id, tag in tags:
 		benchs[bench_id].get(record_id).add_tag(tag)
 
@@ -160,7 +161,7 @@ def bench_result_list():
 			d.verb_level<=1
 		ORDER BY d.display_order
 	''' % record_ids_str
-	kvs = my_exe(host, port, user, pp, db, query, 'tab')
+	kvs = my_exe(host, port, user, pp, db, query, 'tab', ca)
 	for bench_id, record_id, section, k, v in kvs:
 		benchs[bench_id].get(record_id).add_kv(section, k, v)
 

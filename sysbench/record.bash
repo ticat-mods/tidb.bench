@@ -10,11 +10,12 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
 id=`env_val "${env}" 'bench.run.id'`
 if [ -z "${id}" ]; then
-	id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'sysbench' "${env}"`
+	id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'sysbench' "${env}" "${ca}"`
 	echo "bench.run.id=${id}" >> "${env_file}"
 fi
 
@@ -28,25 +29,25 @@ for (( i = 0; i < ${#keys[@]}; i++ )); do
 	verb_level=`sysbench_result_verb_level "${keys[i]}"`
 	greater_is_good=`sysbench_result_gig "${keys[i]}"`
 	bench_record_write "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${test_name}" "${keys[i]}" "${vals[i]}" \
-		"${agg_action}" "${verb_level}" "${greater_is_good}"
+		"${agg_action}" "${verb_level}" "${greater_is_good}" "${ca}"
 done
 
 threads=`env_val "${env}" 'bench.sysbench.threads'`
 if [ ! -z "${threads}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "threads-${threads}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "threads-${threads}" "${ca}"
 fi
 duration=`env_val "${env}" 'bench.sysbench.duration'`
 if [ ! -z "${duration}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "duration-${duration}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "duration-${duration}" "${ca}"
 fi
 tables=`env_val "${env}" 'bench.sysbench.tables'`
 if [ ! -z "${tables}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "tables-${tables}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "tables-${tables}" "${ca}"
 fi
 table_size=`env_val "${env}" 'bench.sysbench.table-size'`
 if [ ! -z "${table_size}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "table-size-${table_size}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "table-size-${table_size}" "${ca}"
 fi
-bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${test_name}"
+bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${test_name}" "${ca}"
 
-bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}"
+bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${ca}"

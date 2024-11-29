@@ -585,12 +585,13 @@ class DataTransformers:
 		}[name]
 
 class BenchResultDisplay:
-	def __init__(self, host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer_name, agg_entry_max_cnt, order_list):
+	def __init__(self, host, port, user, pp, db, ca, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer_name, agg_entry_max_cnt, order_list):
 		self.host = host
 		self.port = port
 		self.user = user
 		self.pp = pp
 		self.db = db
+		self.ca = ca
 		self.ids_str = ids_str
 		self.use_color = use_color
 		self.width = width
@@ -791,15 +792,15 @@ class BenchResultDisplay:
 		return runs_map
 
 	def _my_exe(self, query):
-		return my_exe(self.host, self.port, self.user, self.pp, self.db, query, 'tab')
+		return my_exe(self.host, self.port, self.user, self.pp, self.db, query, 'tab', self.ca)
 
-def bench_result_display(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32, data_transformer = 'none', agg_entry_max_cnt = -1, order_list = ''):
-	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
-	BenchResultDisplay(host, port, user, pp, db, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer, agg_entry_max_cnt, order_list).display()
+def bench_result_display(host, port, user, pp, db, ca, verb, ids_str, use_color, width, baseline_id = '', first_as_baseline = True, max_cnt = 32, data_transformer = 'none', agg_entry_max_cnt = -1, order_list = ''):
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab', ca)
+	BenchResultDisplay(host, port, user, pp, db, ca, verb, ids_str, use_color, width, baseline_id, first_as_baseline, max_cnt, data_transformer, agg_entry_max_cnt, order_list).display()
 
 if __name__ == '__main__':
 	if len(sys.argv) != 10:
-		print('usage: display_ids.py host port user pwd db verb colorize display-width session-id-list')
+		print('usage: display_ids.py host port user pwd db ca verb colorize display-width session-id-list')
 		sys.exit(1)
 
 	host = sys.argv[1]
@@ -807,9 +808,10 @@ if __name__ == '__main__':
 	user = sys.argv[3]
 	pp = sys.argv[4]
 	db = sys.argv[5]
-	verb = int(sys.argv[6])
-	use_color = to_true(sys.argv[7].lower())
-	width = int(sys.argv[8])
-	ids = sys.argv[9]
+	ca = sys.argv[6]
+	verb = int(sys.argv[7])
+	use_color = to_true(sys.argv[8].lower())
+	width = int(sys.argv[9])
+	ids = sys.argv[10]
 
-	bench_result_display(host, port, user, pp, db, verb, ids, use_color, width)
+	bench_result_display(host, port, user, pp, db, ca, verb, ids, use_color, width)

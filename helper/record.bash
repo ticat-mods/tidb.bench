@@ -7,8 +7,9 @@ function bench_record_prepare()
 	local user="${3}"
 	local pp="${4}"
 	local db="${5}"
+	local ca="${6}"
 
-	my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${db}"
+	my_ensure_db "${host}" "${port}" "${user}" "${pp}" "${db}" "${ca}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
 	CREATE TABLE IF NOT EXISTS bench_data (                           \
@@ -27,7 +28,7 @@ function bench_record_prepare()
 		),                                                            \
 		INDEX (display_order)                                         \
 	)                                                                 \
-	"
+	" '' "${ca}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
 	CREATE TABLE IF NOT EXISTS bench_tags (                           \
@@ -40,7 +41,7 @@ function bench_record_prepare()
 		),                                                            \
 		INDEX (display_order)                                         \
 	)                                                                 \
-	"
+	" '' "${ca}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
 	CREATE TABLE IF NOT EXISTS bench_meta (                           \
@@ -63,7 +64,7 @@ function bench_record_prepare()
 		INDEX (run_host),                                             \
 		INDEX (workload)                                              \
 	)                                                                 \
-	"
+	" '' "${ca}"
 }
 
 function bench_record_clear()
@@ -73,10 +74,11 @@ function bench_record_clear()
 	local user="${3}"
 	local pp="${4}"
 	local db="${5}"
+	local ca="${6}"
 
-	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "DROP TABLE IF EXISTS bench_meta"
-	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "DROP TABLE IF EXISTS bench_tags"
-	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "DROP TABLE IF EXISTS bench_data"
+	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "DROP TABLE IF EXISTS bench_meta" '' "${ca}"
+	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "DROP TABLE IF EXISTS bench_tags" '' "${ca}"
+	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "DROP TABLE IF EXISTS bench_data" '' "${ca}"
 }
 
 function normalize_host_addr()
@@ -111,6 +113,7 @@ function bench_record_write_start()
 	local db="${5}"
 	local workload="${6}"
 	local env="${7}"
+	local ca="${8}"
 
 	local bench_id=`must_env_val "${env}" 'sys.session.id'`
 	local ip=`must_env_val "${env}" 'sys.session.id.ip'`
@@ -133,7 +136,7 @@ function bench_record_write_start()
 		local monitor=`normalize_host_addr "${monitor}"`
 	fi
 
-	bench_record_prepare "${host}" "${port}" "${user}" "${pp}" "${db}"
+	bench_record_prepare "${host}" "${port}" "${user}" "${pp}" "${db}" "${ca}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
 		INSERT INTO bench_meta (                                      \
@@ -158,7 +161,7 @@ function bench_record_write_start()
 			\"${monitor}\"                                            \
 		);                                                            \
 		SELECT last_insert_id() FROM bench_meta LIMIT 1               \
-		" 'tab' | tail -n 1
+		" 'tab' "${ca}" | tail -n 1
 }
 
 function bench_record_write_finish()
@@ -171,7 +174,9 @@ function bench_record_write_finish()
 
 	local id="${6}"
 
-	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "UPDATE bench_meta SET finished=1 WHERE id=${id}"
+	local ca="${7}"
+
+	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "UPDATE bench_meta SET finished=1 WHERE id=${id}" '' "${ca}"
 }
 
 function bench_record_write()
@@ -190,6 +195,8 @@ function bench_record_write()
 	local agg_action="${5}"
 	local verb_level="${6}"
 	local gig="${7}"
+
+	local ca="${8}"
 
 	local run_host=`get_ip_or_host`
 
@@ -212,7 +219,7 @@ function bench_record_write()
 			\"${run_host}\",                                          \
 			${verb_level},                                            \
 			${gig}                                                    \
-		)"
+		)" '' "${ca}"
 }
 
 function bench_record_write_tag()
@@ -226,6 +233,8 @@ function bench_record_write_tag()
 	local id="${6}"
 	local tag="${7}"
 
+	local ca="${8}"
+
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
 		INSERT INTO bench_tags (                                      \
 			id,                                                       \
@@ -233,7 +242,7 @@ function bench_record_write_tag()
 		) VALUES (                                                    \
 			${id},                                                    \
 			\"${tag}\"                                                \
-		)"
+		)" '' "${ca}"
 }
 
 function bench_record_write_tags_from_env()
@@ -245,12 +254,13 @@ function bench_record_write_tags_from_env()
 	local db="${5}"
 	local id="${6}"
 	local env="${7}"
+	local ca="${8}"
 
 	local tags=`env_val "${env}" 'bench.tag'`
 	if [ ! -z "${tags}" ]; then
 		local tags=`list_to_array "${tags}"`
 		for tag in ${tags[@]}; do
-			bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${tag}"
+			bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${tag}" "${ca}"
 		done
 	fi
 
@@ -259,7 +269,7 @@ function bench_record_write_tags_from_env()
 		echo "${tags_lines}" | while read line; do
 			local tags=`list_to_array "${line}"`
 			for tag in ${tags[@]}; do
-				bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${tag}"
+				bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${tag}" "${ca}"
 			done
 		done
 	fi
@@ -273,6 +283,7 @@ function bench_record_list()
 	local pp="${4}"
 	local db="${5}"
 	local max="${6}"
+	local ca="${7}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
 		SELECT                                                        \
@@ -283,7 +294,7 @@ function bench_record_list()
 		FROM bench_meta                                               \
 		WHERE finished=1 ORDER BY bench_id DESC                       \
 		LIMIT ${max}                                                  \
-	"
+	" '' "${ca}"
 }
 
 function bench_record_show_tags()
@@ -293,9 +304,10 @@ function bench_record_show_tags()
 	local user="${3}"
 	local pp="${4}"
 	local db="${5}"
+	local ca="${6}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}"              \
-		"SELECT DISTINCT tag FROM bench_tags" 'tab'
+		"SELECT DISTINCT tag FROM bench_tags" 'tab' "${ca}"
 }
 
 function bench_record_add_tags()
@@ -311,6 +323,8 @@ function bench_record_add_tags()
 	local ids=(`list_to_array "${ids}"`)
 	local tags=(`list_to_array "${tags}"`)
 
+	local ca="${8}"
+
 	for id in "${ids[@]}"; do
 		for tag in "${tags[@]}"; do
 			echo "adding tag '${tag}' to record '${id}'"
@@ -323,7 +337,7 @@ function bench_record_add_tags()
 					\"${tag}\"                                        \
 				)                                                     \
 				ON DUPLICATE KEY UPDATE tag=tag                       \
-			"
+			" '' "${ca}"
 		done
 	done
 }
@@ -341,11 +355,13 @@ function bench_record_rm_tags()
 	local ids=(`list_to_array "${ids}"`)
 	local tags=(`list_to_array "${tags}"`)
 
+	local ca="${8}"
+
 	for id in "${ids[@]}"; do
 		for tag in "${tags[@]}"; do
 			echo "removing tag '${tag}' from record '${id}'"
 			local query="DELETE FROM bench_tags WHERE id=${id} AND tag=\"${tag}\""
-			my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}"
+			my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "${query}" '' "${ca}"
 		done
 	done
 }

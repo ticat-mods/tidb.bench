@@ -11,7 +11,7 @@ function to_mb()
 	echo "${v}"
 }
 
-# export vars: host, port, user, pp, db, run_id
+# export vars: host, port, user, pp, db, run_id, ca
 function record_prepare()
 {
 	local env_file="${1}"
@@ -22,16 +22,18 @@ function record_prepare()
 	user=`must_env_val "${env}" 'bench.meta.user'`
 	pp=`env_val "${env}" 'bench.meta.pwd'`
 	db=`must_env_val "${env}" 'bench.meta.db-name'`
+	ca=`env_val "${env}" 'bench.meta.ca'`
 
 	# get or gen curr run_id
 	run_id=`env_val "${env}" 'bench.run.id'`
 	if [ -z "${run_id}" ]; then
 		local workload=`must_env_val "${env}" 'bench.workload'`
-		run_id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" "${workload}" "${env}"`
+		run_id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" "${workload}" "${env}" "${ca}"`
 		echo "bench.run.id=${run_id}" >> "${env_file}"
 	fi
 }
-# read vars: host, port, user, pp, db, run_id
+
+# read vars: host, port, user, pp, db, run_id, ca
 function record_write()
 {
 	local section="${1}"
@@ -42,7 +44,7 @@ function record_write()
 	local greater_is_good="${6}"
 
 	bench_record_write "${host}" "${port}" "${user}" "${pp}" "${db}" "${run_id}" \
-		"${section}" "${key}" "${val}" "${agg_action}" "${verb_level}" "${greater_is_good}"
+		"${section}" "${key}" "${val}" "${agg_action}" "${verb_level}" "${greater_is_good}" "${ca}"
 }
 
 # export vars: bt_bin, begin, end, metrics_url

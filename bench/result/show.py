@@ -35,9 +35,10 @@ def bench_result():
 	user = env.must_get('bench.meta.user')
 	pp = env.get_ex('bench.meta.pwd', '')
 	db = env.must_get('bench.meta.db-name')
+	ca = env.get_ex('bench.meta.ca', '')
 
-	my_exe(host, port, user, pp, '', "CREATE DATABASE IF NOT EXISTS %s" % db, 'tab')
-	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab')
+	my_exe(host, port, user, pp, '', "CREATE DATABASE IF NOT EXISTS %s" % db, 'tab', ca)
+	tables = my_exe(host, port, user, pp, db, "SHOW TABLES", 'tab', ca)
 	if 'bench_meta' not in tables:
 		print('[:(] bench_meta table not found')
 		sys.exit(1)
@@ -49,6 +50,6 @@ def bench_result():
 		print('[:(] no matched bench results')
 		return
 
-	bench_result_display(host, port, user, pp, db, verb, ids, color, width, baseline_id, max_cnt = 0, data_transformer = data_transformer, agg_entry_max_cnt = agg_entry_max, order_list = order_list)
+	bench_result_display(host, port, user, pp, db, ca, verb, ids, color, width, baseline_id, max_cnt = 0, data_transformer = data_transformer, agg_entry_max_cnt = agg_entry_max, order_list = order_list)
 
 bench_result()

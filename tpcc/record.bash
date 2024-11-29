@@ -10,11 +10,12 @@ port=`must_env_val "${env}" 'bench.meta.port'`
 user=`must_env_val "${env}" 'bench.meta.user'`
 pp=`env_val "${env}" 'bench.meta.pwd'`
 db=`must_env_val "${env}" 'bench.meta.db-name'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 summary=`must_env_val "${env}" 'bench.run.log'`".summary"
 
 id=`env_val "${env}" 'bench.run.id'`
 if [ -z "${id}" ]; then
-	id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'tpcc' "${env}"`
+	id=`bench_record_write_start "${host}" "${port}" "${user}" "${pp}" "${db}" 'tpcc' "${env}" "${ca}"`
 	echo "bench.run.id=${id}" >> "${env_file}"
 fi
 
@@ -28,21 +29,21 @@ cat "${summary}" | { grep -v 'ERR' || test $? = 1; } | while read line; do
 		verb_level=`tpcc_result_verb_level "${section}" "${keys[i]}"`
 		greater_is_good=`tpcc_result_gig "${keys[i]}"`
 		bench_record_write "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${section}" "${keys[i]}" "${vals[i]}" \
-			"${agg_action}" "${verb_level}" "${greater_is_good}"
+			"${agg_action}" "${verb_level}" "${greater_is_good}" "${ca}"
 	done
 done
 
 threads=`env_val "${env}" 'bench.tpcc.threads'`
 if [ ! -z "${threads}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "threads-${threads}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "threads-${threads}" "${ca}"
 fi
 duration=`env_val "${env}" 'bench.tpcc.duration'`
 if [ ! -z "${duration}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "duration-${duration}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "duration-${duration}" "${ca}"
 fi
 warehouses=`env_val "${env}" 'bench.tpcc.warehouses'`
 if [ ! -z "${warehouses}" ]; then
-	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "warehouses-${warehouses}"
+	bench_record_write_tag "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "warehouses-${warehouses}" "${ca}"
 fi
 
-bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}"
+bench_record_write_finish "${host}" "${port}" "${user}" "${pp}" "${db}" "${id}" "${ca}"
