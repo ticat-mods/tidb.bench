@@ -13,9 +13,14 @@ host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
+ca=`env_val "${env}" 'bench.meta.ca'`
 
-MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "SET GLOBAL tidb_disable_txn_auto_retry = 'OFF'"
-MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}" -e "CREATE DATABASE IF NOT EXISTS ${db}"
+if [ ! -z "${ca}" ]; then
+	local ca=" --ssl-ca=${ca}"
+fi
+
+MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}"${ca} -e "SET GLOBAL tidb_disable_txn_auto_retry = 'OFF'"
+MYSQL_PWD="${pp}" mysql -h "${host}" -P "${port}" -u "${user}"${ca} -e "CREATE DATABASE IF NOT EXISTS ${db}"
 
 check_or_install sysbench
 
