@@ -1,0 +1,13 @@
+pack-subflow = false
+args.auto = *
+[flow/]
+sysbench.bench.all t=1
+sysbench.bench.all t=2
+sysbench.bench.all t=5
+sysbench.bench.all t=10
+sysbench.bench.all t=20
+sysbench.bench.all t=50
+sysbench.bench.all t=100
+sysbench.bench.all t=200
+sysbench.bench.all t=300
+sysbench.bench.all t=600

@@ -1,0 +1,9 @@
+pack-subflow = false
+args.auto = *
+flow = sysbench.run : sysbench.record : bench.record.tags : sleep duration=[[bench.sleep-duration-between-rounds]]
+
+[args]
+sleep-duration-between-rounds|sleep|slp = 10s
+
+[arg2env]
+bench.sleep-duration-between-rounds = sleep-duration-between-rounds

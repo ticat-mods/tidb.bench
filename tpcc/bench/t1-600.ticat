@@ -1,0 +1,14 @@
+pack-subflow = false
+args.auto = *
+
+[flow/]
+tpcc.bench t=1
+tpcc.bench t=2
+tpcc.bench t=5
+tpcc.bench t=10
+tpcc.bench t=20
+tpcc.bench t=50
+tpcc.bench t=100
+tpcc.bench t=200
+tpcc.bench t=300
+tpcc.bench t=600

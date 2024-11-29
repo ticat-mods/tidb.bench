@@ -1,0 +1,9 @@
+pack-subflow = false
+args.auto = *
+
+[flow/]
+sysbench.run test=oltp_point_select : sysbench.record : bench.record.tags : sleep duration=10s
+sysbench.bench test=oltp_insert
+sysbench.bench test=oltp_read_write
+sysbench.bench test=oltp_update_index
+sysbench.bench test=oltp_update_non_index
