@@ -37,4 +37,4 @@ color=`must_env_val "${env}" 'display.color'`
 width=`must_env_val "${env}" 'display.width.max'`
 
 py=`must_env_val "${env}" 'sys.ext.exec.py'`
-"${py}" "${here}/display_ids.py" "${host}" "${port}" "${user}" "${pp}" "${db}" "${ca}", "${verb}" "${color}" "${width}" "${ids}"
+"${py}" "${here}/display_ids.py" "${host}" "${port}" "${user}" "${pp}" "${db}" "${ca}" "${verb}" "${color}" "${width}" "${ids}"
