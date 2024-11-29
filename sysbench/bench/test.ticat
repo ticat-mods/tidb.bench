@@ -1,0 +1,3 @@
+pack-subflow = false
+args.auto = *
+flow = sysbench.load db=sysbench_bench_test_drytry : sysbench.run : sysbench.record : bench.record.tags bench_test_dryrun
