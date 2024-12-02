@@ -16,6 +16,7 @@ host=`must_env_val "${env}" 'mysql.host'`
 port=`must_env_val "${env}" 'mysql.port'`
 user=`must_env_val "${env}" 'mysql.user'`
 pp=`env_val "${env}" 'mysql.pwd'`
+ca=`env_val "${env}" 'mysql.ca'`
 
 log="${session}/sysbench.`date +%s`.log"
 echo "bench.run.log=${log}" >> "${session}/env"
@@ -27,7 +28,14 @@ if [[ ! `sysbench --version | awk '{print $2}'` < '1.1.0' ]]; then
     extra_opts="--thread-init-timeout=1800"
 fi
 
+if [ ! -z "${ca}" ]; then
+	sb_ca="--mysql-ssl=on --mysql-ssl-ca=${sb_ca}"
+else
+	sb_ca=''
+fi
+
 sysbench \
+	"${sb_ca}" \
 	--mysql-host="${host}" \
 	--mysql-port="${port}" \
 	--mysql-user="${user}" \
