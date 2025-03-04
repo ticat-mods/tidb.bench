@@ -33,7 +33,7 @@ else
 fi
 
 sysbench \
-	"${sb_ca}"
+	${sb_ca} \
 	--mysql-host="${host}" \
 	--mysql-port="${port}" \
 	--mysql-user="${user}" \
