@@ -139,7 +139,7 @@ function bench_record_write_start()
 	bench_record_prepare "${host}" "${port}" "${user}" "${pp}" "${db}" "${ca}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
-		INSERT INTO bench_meta (                                      \
+		INSERT IGNORE INTO bench_meta (                                      \
 			finished,                                                 \
 			bench_id,                                                 \
 			run_id,                                                   \
@@ -201,7 +201,7 @@ function bench_record_write()
 	local run_host=`get_ip_or_host`
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
-		INSERT INTO bench_data (                                      \
+		INSERT IGNORE INTO bench_data (                                      \
 			id,                                                       \
 			section,                                                  \
 			name,                                                     \
@@ -236,7 +236,7 @@ function bench_record_write_tag()
 	local ca="${8}"
 
 	my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "            \
-		INSERT INTO bench_tags (                                      \
+		INSERT IGNORE INTO bench_tags (                                      \
 			id,                                                       \
 			tag                                                       \
 		) VALUES (                                                    \
@@ -329,7 +329,7 @@ function bench_record_add_tags()
 		for tag in "${tags[@]}"; do
 			echo "adding tag '${tag}' to record '${id}'"
 			my_exe "${host}" "${port}" "${user}" "${pp}" "${db}" "    \
-				INSERT INTO bench_tags (                              \
+				INSERT IGNORE INTO bench_tags (                              \
 					id,                                               \
 					tag                                               \
 				) VALUES (                                            \
